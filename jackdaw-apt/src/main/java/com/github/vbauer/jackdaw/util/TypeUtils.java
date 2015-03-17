@@ -12,21 +12,17 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
-import javax.lang.model.element.AnnotationMirror;
-import javax.lang.model.element.AnnotationValue;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.VariableElement;
-import javax.lang.model.type.DeclaredType;
 import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.ElementFilter;
 import java.lang.annotation.Annotation;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -278,27 +274,6 @@ public final class TypeUtils {
         unimplementedMethods.removeAll(implementedMethods);
 
         return ImmutablePair.of(implementedMethods, unimplementedMethods);
-    }
-
-    public static Collection<TypeElement> getAnnotations(final Element element) {
-        final List<TypeElement> annotations = Lists.newArrayList();
-        for (final AnnotationMirror annotationMirror : element.getAnnotationMirrors()) {
-            final DeclaredType annotationType = annotationMirror.getAnnotationType();
-            final TypeElement annotationElement = (TypeElement) annotationType.asElement();
-            annotations.add(annotationElement);
-        }
-        return annotations;
-    }
-
-    public static AnnotationValue getAnnotationValue(final AnnotationMirror annotationMirror, final String key) {
-        final Map<? extends ExecutableElement, ? extends AnnotationValue> values = annotationMirror.getElementValues();
-        for (Map.Entry<? extends ExecutableElement, ? extends AnnotationValue> entry : values.entrySet() ) {
-            final String paramName = getName(entry.getKey());
-            if (paramName.equals(key)) {
-                return entry.getValue();
-            }
-        }
-        return null;
     }
 
 }

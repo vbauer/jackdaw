@@ -26,6 +26,7 @@ Jackdaw was inspired by [Lombok](http://projectlombok.org) project, but in compa
     <li><a href="#jfunction">@JFunction</a></li>
     <li><a href="#jmessage">@JMessage</a></li>
     <li><a href="#jpredicate">@JPredicate</a></li>
+    <li><a href="#jrepeatable">@JRepeatable</a></li>
 </ul>
 
 
@@ -202,6 +203,9 @@ public class MouseListenerAdapter implements MouseListener {
 **TODO:** Finish section.
 
 ### @JPredicate
+**TODO:** Finish section.
+
+### @JRepeatable
 **TODO:** Finish section.
 
 

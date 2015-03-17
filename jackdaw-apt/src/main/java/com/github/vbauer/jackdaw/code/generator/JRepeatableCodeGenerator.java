@@ -1,5 +1,6 @@
 package com.github.vbauer.jackdaw.code.generator;
 
+import com.github.vbauer.jackdaw.annotation.JRepeatable;
 import com.github.vbauer.jackdaw.code.base.GeneratedCodeGenerator;
 import com.github.vbauer.jackdaw.util.SourceCodeUtils;
 import com.github.vbauer.jackdaw.util.TypeUtils;
@@ -38,28 +39,38 @@ public class JRepeatableCodeGenerator extends GeneratedCodeGenerator {
     @Override
     protected void generateBody(final TypeSpec.Builder builder) throws Exception {
         final List<? extends AnnotationMirror> annotations = typeElement.getAnnotationMirrors();
+        final String repeatableClassName = JRepeatable.class.getCanonicalName();
 
         for (final AnnotationMirror annotation : annotations) {
-            final AnnotationSpec.Builder annotationBuilder = AnnotationSpec.builder(
-                ClassName.get((TypeElement) annotation.getAnnotationType().asElement())
-            );
-            final Map<? extends ExecutableElement, ? extends AnnotationValue> params = annotation.getElementValues();
-
-            for (Map.Entry<? extends ExecutableElement, ? extends AnnotationValue> entry : params.entrySet()) {
-                final ExecutableElement paramMethod = entry.getKey();
-                final String methodName = TypeUtils.getName(paramMethod);
-
-                final AnnotationValue annotationValue = entry.getValue();
-                final Object value = annotationValue.getValue();
-                final Pair<String, Object> format = calculateValue(value);
-
-                annotationBuilder.addMember(methodName, format.getKey(), format.getValue());
+            final String annotationName = SourceCodeUtils.getName(annotation);
+            if (!annotationName.equals(repeatableClassName)
+                && !SourceCodeUtils.hasAnnotation(builder, annotation))
+            {
+                builder.addAnnotation(createAnnotation(annotation));
             }
-
-            builder.addAnnotation(annotationBuilder.build());
         }
     }
 
+
+    private AnnotationSpec createAnnotation(final AnnotationMirror annotation) {
+        final AnnotationSpec.Builder annotationBuilder = AnnotationSpec.builder(
+            ClassName.get((TypeElement) annotation.getAnnotationType().asElement())
+        );
+        final Map<? extends ExecutableElement, ? extends AnnotationValue> params = annotation.getElementValues();
+
+        for (Map.Entry<? extends ExecutableElement, ? extends AnnotationValue> entry : params.entrySet()) {
+            final ExecutableElement paramMethod = entry.getKey();
+            final String methodName = TypeUtils.getName(paramMethod);
+
+            final AnnotationValue annotationValue = entry.getValue();
+            final Object value = annotationValue.getValue();
+            final Pair<String, Object> format = calculateValue(value);
+
+            annotationBuilder.addMember(methodName, format.getKey(), format.getValue());
+        }
+
+        return annotationBuilder.build();
+    }
 
     private Pair<String, Object> calculateValue(Object value) {
         String format = "L";

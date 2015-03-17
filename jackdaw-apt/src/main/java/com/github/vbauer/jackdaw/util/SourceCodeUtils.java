@@ -1,8 +1,10 @@
 package com.github.vbauer.jackdaw.util;
 
 import com.google.common.base.CaseFormat;
+import com.google.common.base.Objects;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.squareup.javapoet.AnnotationSpec;
 import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeName;
@@ -11,6 +13,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.SystemUtils;
 
+import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.ExecutableElement;
@@ -34,6 +37,7 @@ public final class SourceCodeUtils {
     public static final String PACKAGE_SEPARATOR = ".";
 
     private static final String FIELD_SPECS = "fieldSpecs";
+    private static final String FIELD_ANNOTATIONS = "annotations";
 
 
     private SourceCodeUtils() {
@@ -83,6 +87,25 @@ public final class SourceCodeUtils {
             }
         }
         return false;
+    }
+
+    public static boolean hasAnnotation(
+        final TypeSpec.Builder builder, final AnnotationMirror annotation
+    ) throws Exception {
+        final List<AnnotationSpec> annotations = ReflectionUtils.readField(builder, FIELD_ANNOTATIONS);
+        final String annotationClassName = getName(annotation);
+
+        for (final AnnotationSpec annotationSpec : annotations) {
+            final String annotationSpecClassName = annotationSpec.type.toString();
+            if (Objects.equal(annotationSpecClassName, annotationClassName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static String getName(final AnnotationMirror annotation) {
+        return annotation.getAnnotationType().toString();
     }
 
     public static String normalizeName(final String name) {
