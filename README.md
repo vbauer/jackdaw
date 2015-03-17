@@ -304,15 +304,24 @@ public final class CompanyClassDescriptor {
 ```
 
 ### @JComparator
-To generated safe well-coded comparator, you have to write a lot of boilerplate code.
+To generated safe and well-coded comparator, you have to write a lot of boilerplate code.
 `@JComparator` annotation allows to simplify this situation.
 It is also possible to generate reverse order comparator using parameter `reverse`.
+
+There is several ways to generate comparator or group of comparators.
+It depends on the annotation location:
+
+* **annotation on field** - generate comparator only for one specified field.
+* **annotation on method without args** - generate comparator using methods with empty arguments and non-void return-value.
+* **annotation on class** - generate comparators using 2 previous strategies (for all fields an simple methods).
 
 Original class `Company`:
 ```java
 public class Company {
-    @JComparator
-    private String name;
+    @JComparator private String name;
+    
+    public String getName() { return name; }
+    public void setName(final String name) { this.name = name; }
 }
 ```
 Generated class `CompanyComparators`:
@@ -340,7 +349,7 @@ public final class CompanyComparators {
 
 
 ### @JFactoryMethod
-@JFactoryMethod allows to use pattern *Factory Method* for object instantiation.
+**@JFactoryMethod** allows to use pattern *Factory Method* for object instantiation.
 To use this annotation it is necessary to have setters and default constructor in original class.
 
 **Available parameters:**
@@ -383,6 +392,9 @@ Original class:
 ```java
 public class Company {
     @JFunction private int id;
+    
+    public int getId() { return id; }
+    public void setId(final int id) { this.id = id; }
 }
 ```
 Generated class:

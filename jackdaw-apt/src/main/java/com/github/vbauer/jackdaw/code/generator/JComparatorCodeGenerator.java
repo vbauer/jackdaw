@@ -72,20 +72,20 @@ public class JComparatorCodeGenerator extends GeneratedCodeGenerator {
             )
             .initializer(
                 SourceCodeUtils.lines(
-                        "new " + CLASS_NAME + "<$T>() {",
-                            "public int compare(final $T " + param1 + ", final $T " + param2 + ") {",
-                                "final $T v1 = o1 == null ? null : o1.$L();",
-                                "final $T v2 = o2 == null ? null : o2.$L();",
-                                "if (v1 == v2) {",
-                                    "return 0;",
-                                "} else if (v1 == null) {",
-                                    "return -1;",
-                                "} else if (v2 == null) {",
-                                    "return 1;",
-                                "}",
-                                "return v1.compareTo(v2);",
+                    "new " + CLASS_NAME + "<$T>() {",
+                        "public int compare(final $T " + param1 + ", final $T " + param2 + ") {",
+                            "final $T v1 = o1 == null ? null : o1.$L();",
+                            "final $T v2 = o2 == null ? null : o2.$L();",
+                            "if (v1 == v2) {",
+                                "return 0;",
+                            "} else if (v1 == null) {",
+                                "return -1;",
+                            "} else if (v2 == null) {",
+                                "return 1;",
                             "}",
-                        "}"
+                            "return v1.compareTo(v2);",
+                        "}",
+                    "}"
                 ),
                 typeElement, typeElement, typeElement,
                 type, methodName,
