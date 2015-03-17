@@ -143,7 +143,7 @@ Some things that you need to know before exploring an examples:
 
 ### @JAdapter
 
-`@JAdapter` allows to create class with empty method implementations using some interface or class.
+**@JAdapter** allows to create class with empty method implementations using some interface or class.
 Using generated class, you can override only needed methods (like in Swing, ex: [MouseAdapter](http://docs.oracle.com/javase/7/docs/api/java/awt/event/MouseAdapter.html)).
 
 Original class `MouseListener`:
@@ -166,7 +166,7 @@ public class MouseListenerAdapter implements MouseListener {
 
 
 ### @JBean
-@JBean generates some boilerplate code that is normally associated with simple POJOs (Plain Old Java Objects) and beans:
+**@JBean** generates some boilerplate code that is normally associated with simple POJOs (Plain Old Java Objects) and beans:
 
 * getters for all non-static/private fields,
 * setters for all non-static/private/final fields,
@@ -205,7 +205,7 @@ Prefix 'Abstract' and postfix 'Model' will be removed if they are presented.
 
 
 ### @JBuilder
-The `@Builder` annotation produces complex builder APIs for your classes.
+The **@Builder** annotation produces complex builder APIs for your classes.
 
 Original class `Company`:
 ```java
@@ -270,7 +270,7 @@ CompanyBuilder.create()
 
 ### @JClassDescriptor
 Sometimes it is necessary to use reflection, so it will be useful to have some string constants.
-`@JClassDescriptor` generates it for you easily.
+**@JClassDescriptor** generates it for you easily.
 
 Original class `Company`:
 ```java
@@ -305,7 +305,7 @@ public final class CompanyClassDescriptor {
 
 ### @JComparator
 To generated safe and well-coded comparator, you have to write a lot of boilerplate code.
-`@JComparator` annotation allows to simplify this situation.
+**@JComparator** annotation allows to simplify this situation.
 It is also possible to generate reverse order comparator using parameter `reverse`.
 
 There is several ways to generate comparator or group of comparators.
@@ -313,7 +313,7 @@ It depends on the annotation location:
 
 * **annotation on field** - generate comparator only for one specified field.
 * **annotation on method without args** - generate comparator using methods with empty arguments and non-void return-value.
-* **annotation on class** - generate comparators using 2 previous strategies (for all fields an simple methods).
+* **annotation on class** - generate comparators using 2 previous strategies (for all fields and simple methods).
 
 Original class `Company`:
 ```java
@@ -352,9 +352,9 @@ public final class CompanyComparators {
 **@JFactoryMethod** allows to use pattern *Factory Method* for object instantiation.
 To use this annotation it is necessary to have setters and default constructor in original class.
 
-**Available parameters:**
+Available parameters:
 
-* **method** - factory method name (default value is "create").
+* **method** - factory method name (default value is `"create"`).
 * **all** - use all fields of class in factory method (default value is `false`).
 * **arguments** - use only specified fields in factory method (is is an empty array by default).
 
@@ -388,6 +388,22 @@ public final class CompanyFactory {
 ```
 
 ### @JFunction
+
+The **@JFunction** annotation generates `Function` implementation to use functional-way for programming.
+You can specify different types of `Function` interface for implementation generation.
+
+Available types of functions (`JFunctionType`):
+
+* **GUAVA** - Guava functions (`com.google.common.base.Function`)
+* **JAVA** - functions from Java 8 (`java.util.function.Function`)
+
+There is also several ways to generate function or group of functions.
+It depends on the annotation location:
+
+* **annotation on field** - generate function only for one specified field.
+* **annotation on method without args** - generate function using methods with empty arguments and non-void return-value.
+* **annotation on class** - generate functions using 2 previous strategies (for all fields and simple methods).
+
 Original class:
 ```java
 public class Company {
@@ -410,9 +426,44 @@ public final class CompanyFunctions {
 
 
 ### @JMessage
-**TODO:** Finish section.
+The **@JMessage** annotation does not generate any additional code, instead of this it prints information in logs during project compiling.
+It could be useful to make some really meaningful notes for you or your team, instead of using TODOs in comments.
+
+Example:
+```java
+@JMessage({
+    "Do not forget to remove this class in the next release",
+    "MouseListener interface will be used instead of it"
+})
+public abstract class AbstractMouseListener implements MouseListener {
+    // Some piece of code.
+}
+```
+
+Available parameters:
+
+* **value** - List of notes, that will be logged.
+* **type** - Logging level (default value is `Diagnostic.Kind.MANDATORY_WARNING`).
+* **details** - Add information about annotated element with note message (default value is `false`).
+
 
 ### @JPredicate
+
+The **@JPredicate** annotation generates `Predicate` implementation to use functional-way for programming.
+You can specify different types of `JPredicate` interface for implementation generation.
+
+Available types of functions (`JPredicateType`) are the same, like for functions:
+
+* **GUAVA** - Guava predicates (`com.google.common.base.Predicate`)
+* **JAVA** - predicates from Java 8 (`java.util.function.Predicate`)
+
+There is also several ways to generate predicate or group of predicates.
+It depends on the annotation location:
+
+* **annotation on field** - generate predicate only for one specified field.
+* **annotation on method without args** - generate predicate using methods with empty arguments and non-void return-value.
+* **annotation on class** - generate predicate using 2 previous strategies (for all fields and simple methods).
+
 Original class:
 ```java
 public class Company {
@@ -430,9 +481,15 @@ public final class CompanyPredicates {
     };
 }
 ```
+It is also possible to generate reverse predicate using parameter `reverse`.
 
 
 ### @JRepeatable
+
+There are some situations where you want to apply the same annotation to a declaration or type use.
+As of the Java SE 8 release, repeating annotations enable you to do this.
+If you don't/can't use Java 8, then **@JRepeatable** helps you to resolve this problem using extra list-annotation.
+
 Original annotation `Role`:
 ```java
 @JRepeatable
@@ -453,7 +510,8 @@ public @interface RoleList {
 
 ## Building from source
 
-MapStruct uses Maven for its build. To build the complete project run
+Jackdaw uses Maven for its build. 
+To build the complete project with all modules (including example project), run
 
 ```bash
 mvn clean install

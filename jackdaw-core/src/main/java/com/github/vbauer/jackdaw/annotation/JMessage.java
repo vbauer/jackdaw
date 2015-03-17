@@ -23,7 +23,7 @@ import java.lang.annotation.Target;
 })
 public @interface JMessage {
 
-    String value();
+    String[] value();
 
     Diagnostic.Kind type() default Diagnostic.Kind.MANDATORY_WARNING;
 

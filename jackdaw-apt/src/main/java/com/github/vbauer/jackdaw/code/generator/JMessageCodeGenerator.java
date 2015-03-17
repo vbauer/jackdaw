@@ -52,15 +52,21 @@ public class JMessageCodeGenerator extends CodeGenerator {
         final JMessage annotation = element.getAnnotation(JMessage.class);
 
         if (annotation != null) {
-            final String message = StringUtils.trimToEmpty(annotation.value());
-            final Diagnostic.Kind type = annotation.type();
-
-            final boolean details = annotation.details();
-            final String detailsInfo =
-                details ? (element.toString() + SEPARATOR) : StringUtils.EMPTY;
-
-            ProcessorUtils.message(type, detailsInfo + message);
+            final String[] messages = annotation.value();
+            for (final String message : messages) {
+                printInfo(element, annotation, message);
+            }
         }
+    }
+
+    private void printInfo(
+        final Element element, final JMessage annotation, final String message
+    ) {
+        final Diagnostic.Kind type = annotation.type();
+        final boolean details = annotation.details();
+        final String detailsInfo = details ? (element.toString() + SEPARATOR) : StringUtils.EMPTY;
+
+        ProcessorUtils.message(type, detailsInfo + message);
     }
 
 }

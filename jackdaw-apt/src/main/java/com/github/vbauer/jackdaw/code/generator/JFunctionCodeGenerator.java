@@ -86,14 +86,14 @@ public class JFunctionCodeGenerator extends GeneratedCodeGenerator {
         );
     }
 
-    private String getFunctionPackageName(final JFunctionType functionType) {
-        switch (functionType) {
+    private String getFunctionPackageName(final JFunctionType type) {
+        switch (type) {
             case GUAVA:
                 return PACKAGE_GUAVA;
             case JAVA:
                 return PACKAGE_JAVA;
             default:
-                throw new UnsupportedOperationException();
+                throw new UnsupportedOperationException("Unknown type of function: " + type);
         }
     }
 
