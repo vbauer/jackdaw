@@ -137,7 +137,7 @@ It is just an example configuration.
 Some things that you need to know before exploring an examples:
 
 * Code style in the below examples was changed to minimize text in README.
-* Some annotations and imports was also removed to simplify understanding.
+* Some annotations and imports were also removed to simplify understanding.
 * All generated classes will have the same package as original classes.
 
 
@@ -205,10 +205,103 @@ Prefix 'Abstract' and postfix 'Model' will be removed if they are presented.
 
 
 ### @JBuilder
-**TODO:** Finish section.
+The `@Builder` annotation produces complex builder APIs for your classes.
+
+Original class `Company`:
+```java
+@JBuilder
+public class Company {
+    private int id;
+    private String name;
+    private Set<String> descriptions;
+
+    public int getId() { return id; }
+    public void setId(final int id) { this.id = id; }
+
+    public String getName() { return name; }
+    public void setName(final String name) { this.name = name; }
+
+    public Set<String> getDescriptions() { return descriptions; }
+    public void setDescriptions(final Set<String> descriptions) { this.descriptions = descriptions; }
+}
+```
+Generated class `CompanyBuilder`:
+```java
+public class CompanyBuilder {
+    private int id;
+    private String name;
+    private Set<String> descriptions;
+
+    public static CompanyBuilder create() {
+        return new CompanyBuilder();
+    }
+    public CompanyBuilder id(final int id) {
+        this.id = id;
+        return this;
+    }
+    public CompanyBuilder name(final String name) {
+        this.name = name;
+        return this;
+    }
+    public CompanyBuilder descriptions(final Set<String> descriptions) {
+        this.descriptions = descriptions;
+        return this;
+    }
+    public Company build() {
+        final Company object = new Company();
+        object.setId(id);
+        object.setName(name);
+        object.setListed(listed);
+        object.setDescriptions(descriptions);
+        return object;
+    }
+}
+```
+
+`@Builder` lets you automatically produce the code required to have your class be instantiable with code such as:
+```java
+CompanyBuilder.create()
+    .id(1)
+    .name("John Smith")
+    .descriptions(Collections.singleton("Good guy"))
+    .build()
+```
+
 
 ### @JClassDescriptor
-**TODO:** Finish section.
+Sometimes it is necessary to use reflection, so it will be useful to have some string constants.
+`@JClassDescriptor` generates it for you easily.
+
+Original class `Company`:
+```java
+@JClassDescriptor
+public class Company {
+    private int id;
+    private String name;
+
+    public int getId() { return id; }
+    public void setId(final int id) { this.id = id; }
+
+    public String getName() { return name; }
+    public void setName(final String name) { this.name = name; }
+}
+```
+Generated class `CompanyClassDescriptor`:
+```java
+public final class CompanyClassDescriptor {
+    public static final String FIELD_ID = "id";
+    public static final String FIELD_NAME = "name";
+
+    public static final String METHOD_ID = "getId";
+    public static final String METHOD_SET_ID = "setId";
+    public static final String METHOD_NAME = "getName";
+    public static final String METHOD_SET_NAME = "setName";
+
+    private CompanyClassDescriptor() {
+        throw new UnsupportedOperationException();
+    }
+}
+```
 
 ### @JComparator
 **TODO:** Finish section.
