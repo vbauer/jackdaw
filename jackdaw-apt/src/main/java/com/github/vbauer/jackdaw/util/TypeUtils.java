@@ -113,8 +113,7 @@ public final class TypeUtils {
     public static void processMethod(
         final TypeSpec.Builder builder, final Element element, final NamedTypeCallback namedTypeCallback
     ) throws Exception {
-        final Set<Modifier> modifiers = element.getModifiers();
-        if (!modifiers.contains(Modifier.STATIC)) {
+        if (!hasAnyModifier(element, Modifier.STATIC)) {
             final ExecutableElement ee = (ExecutableElement) element;
             final TypeElement type = ProcessorUtils.getWrappedType(ee.getReturnType());
             final String methodName = TypeUtils.getName(element);
@@ -129,8 +128,7 @@ public final class TypeUtils {
     public static void processVariable(
         final TypeSpec.Builder builder, final Element element, final NamedTypeCallback namedTypeCallback
     ) throws Exception {
-        final Set<Modifier> modifiers = element.getModifiers();
-        if (!modifiers.contains(Modifier.STATIC)) {
+        if (!hasAnyModifier(element, Modifier.STATIC)) {
             final String methodName = getterName(element);
             final String normalizedName = SourceCodeUtils.normalizeName(methodName);
 
@@ -184,10 +182,9 @@ public final class TypeUtils {
     public static boolean isSimpleMethod(final Element element) {
         if (element instanceof ExecutableElement) {
             final ExecutableElement ee = (ExecutableElement) element;
-            final Set<Modifier> modifiers = ee.getModifiers();
             final List<? extends VariableElement> parameters = ee.getParameters();
 
-            return !modifiers.contains(Modifier.STATIC) && parameters.isEmpty();
+            return !hasAnyModifier(ee, Modifier.STATIC) && parameters.isEmpty();
         }
         return false;
     }
@@ -256,8 +253,7 @@ public final class TypeUtils {
         while (root != null) {
             final List<ExecutableElement> methods = ElementFilter.methodsIn(root.getEnclosedElements());
             for (final ExecutableElement method : methods) {
-                final Set<Modifier> modifiers = method.getModifiers();
-                if (modifiers.contains(Modifier.ABSTRACT)) {
+                if (hasAnyModifier(method, Modifier.ABSTRACT)) {
                     unimplementedMethods.add(MethodInfo.create(method));
                 } else {
                     implementedMethods.add(MethodInfo.create(method));
@@ -279,6 +275,22 @@ public final class TypeUtils {
         unimplementedMethods.removeAll(implementedMethods);
 
         return ImmutablePair.of(implementedMethods, unimplementedMethods);
+    }
+
+    public static boolean hasAnyModifier(final Element element, Modifier... modifiers) {
+        final Set<Modifier> elementModifiers = element.getModifiers();
+        return hasAnyModifier(elementModifiers, modifiers);
+    }
+
+    private static boolean hasAnyModifier(
+        final Collection<Modifier> element, final Modifier... modifiers
+    ) {
+        for (final Modifier modifier : modifiers) {
+            if (element.contains(modifier)) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

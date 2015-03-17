@@ -160,6 +160,12 @@ public class MouseListenerAdapter implements MouseListener {
 
 
 ### @JBean
+@JBean generates some boilerplate code that is normally associated with simple POJOs (Plain Old Java Objects) and beans:
+
+* getters for all non-static/private fields,
+* setters for all non-static/private/final fields,
+* and copy constructors from super class
+
 Original class `AbstractUserModel`:
 ```java
 @JBean
@@ -189,6 +195,9 @@ public class User extends AbstractUserModel {
 }
 ```
 
+Prefix 'Abstract' and postfix 'Model' will be removed if they are presented.
+
+
 ### @JBuilder
 **TODO:** Finish section.
 
@@ -202,13 +211,46 @@ public class User extends AbstractUserModel {
 **TODO:** Finish section.
 
 ### @JFunction
-**TODO:** Finish section.
+Original class:
+```java
+public class Company {
+    @JFunction private int id;
+}
+```
+Generated class:
+```java
+public final class CompanyFunctions {
+    public static final Function<Company, Integer> ID = new Function<Company, Integer>() {
+        public Integer apply(final Company input) {
+            return input.getId();
+        }
+    };
+}
+```
+
 
 ### @JMessage
 **TODO:** Finish section.
 
 ### @JPredicate
-**TODO:** Finish section.
+Original class:
+```java
+public class Company {
+    @JPredicate(reverse = true)
+    private boolean listed;
+}
+```
+Generated class:
+```java
+public final class CompanyPredicates {
+    public static final Predicate<Company> LISTED = new Predicate<Company>() {
+        public boolean apply(final Company input) {
+            return !input.isListed();
+        }
+    };
+}
+```
+
 
 ### @JRepeatable
 Original annotation `Role`:

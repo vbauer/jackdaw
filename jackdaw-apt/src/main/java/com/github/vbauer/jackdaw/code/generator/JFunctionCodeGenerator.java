@@ -71,16 +71,16 @@ public class JFunctionCodeGenerator extends GeneratedCodeGenerator {
                 Modifier.PUBLIC, Modifier.FINAL, Modifier.STATIC
             )
             .initializer(
-                    SourceCodeUtils.lines(
-                            "new " + CLASS_NAME + "<$T, $T>() {",
-                            "public $T apply(final $T input) {",
+                SourceCodeUtils.lines(
+                    "new " + CLASS_NAME + "<$T, $T>() {",
+                        "public $T apply(final $T input) {",
                             "return input.$L();",
-                            "}",
-                            "}"
-                    ),
-                    typeElement, type,
-                    type, typeElement,
-                    methodName
+                        "}",
+                    "}"
+                ),
+                typeElement, type,
+                type, typeElement,
+                methodName
             )
             .build()
         );

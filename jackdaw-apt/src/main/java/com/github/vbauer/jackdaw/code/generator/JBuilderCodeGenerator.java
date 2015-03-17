@@ -6,9 +6,7 @@ import com.github.vbauer.jackdaw.util.TypeUtils;
 import com.github.vbauer.jackdaw.util.function.AddSuffix;
 import com.github.vbauer.jackdaw.util.model.ClassType;
 import com.squareup.javapoet.ClassName;
-import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.MethodSpec;
-import com.squareup.javapoet.ParameterSpec;
 import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
 
@@ -72,24 +70,12 @@ public class JBuilderCodeGenerator extends GeneratedCodeGenerator {
     private void addMethod(
         final TypeSpec.Builder builder, final String variableName, final TypeName variableType
     ) {
-        builder.addField(
-            FieldSpec.builder(
-                variableType,
-                variableName,
-                Modifier.PRIVATE
-            ).build()
-        );
+        builder.addField(variableType, variableName, Modifier.PRIVATE);
 
         builder.addMethod(
             MethodSpec.methodBuilder(variableName)
                 .addModifiers(Modifier.PUBLIC)
-                .addParameter(
-                    ParameterSpec.builder(
-                        variableType,
-                        variableName,
-                        Modifier.FINAL
-                    ).build()
-                )
+                .addParameter(variableType, variableName, Modifier.FINAL)
                 .returns(getOriginType())
                 .addStatement("this.$L = $L", variableName, variableName)
                 .addStatement("return this")

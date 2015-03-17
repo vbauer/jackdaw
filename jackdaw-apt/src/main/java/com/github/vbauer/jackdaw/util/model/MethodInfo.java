@@ -41,9 +41,9 @@ public class MethodInfo {
         );
     }
 
-    public static Set<ExecutableElement> convert(final Collection<MethodInfo> methodInfos) {
+    public static Set<ExecutableElement> convert(final Collection<MethodInfo> info) {
         final Set<ExecutableElement> methods = Sets.newHashSet();
-        for (final MethodInfo method : methodInfos) {
+        for (final MethodInfo method : info) {
             methods.add(method.getElement());
         }
         return methods;

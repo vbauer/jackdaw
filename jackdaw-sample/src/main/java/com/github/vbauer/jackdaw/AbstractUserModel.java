@@ -9,6 +9,8 @@ import com.github.vbauer.jackdaw.annotation.JBean;
 @JBean
 public abstract class AbstractUserModel {
 
+    public static final String DEFAULT_PASSWORD = "qwerty";
+
     protected int id;
     protected String username;
     protected String password;

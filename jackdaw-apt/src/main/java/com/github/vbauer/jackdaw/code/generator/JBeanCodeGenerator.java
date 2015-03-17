@@ -11,6 +11,7 @@ import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeSpec;
 import org.apache.commons.lang3.tuple.Pair;
 
+import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.VariableElement;
 import javax.lang.model.type.TypeMirror;
@@ -42,8 +43,13 @@ public class JBeanCodeGenerator extends GeneratedCodeGenerator {
         final Collection<MethodInfo> implementedMethods = methods.getLeft();
 
         for (final VariableElement field : fields) {
-            addMethod(builder, field, implementedMethods, SourceCodeUtils.createGetter(field));
-            addMethod(builder, field, implementedMethods, SourceCodeUtils.createSetter(field));
+            if (!TypeUtils.hasAnyModifier(field, Modifier.STATIC)) {
+                addMethod(builder, field, implementedMethods, SourceCodeUtils.createGetter(field));
+
+                if (!TypeUtils.hasAnyModifier(field, Modifier.FINAL, Modifier.PRIVATE)) {
+                    addMethod(builder, field, implementedMethods, SourceCodeUtils.createSetter(field));
+                }
+            }
         }
     }
 

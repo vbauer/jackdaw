@@ -23,7 +23,6 @@ import javax.lang.model.element.VariableElement;
 import javax.lang.model.util.ElementFilter;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * @author Vladislav Bauer
@@ -118,9 +117,7 @@ public final class SourceCodeUtils {
         final List<ExecutableElement> constructors = ElementFilter.constructorsIn(elements);
 
         for (final ExecutableElement constructor : constructors) {
-            final Set<Modifier> constructorModifiers = constructor.getModifiers();
-
-            if (constructorModifiers.contains(Modifier.PUBLIC)) {
+            if (TypeUtils.hasAnyModifier(constructor, Modifier.PUBLIC)) {
                 final List<? extends VariableElement> parameters = constructor.getParameters();
                 final MethodSpec.Builder newConstructor = MethodSpec.constructorBuilder()
                         .addModifiers(Modifier.PUBLIC);

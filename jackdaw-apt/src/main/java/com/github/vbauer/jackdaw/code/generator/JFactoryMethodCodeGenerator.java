@@ -8,7 +8,6 @@ import com.github.vbauer.jackdaw.util.function.AddSuffix;
 import com.github.vbauer.jackdaw.util.model.ClassType;
 import com.google.common.collect.Lists;
 import com.squareup.javapoet.MethodSpec;
-import com.squareup.javapoet.ParameterSpec;
 import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
 
@@ -66,7 +65,7 @@ public class JFactoryMethodCodeGenerator extends GeneratedCodeGenerator {
 
             if (all || arguments.contains(variableName)) {
                 final String setterName = TypeUtils.setterName(variableName);
-                methodBuilder.addParameter(ParameterSpec.builder(variableType, variableName, Modifier.FINAL).build());
+                methodBuilder.addParameter(variableType, variableName, Modifier.FINAL);
                 methodBuilder.addStatement("object.$L($L)", setterName, variableName);
             }
         }
