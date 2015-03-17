@@ -21,12 +21,21 @@
         <maven.serviceloader.plugin.version>1.0.3</maven.serviceloader.plugin.version>
     </properties>
 
+    <repositories>
+
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+
+    </repositories>
+
     <dependencies>
 
         <dependency>
-            <groupId>com.squareup</groupId>
+            <groupId>com.github.square</groupId>
             <artifactId>javapoet</artifactId>
-            <version>${javapoet.version}</version>
+            <version>acc49154b3</version>
         </dependency>
 
         <dependency>

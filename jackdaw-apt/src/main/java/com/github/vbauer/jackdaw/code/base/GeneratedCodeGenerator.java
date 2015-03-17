@@ -63,9 +63,7 @@ public abstract class GeneratedCodeGenerator extends CodeGenerator {
 
 
     private TypeSpec.Builder generateCommon() {
-        final TypeSpec.Builder typeSpecBuilder =
-            classType == ClassType.INTERFACE ? TypeSpec.interfaceBuilder(className) : TypeSpec.classBuilder(className);
-
+        final TypeSpec.Builder typeSpecBuilder = createTypeSpecBuilder(classType, className);
         typeSpecBuilder.addModifiers(Modifier.PUBLIC);
 
         if (classType == ClassType.UTILITY) {
@@ -88,6 +86,17 @@ public abstract class GeneratedCodeGenerator extends CodeGenerator {
         }
 
         return typeSpecBuilder;
+    }
+
+    private TypeSpec.Builder createTypeSpecBuilder(final ClassType classType, final String className) {
+        switch (classType) {
+            case ANNOTATION:
+                return TypeSpec.annotationBuilder(className);
+            case INTERFACE:
+                return TypeSpec.interfaceBuilder(className);
+            default:
+                return TypeSpec.classBuilder(className);
+        }
     }
 
     private void addSuppressWarningsAnnotation(final TypeSpec.Builder typeSpecBuilder) {

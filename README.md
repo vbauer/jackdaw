@@ -8,7 +8,7 @@ allows to simplify development without using reflections and prevents writing of
 
 Jackdaw was inspired by [Lombok](http://projectlombok.org) project, but in comparison with Lombok:
 
-* it does not need to have an additional plugin in your IDE
+* it does not need to have an extra plugin in IDE
 * it does not modify an existing source code
 
 
