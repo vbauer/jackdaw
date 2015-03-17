@@ -1,13 +1,13 @@
 package com.github.vbauer.jackdaw.util.model;
 
 import com.github.vbauer.jackdaw.util.TypeUtils;
+import com.google.common.base.Objects;
 import com.google.common.collect.Sets;
 
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.type.TypeMirror;
 import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -69,7 +69,7 @@ public class MethodInfo {
 
     @Override
     public int hashCode() {
-        return Objects.hash(
+        return Objects.hashCode(
             getName(),
             getParameterTypes(),
             getReturnType()
@@ -80,9 +80,9 @@ public class MethodInfo {
     public boolean equals(final Object obj) {
         if (obj instanceof  MethodInfo) {
             final MethodInfo other = (MethodInfo) obj;
-            return Objects.equals(other.getName(), getName())
-                && Objects.equals(other.getParameterTypes(), getParameterTypes())
-                && Objects.equals(other.getReturnType(), getReturnType());
+            return Objects.equal(other.getName(), getName())
+                && Objects.equal(other.getParameterTypes(), getParameterTypes())
+                && Objects.equal(other.getReturnType(), getReturnType());
         }
         return false;
     }
