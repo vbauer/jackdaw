@@ -11,15 +11,17 @@ allows to simplify development without using reflections and prevents writing of
 
 **Jackdaw** support the following compile time annotations:
 
-* @JAdapter
-* @JBean
-* @JBuilder
-* @JClassDescriptor
-* @JComparator
-* @JFactoryMethod
-* @JFunction
-* @JMessage
-* @JPredicate
+<ul>
+    <li><a href="#jadapter">@JAdapter</a></li>
+    <li><a href="#jbean">@JBean</a></li>
+    <li><a href="#jbuilder">@JBuilder</a></li>
+    <li><a href="#jclassdescriptor">@JClassDescriptor</a></li>
+    <li><a href="#jcomparator">@JComparator</a></li>
+    <li><a href="#jfactorymethod">@JFactoryMethod</a></li>
+    <li><a href="#jfunction">@JFunction</a></li>
+    <li><a href="#jmessage">@JMessage</a></li>
+    <li><a href="#jpredicate">@JPredicate</a></li>
+</ul>
 
 
 ## Setup
