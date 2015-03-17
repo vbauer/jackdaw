@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <parent>
+        <artifactId>jackdaw</artifactId>
+        <groupId>com.github.vbauer</groupId>
+        <version>1.0.0</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>jackdaw-sample</artifactId>
+
+    <properties>
+        <guava.version>18.0</guava.version>
+        <jackdaw.version>1.0.0</jackdaw.version>
+
+        <maven.compiler.plugin.version>3.2</maven.compiler.plugin.version>
+        <maven.processor.plugin.version>2.2.4</maven.processor.plugin.version>
+        <maven.build.helper.plugin.version>1.8</maven.build.helper.plugin.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.github.vbauer</groupId>
+            <artifactId>jackdaw-core</artifactId>
+            <version>${jackdaw.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>${guava.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+
+            <!-- Disable annotation processors during normal compilation -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven.compiler.plugin.version}</version>
+                <configuration>
+                    <compilerArgument>-proc:none</compilerArgument>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.bsc.maven</groupId>
+                <artifactId>maven-processor-plugin</artifactId>
+                <version>${maven.processor.plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>process</id>
+                        <goals>
+                            <goal>process</goal>
+                        </goals>
+                        <phase>generate-sources</phase>
+                        <configuration>
+                            <encoding>${file.encoding}</encoding>
+                            <processors>
+                                <processor>com.github.vbauer.jackdaw.JackdawProcessor</processor>
+                            </processors>
+                            <optionMap>
+                                <!--<addGeneratedAnnotation>false</addGeneratedAnnotation>-->
+                                <addGeneratedDate>true</addGeneratedDate>
+                            </optionMap>
+                        </configuration>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.github.vbauer</groupId>
+                        <artifactId>jackdaw-apt</artifactId>
+                        <version>${jackdaw.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>${maven.build.helper.plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>add-source</id>
+                        <phase>generate-sources</phase>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+    </build>
+
+</project>
