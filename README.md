@@ -1,5 +1,5 @@
 
-# Jackdaw
+# Jackdaw [![Build Status](https://travis-ci.org/vbauer/jackdaw.svg)](https://travis-ci.org/vbauer/jackdaw) [![Maven](https://img.shields.io/github/tag/vbauer/jackdaw.svg?label=maven)](https://jitpack.io/#vbauer/jackdaw)
 
 <img align="right" style="margin-left: 15px" width="300" height="243" src="jackdaw-misc/jackdaw.png" />
 
@@ -148,6 +148,17 @@ dependencies {
 
 ### @JPredicate
 **TODO:** Finish section.
+
+
+## Building from source
+
+MapStruct uses Maven for its build. To build the complete project run
+
+```bash
+mvn clean install
+```
+
+from the root of the project directory.
 
 
 ## Might also like
