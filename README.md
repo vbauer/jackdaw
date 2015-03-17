@@ -128,61 +128,66 @@ dependencies {
 
 ## Annotations
 
+Some things that you need to know before exploring an examples:
+
+* Code style in the below examples was changed to minimize text in README.
+* Some annotations and imports was also removed to simplify understanding.
+* All generated classes will have the same package as original classes.
+
+
 ### @JAdapter
 
 `@JAdapter` allows to create class with empty method implementations using some interface or class.
 Using generated class, you can override only needed methods (like in Swing, ex: [MouseAdapter](http://docs.oracle.com/javase/7/docs/api/java/awt/event/MouseAdapter.html)).
 
-Original class:
+Original class `MouseListener`:
 ```java
 @JAdapter
 public interface MouseListener {
-
-    void onClick();
-
     void onMove(int x, int y);
-
-    Void press(int button);
-
-    int getX();
-
-    Integer getY();
-
-    boolean isPressed(int button);
-
+    void onPressed(int button);
 }
 ```
-
-Generated class:
+Generated class `MouseListenerAdapter`:
 ```java
 public class MouseListenerAdapter implements MouseListener {
-    public void onClick() {
-    }
-
     public void onMove(final int x, final int y) {
     }
-
-    public Void press(final int button) {
-        return null;
-    }
-
-    public int getX() {
-        return 0;
-    }
-
-    public Integer getY() {
-        return null;
-    }
-
-    public boolean isPressed(final int button) {
-        return false;
+    public void onPresses(final int button) {
     }
 }
 ```
 
 
 ### @JBean
-**TODO:** Finish section.
+Original class `AbstractUserModel`:
+```java
+@JBean
+public abstract class AbstractUserModel {
+    protected int id;
+    protected String username;
+    protected String password;
+    protected boolean admin;
+}
+```
+Generated class `User`:
+```java
+public class User extends AbstractUserModel {
+    public User() { super(); }
+
+    public void setId(final int id) { this.id = id; }
+    public void getId() { return id; }
+    
+    public String getUsername() { return username; }
+    public void setUsername(final String username) { this.username = username; }
+    
+    public String getPassword() { return password; }
+    public void setPassword(final String password) { this.password = password; }
+    
+    public boolean isAdmin() { return admin; }
+    public void setAdmin(final boolean admin) { this.admin = admin; }
+}
+```
 
 ### @JBuilder
 **TODO:** Finish section.
@@ -206,7 +211,22 @@ public class MouseListenerAdapter implements MouseListener {
 **TODO:** Finish section.
 
 ### @JRepeatable
-**TODO:** Finish section.
+Original annotation `Role`:
+```java
+@JRepeatable
+@Retention(RetentionPolicy.CLASS)
+@Target(ElementType.TYPE)
+public @interface Role {
+}
+```
+Generated annotation `RoleList`:
+```java
+@Retention(java.lang.annotation.RetentionPolicy.CLASS)
+@Target(java.lang.annotation.ElementType.TYPE)
+public @interface RoleList {
+    Role[] value();
+}
+```
 
 
 ## Building from source

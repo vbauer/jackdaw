@@ -1,4 +1,4 @@
-package com.github.vbauer.jackdaw.model;
+package com.github.vbauer.jackdaw;
 
 import com.github.vbauer.jackdaw.annotation.JBean;
 

@@ -6,6 +6,7 @@ import com.github.vbauer.jackdaw.util.callback.SimpleProcessorCallback;
 import com.github.vbauer.jackdaw.util.model.MethodInfo;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import com.squareup.javapoet.ArrayTypeName;
 import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
 import org.apache.commons.lang3.StringUtils;
@@ -239,6 +240,10 @@ public final class TypeUtils {
 
     public static TypeName getTypeName(final Element parameter) {
         return TypeName.get(parameter.asType());
+    }
+
+    public static TypeName getArrayTypeName(final Element parameter) {
+        return ArrayTypeName.get(parameter.asType());
     }
 
     public static Pair<Collection<MethodInfo>, Collection<MethodInfo>> calculateMethodInfo(
