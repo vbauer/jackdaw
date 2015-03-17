@@ -18,7 +18,6 @@
 
         <maven.compiler.plugin.version>3.2</maven.compiler.plugin.version>
         <maven.processor.plugin.version>2.2.4</maven.processor.plugin.version>
-        <maven.build.helper.plugin.version>1.8</maven.build.helper.plugin.version>
     </properties>
 
     <dependencies>
@@ -78,18 +77,6 @@
                         <version>${jackdaw.version}</version>
                     </dependency>
                 </dependencies>
-            </plugin>
-
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>build-helper-maven-plugin</artifactId>
-                <version>${maven.build.helper.plugin.version}</version>
-                <executions>
-                    <execution>
-                        <id>add-source</id>
-                        <phase>generate-sources</phase>
-                    </execution>
-                </executions>
             </plugin>
 
         </plugins>

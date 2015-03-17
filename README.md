@@ -32,6 +32,12 @@ Jackdaw was inspired by [Lombok](http://projectlombok.org) project, but in compa
 
 ## Setup
 
+**Jackdaw** uses [JitPack.io](https://jitpack.io) for distribution, so
+you need to configure JitPack's Maven repository to fetch artifacts (dependencies).
+
+Also, it is necessary to make dependency on `jackdaw-core`.
+This module contains compile time annotations which will be used to give a hints for APT.
+
 ### Maven
 
 ```xml
@@ -47,7 +53,31 @@ Jackdaw was inspired by [Lombok](http://projectlombok.org) project, but in compa
         <version>${jackdaw.version}</version>
     </dependency>
 </dependencies>
+```
 
+### Gradle
+
+```groovy
+repositories {
+    maven {
+        url "https://jitpack.io"
+    }
+}
+
+dependencies {
+    compile 'com.github.vbauer:jackdaw-core:1.0.0'
+}
+```
+
+
+## Configuration
+
+### Maven
+
+You can use any other APT plugin for Maven instead of `maven-processor-plugin`.
+It is just an example configuration.
+
+```xml
 <build>
     <plugins>
 
@@ -93,37 +123,13 @@ Jackdaw was inspired by [Lombok](http://projectlombok.org) project, but in compa
             </dependencies>
         </plugin>
 
-        <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>build-helper-maven-plugin</artifactId>
-            <version>${maven.build.helper.plugin.version}</version>
-            <executions>
-                <execution>
-                    <id>add-source</id>
-                    <phase>generate-sources</phase>
-                </execution>
-            </executions>
-        </plugin>
-
     </plugins>
 </build>
 ```
 
 ### Gradle
 
-```groovy
-repositories {
-    maven {
-        url "https://jitpack.io"
-    }
-}
-
-dependencies {
-    compile 'com.github.vbauer:jackdaw-core:1.0.0'
-}
-```
-
-**TODO:** Finish section.
+**TODO:** Add section.
 
 
 ## Annotations
