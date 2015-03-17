@@ -9,6 +9,7 @@ import com.github.vbauer.jackdaw.annotation.JFactoryMethod;
 import com.github.vbauer.jackdaw.annotation.JFunction;
 import com.github.vbauer.jackdaw.annotation.JMessage;
 import com.github.vbauer.jackdaw.annotation.JPredicate;
+import com.github.vbauer.jackdaw.annotation.JRepeatable;
 import com.github.vbauer.jackdaw.code.base.CodeGenerator;
 import com.github.vbauer.jackdaw.code.generator.JAdapterCodeGenerator;
 import com.github.vbauer.jackdaw.code.generator.JBeanCodeGenerator;
@@ -19,6 +20,7 @@ import com.github.vbauer.jackdaw.code.generator.JFactoryMethodCodeGenerator;
 import com.github.vbauer.jackdaw.code.generator.JFunctionCodeGenerator;
 import com.github.vbauer.jackdaw.code.generator.JMessageCodeGenerator;
 import com.github.vbauer.jackdaw.code.generator.JPredicateCodeGenerator;
+import com.github.vbauer.jackdaw.code.generator.JRepeatableCodeGenerator;
 import com.github.vbauer.jackdaw.util.ProcessorUtils;
 import com.google.common.collect.Maps;
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -83,8 +85,9 @@ public final class SourceCodeGenerator {
         map.put(JComparator.class.getName(), JComparatorCodeGenerator.class);
         map.put(JFactoryMethod.class.getName(), JFactoryMethodCodeGenerator.class);
         map.put(JFunction.class.getName(), JFunctionCodeGenerator.class);
-        map.put(JPredicate.class.getName(), JPredicateCodeGenerator.class);
         map.put(JMessage.class.getName(), JMessageCodeGenerator.class);
+        map.put(JPredicate.class.getName(), JPredicateCodeGenerator.class);
+        map.put(JRepeatable.class.getName(), JRepeatableCodeGenerator.class);
 
         return map;
     }

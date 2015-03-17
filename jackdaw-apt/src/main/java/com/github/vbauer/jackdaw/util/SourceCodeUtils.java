@@ -31,6 +31,7 @@ public final class SourceCodeUtils {
     public static final String INDENT = "    ";
     public static final String BRACKET_OPEN = "{";
     public static final String BRACKET_CLOSE = "}";
+    public static final String PACKAGE_SEPARATOR = ".";
 
     private static final String FIELD_SPECS = "fieldSpecs";
 

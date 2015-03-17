@@ -22,8 +22,6 @@ import javax.tools.JavaFileObject;
 
 public final class ProcessorUtils {
 
-    private static final String PACKAGE_SEPARATOR = ".";
-
 
     private ProcessorUtils() {
         throw new UnsupportedOperationException();
@@ -36,7 +34,7 @@ public final class ProcessorUtils {
         final ProcessingEnvironment processingEnv = getProcessingEnvironment();
         final Filer filer = processingEnv.getFiler();
 
-        return filer.createSourceFile(packageName + PACKAGE_SEPARATOR + className, baseElement);
+        return filer.createSourceFile(packageName + SourceCodeUtils.PACKAGE_SEPARATOR + className, baseElement);
     }
 
     public static String packageName(final TypeElement element) {
