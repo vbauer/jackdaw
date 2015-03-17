@@ -3,8 +3,13 @@
 
 <img align="right" style="margin-left: 15px" width="300" height="243" src="jackdaw-misc/jackdaw.png" />
 
-Java [Annotation Processor](http://docs.oracle.com/javase/7/docs/api/javax/annotation/processing/Processor.html) which
+**Jackdaw** is a Java [Annotation Processor](http://docs.oracle.com/javase/7/docs/api/javax/annotation/processing/Processor.html) which
 allows to simplify development without using reflections and prevents writing of tedious code.
+
+Jackdaw was inspired by [Lombok](http://projectlombok.org) project, but in comparison with Lombok:
+
+* it does not need to have an additional plugin in your IDE
+* it does not modify an existing source code
 
 
 ## Features
@@ -73,7 +78,7 @@ allows to simplify development without using reflections and prevents writing of
                         </processors>
                         <optionMap>
                             <!--<addGeneratedAnnotation>false</addGeneratedAnnotation>-->
-                            <addGeneratedDate>true</addGeneratedDate>
+                            <!--<addGeneratedDate>true</addGeneratedDate>-->
                         </optionMap>
                     </configuration>
                 </execution>
@@ -123,7 +128,57 @@ dependencies {
 ## Annotations
 
 ### @JAdapter
-**TODO:** Finish section.
+
+`@JAdapter` allows to create class with empty method implementations using some interface or class.
+Using generated class, you can override only needed methods (like in Swing, ex: [MouseAdapter](http://docs.oracle.com/javase/7/docs/api/java/awt/event/MouseAdapter.html)).
+
+Original class:
+```java
+@JAdapter
+public interface MouseListener {
+
+    void onClick();
+
+    void onMove(int x, int y);
+
+    Void press(int button);
+
+    int getX();
+
+    Integer getY();
+
+    boolean isPressed(int button);
+
+}
+```
+
+Generated class:
+```java
+public class MouseListenerAdapter implements MouseListener {
+    public void onClick() {
+    }
+
+    public void onMove(final int x, final int y) {
+    }
+
+    public Void press(final int button) {
+        return null;
+    }
+
+    public int getX() {
+        return 0;
+    }
+
+    public Integer getY() {
+        return null;
+    }
+
+    public boolean isPressed(final int button) {
+        return false;
+    }
+}
+```
+
 
 ### @JBean
 **TODO:** Finish section.

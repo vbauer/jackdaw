@@ -227,9 +227,9 @@ public final class TypeUtils {
         return types;
     }
 
-    public static Set<ExecutableElement> findUnimplementedMethods(final TypeElement rootElement) {
-        final Pair<Set<MethodInfo>, Set<MethodInfo>> methodInfo = calculateMethodInfo(rootElement);
-        final Set<MethodInfo> unimplementedMethods = methodInfo.getRight();
+    public static Collection<ExecutableElement> findUnimplementedMethods(final TypeElement rootElement) {
+        final Pair<Collection<MethodInfo>, Collection<MethodInfo>> methodInfo = calculateMethodInfo(rootElement);
+        final Collection<MethodInfo> unimplementedMethods = methodInfo.getRight();
         return MethodInfo.convert(unimplementedMethods);
     }
 
@@ -241,11 +241,11 @@ public final class TypeUtils {
         return TypeName.get(parameter.asType());
     }
 
-    public static Pair<Set<MethodInfo>, Set<MethodInfo>> calculateMethodInfo(
+    public static Pair<Collection<MethodInfo>, Collection<MethodInfo>> calculateMethodInfo(
         final TypeElement rootElement
     ) {
-        final Set<MethodInfo> unimplementedMethods = Sets.newHashSet();
-        final Set<MethodInfo> implementedMethods = Sets.newHashSet();
+        final Collection<MethodInfo> unimplementedMethods = Sets.newLinkedHashSet();
+        final Collection<MethodInfo> implementedMethods = Sets.newLinkedHashSet();
         TypeElement root = rootElement;
 
         while (root != null) {

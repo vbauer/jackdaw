@@ -16,6 +16,7 @@ import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.VariableElement;
 import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -39,7 +40,7 @@ public class JAdapterCodeGenerator extends GeneratedCodeGenerator {
         SourceCodeUtils.addParent(builder, typeElement);
         SourceCodeUtils.copyConstructors(builder, typeElement);
 
-        final Set<ExecutableElement> methods = TypeUtils.findUnimplementedMethods(typeElement);
+        final Collection<ExecutableElement> methods = TypeUtils.findUnimplementedMethods(typeElement);
         for (final ExecutableElement method : methods) {
             addMethod(builder, method);
         }

@@ -15,8 +15,8 @@ import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.VariableElement;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.ElementFilter;
+import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author Vladislav Bauer
@@ -38,8 +38,8 @@ public class JBeanCodeGenerator extends GeneratedCodeGenerator {
         SourceCodeUtils.copyConstructors(builder, typeElement);
 
         final List<VariableElement> fields = ElementFilter.fieldsIn(typeElement.getEnclosedElements());
-        final Pair<Set<MethodInfo>, Set<MethodInfo>> methodInfo = TypeUtils.calculateMethodInfo(typeElement);
-        final Set<MethodInfo> implementedMethods = methodInfo.getLeft();
+        final Pair<Collection<MethodInfo>, Collection<MethodInfo>> methods = TypeUtils.calculateMethodInfo(typeElement);
+        final Collection<MethodInfo> implementedMethods = methods.getLeft();
 
         for (final VariableElement field : fields) {
             addMethod(builder, field, implementedMethods, SourceCodeUtils.createGetter(field));
@@ -49,7 +49,7 @@ public class JBeanCodeGenerator extends GeneratedCodeGenerator {
 
     private void addMethod(
         final TypeSpec.Builder builder, final VariableElement field,
-        final Set<MethodInfo> implementedMethods, final MethodSpec getter
+        final Collection<MethodInfo> implementedMethods, final MethodSpec getter
     ) {
         final MethodInfo getterMethodInfo = new MethodInfo(
             getter.name, field.asType(), Lists.<TypeMirror>newArrayList(), null
