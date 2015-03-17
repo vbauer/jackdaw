@@ -3,6 +3,24 @@
 
 <img align="right" style="margin-left: 15px" width="300" height="243" src="jackdaw-misc/jackdaw.png" />
 
+Java [Annotation Processor](http://docs.oracle.com/javase/7/docs/api/javax/annotation/processing/Processor.html) which
+allows to simplify development without using reflections and prevents writing of tedious code.
+
+
+## Features
+
+**Jackdaw** support the following compile time annotations:
+
+* @JAdapter
+* @JBean
+* @JBuilder
+* @JClassDescriptor
+* @JComparator
+* @JFactoryMethod
+* @JFunction
+* @JMessage
+* @JPredicate
+
 
 ## Setup
 
@@ -97,6 +115,36 @@ dependencies {
 }
 ```
 
+**TODO:** Finish section.
+
+
+## Annotations
+
+### @JAdapter
+**TODO:** Finish section.
+
+### @JBean
+**TODO:** Finish section.
+
+### @JBuilder
+**TODO:** Finish section.
+
+### @JClassDescriptor
+**TODO:** Finish section.
+
+### @JComparator
+**TODO:** Finish section.
+
+### @JFactoryMethod
+**TODO:** Finish section.
+
+### @JFunction
+**TODO:** Finish section.
+
+### @JMessage
+**TODO:** Finish section.
+
+### @JPredicate
 **TODO:** Finish section.
 
 
