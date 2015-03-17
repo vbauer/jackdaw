@@ -304,10 +304,79 @@ public final class CompanyClassDescriptor {
 ```
 
 ### @JComparator
-**TODO:** Finish section.
+To generated safe well-coded comparator, you have to write a lot of boilerplate code.
+`@JComparator` annotation allows to simplify this situation.
+It is also possible to generate reverse order comparator using parameter `reverse`.
+
+Original class `Company`:
+```java
+public class Company {
+    @JComparator
+    private String name;
+}
+```
+Generated class `CompanyComparators`:
+```java
+public final class CompanyComparators {
+    public static final Comparator<Company> NAME = new Comparator<Company>() {
+        public int compare(final Company o1, final Company o2) {
+            final String v1 = o1 == null ? null : o1.getName();
+            final String v2 = o2 == null ? null : o2.getName();
+            if (v1 == v2) {
+                return 0;
+            } else if (v1 == null) {
+                return -1;
+            } else if (v2 == null) {
+                return 1;
+            }
+            return v1.compareTo(v2);
+        }
+    };
+    private CompanyComparators() {
+        throw new UnsupportedOperationException();
+    }
+}
+```
+
 
 ### @JFactoryMethod
-**TODO:** Finish section.
+@JFactoryMethod allows to use pattern *Factory Method* for object instantiation.
+To use this annotation it is necessary to have setters and default constructor in original class.
+
+**Available parameters:**
+
+* **method** - factory method name (default value is "create").
+* **all** - use all fields of class in factory method (default value is `false`).
+* **arguments** - use only specified fields in factory method (is is an empty array by default).
+
+Original class `Company`:
+```java
+@JFactoryMethod(all = true)
+public class Company {
+    private int id;
+    private String name;
+
+    public int getId() { return id; }
+    public void setId(final int id) { this.id = id; }
+
+    public String getName() { return name; }
+    public void setName(final String name) { this.name = name; }
+}
+```
+Generated class `CompanyFactory`:
+```java
+public final class CompanyFactory {
+    private CompanyFactory() {
+        throw new UnsupportedOperationException();
+    }
+    public static Company create(final int id, final String name) {
+        final Company object = new Company();
+        object.setId(id);
+        object.setName(name);
+        return object;
+    }
+}
+```
 
 ### @JFunction
 Original class:
