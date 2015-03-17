@@ -35,7 +35,7 @@ Jackdaw was inspired by [Lombok](http://projectlombok.org) project, but in compa
 **Jackdaw** uses [JitPack.io](https://jitpack.io) for distribution, so
 you need to configure JitPack's Maven repository to fetch artifacts (dependencies).
 
-Also, it is necessary to make dependency on `jackdaw-core`.
+It is necessary to make dependency on `jackdaw-core`.
 This module contains compile time annotations which will be used to give a hints for APT.
 
 ### Maven
@@ -306,9 +306,9 @@ public final class CompanyClassDescriptor {
 ### @JComparator
 To generated safe and well-coded comparator, you have to write a lot of boilerplate code.
 **@JComparator** annotation allows to simplify this situation.
-It is also possible to generate reverse order comparator using parameter `reverse`.
+To generate reverse order comparator, use parameter `reverse`.
 
-There is several ways to generate comparator or group of comparators.
+There are several ways to generate comparator or group of comparators.
 It depends on the annotation location:
 
 * **annotation on field** - generate comparator only for one specified field.
@@ -397,7 +397,7 @@ Available types of functions (`JFunctionType`):
 * **GUAVA** - Guava functions (`com.google.common.base.Function`)
 * **JAVA** - functions from Java 8 (`java.util.function.Function`)
 
-There is also several ways to generate function or group of functions.
+There are several ways to generate function or group of functions.
 It depends on the annotation location:
 
 * **annotation on field** - generate function only for one specified field.
@@ -429,6 +429,12 @@ public final class CompanyFunctions {
 The **@JMessage** annotation does not generate any additional code, instead of this it prints information in logs during project compiling.
 It could be useful to make some really meaningful notes for you or your team, instead of using TODOs in comments.
 
+Available parameters:
+
+* **value** - List of notes, that will be logged.
+* **type** - Logging level (default value is `Diagnostic.Kind.MANDATORY_WARNING`).
+* **details** - Add information about annotated element with note message (default value is `false`).
+
 Example:
 ```java
 @JMessage({
@@ -440,11 +446,14 @@ public abstract class AbstractMouseListener implements MouseListener {
 }
 ```
 
-Available parameters:
+Part of compilation output:
+```
+[INFO] --- maven-processor-plugin:2.2.4:process (process) @ jackdaw-sample ---
+[WARNING] diagnostic: warning: Do not forget to remove this class in the next release
+[WARNING] diagnostic: warning: MouseListener interface will be used instead of it
+```
 
-* **value** - List of notes, that will be logged.
-* **type** - Logging level (default value is `Diagnostic.Kind.MANDATORY_WARNING`).
-* **details** - Add information about annotated element with note message (default value is `false`).
+This feature could be also useful in pair with CI servers (detect `[WARNING]` and make some additional actions).
 
 
 ### @JPredicate
@@ -457,7 +466,7 @@ Available types of functions (`JPredicateType`) are the same, like for functions
 * **GUAVA** - Guava predicates (`com.google.common.base.Predicate`)
 * **JAVA** - predicates from Java 8 (`java.util.function.Predicate`)
 
-There is also several ways to generate predicate or group of predicates.
+There are several ways to generate predicate or group of predicates.
 It depends on the annotation location:
 
 * **annotation on field** - generate predicate only for one specified field.
@@ -467,8 +476,7 @@ It depends on the annotation location:
 Original class:
 ```java
 public class Company {
-    @JPredicate(reverse = true)
-    private boolean listed;
+    @JPredicate(reverse = true) private boolean listed;
 }
 ```
 Generated class:
@@ -481,7 +489,7 @@ public final class CompanyPredicates {
     };
 }
 ```
-It is also possible to generate reverse predicate using parameter `reverse`.
+To generate reverse predicate, use parameter `reverse`.
 
 
 ### @JRepeatable
@@ -490,7 +498,7 @@ There are some situations where you want to apply the same annotation to a decla
 As of the Java SE 8 release, repeating annotations enable you to do this.
 If you don't/can't use Java 8, then **@JRepeatable** helps you to resolve this problem using extra list-annotation.
 
-Original annotation `Role`:
+Original annotation `@Role`:
 ```java
 @JRepeatable
 @Retention(RetentionPolicy.CLASS)
@@ -498,7 +506,7 @@ Original annotation `Role`:
 public @interface Role {
 }
 ```
-Generated annotation `RoleList`:
+Generated annotation `@RoleList`:
 ```java
 @Retention(java.lang.annotation.RetentionPolicy.CLASS)
 @Target(java.lang.annotation.ElementType.TYPE)
