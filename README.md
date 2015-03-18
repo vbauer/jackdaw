@@ -110,6 +110,15 @@ After that, you need to configure annotation processor plugin.
 ```
 
 
+## Configuration
+
+Available parameters:
+
+* **addSuppressWarningsAnnotation** - Add `@SuppressWarnings("all")` annotation on all generated classes to prevent unnecessary issues of IDE inspections.
+* **addGeneratedAnnotation** - Add `@Generated` annotation on all generated classes to have possibility skip execution of static code analysis.
+* **addGeneratedDate** - Add `date` parameter to `@Generated` annotation. It is also necessary to switch on `addGeneratedAnnotation` parameter.
+
+
 ## Annotations
 
 Some things that you need to know before exploring an examples:
