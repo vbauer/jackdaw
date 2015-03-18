@@ -38,7 +38,7 @@ you need to configure JitPack's Maven repository to fetch artifacts (dependencie
 It is necessary to make dependency on `jackdaw-core`.
 This module contains compile time annotations which will be used to give a hints for APT.
 
-### Maven
+Example configuration for Maven:
 
 ```xml
 <repository>
@@ -55,27 +55,9 @@ This module contains compile time annotations which will be used to give a hints
 </dependencies>
 ```
 
-### Gradle
+After that, you need to configure annotation processor plugin.
+`maven-processor-plugin` is used as example, you can use another APT plugin for Maven instead of it.
 
-```groovy
-repositories {
-    maven {
-        url "https://jitpack.io"
-    }
-}
-
-dependencies {
-    compile 'com.github.vbauer:jackdaw-core:1.0.0'
-}
-```
-
-
-## Configuration
-
-### Maven
-
-You can use any other APT plugin for Maven instead of `maven-processor-plugin`.
-It is just an example configuration.
 
 ```xml
 <build>
@@ -126,10 +108,6 @@ It is just an example configuration.
     </plugins>
 </build>
 ```
-
-### Gradle
-
-**TODO:** Add section.
 
 
 ## Annotations
