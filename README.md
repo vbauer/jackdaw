@@ -430,7 +430,7 @@ Generated class `CompanyFunctions`:
 public final class CompanyFunctions {
     public static final Function<Company, Integer> ID = new Function<Company, Integer>() {
         public Integer apply(final Company input) {
-            return input.getId();
+            return (input != null) ? input.getId() : null;
         }
     };
 }
@@ -494,7 +494,7 @@ Generated class `CompanyPredicates`:
 public final class CompanyPredicates {
     public static final Predicate<Company> LISTED = new Predicate<Company>() {
         public boolean apply(final Company input) {
-            return !input.isListed();
+            return (input != null) ? !input.isListed() : null;
         }
     };
 }

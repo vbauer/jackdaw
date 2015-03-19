@@ -76,7 +76,7 @@ public class JPredicateCodeGenerator extends GeneratedCodeGenerator {
                     SourceCodeUtils.lines(
                         "new " + CLASS_NAME + "<$T>() {",
                             "public boolean apply(final $T input) {",
-                                "return " + operation + "input.$L();",
+                                "return (input != null) ? " + operation + "input.$L() : null;",
                             "}",
                         "}"
                     ),
