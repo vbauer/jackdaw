@@ -85,14 +85,9 @@ After that, you need to configure annotation processor plugin.
                     </goals>
                     <phase>generate-sources</phase>
                     <configuration>
-                        <encoding>${file.encoding}</encoding>
                         <processors>
                             <processor>com.github.vbauer.jackdaw.JackdawProcessor</processor>
                         </processors>
-                        <optionMap>
-                            <!--<addGeneratedAnnotation>false</addGeneratedAnnotation>-->
-                            <!--<addGeneratedDate>true</addGeneratedDate>-->
-                        </optionMap>
                     </configuration>
                 </execution>
             </executions>
@@ -112,11 +107,25 @@ After that, you need to configure annotation processor plugin.
 
 ## Configuration
 
-Available parameters:
+Available parameters for annotation processor:
 
-* **addSuppressWarningsAnnotation** - Add `@SuppressWarnings("all")` annotation on all generated classes to prevent unnecessary issues of IDE inspections.
-* **addGeneratedAnnotation** - Add `@Generated` annotation on all generated classes to have possibility skip execution of static code analysis.
-* **addGeneratedDate** - Add `date` parameter to `@Generated` annotation. It is also necessary to switch on `addGeneratedAnnotation` parameter.
+* **addSuppressWarningsAnnotation** - Add `@SuppressWarnings("all")` annotation on all generated classes to prevent unnecessary issues of IDE inspections (default value is `true`).
+* **addGeneratedAnnotation** - Add `@Generated` annotation on all generated classes to have possibility skip execution of static code analysis (default value is `true`).
+* **addGeneratedDate** - Add `date` parameter to `@Generated` annotation. It is also necessary to switch on `addGeneratedAnnotation` parameter (default value is `false`).
+
+Example configuration for maven-processor-plugin:
+```xml
+<configuration>
+    <processors>
+        <processor>com.github.vbauer.jackdaw.JackdawProcessor</processor>
+    </processors>
+    <optionMap>
+        <addGeneratedAnnotation>true</addGeneratedAnnotation>
+        <addGeneratedDate>true</addGeneratedDate>
+        <addSuppressWarningsAnnotation>false</addSuppressWarningsAnnotation>
+    </optionMap>
+</configuration>
+```
 
 
 ## Annotations
@@ -192,7 +201,7 @@ Prefix 'Abstract' and postfix 'Model' will be removed if they are presented.
 
 
 ### @JBuilder
-The **@Builder** annotation produces complex builder APIs for your classes.
+The **@JBuilder** annotation produces complex builder APIs for your classes.
 
 Original class `Company`:
 ```java
@@ -299,16 +308,20 @@ There are several ways to generate comparator or group of comparators.
 It depends on the annotation location:
 
 * **annotation on field** - generate comparator only for one specified field.
-* **annotation on method without args** - generate comparator using methods with empty arguments and non-void return-value.
+* **annotation on method without args** - generate comparator using method with empty list of arguments and non-void return-value.
 * **annotation on class** - generate comparators using 2 previous strategies (for all fields and simple methods).
 
 Original class `Company`:
 ```java
 public class Company {
     @JComparator private String name;
+    private long revenue;
     
     public String getName() { return name; }
     public void setName(final String name) { this.name = name; }
+
+    @JComparator public long getRevenue() { return revenue; }
+    public void setRevenue(final long revenue) { this.revenue = revenue; }
 }
 ```
 Generated class `CompanyComparators`:
@@ -318,6 +331,20 @@ public final class CompanyComparators {
         public int compare(final Company o1, final Company o2) {
             final String v1 = o1 == null ? null : o1.getName();
             final String v2 = o2 == null ? null : o2.getName();
+            if (v1 == v2) {
+                return 0;
+            } else if (v1 == null) {
+                return -1;
+            } else if (v2 == null) {
+                return 1;
+            }
+            return v1.compareTo(v2);
+        }
+    };
+    public static final Comparator<Company> REVENUE = new Comparator<Company>() {
+        public int compare(final Company o1, final Company o2) {
+            final Long v1 = o1 == null ? null : o1.getRevenue();
+            final Long v2 = o2 == null ? null : o2.getRevenue();
             if (v1 == v2) {
                 return 0;
             } else if (v1 == null) {
@@ -342,12 +369,12 @@ To use this annotation it is necessary to have setters and default constructor i
 Available parameters:
 
 * **method** - factory method name (default value is `"create"`).
-* **all** - use all fields of class in factory method (default value is `false`).
-* **arguments** - use only specified fields in factory method (is is an empty array by default).
+* **all** - use all fields of class in factory method (default value is `true`).
+* **arguments** - use only specified fields in factory method (it is an empty array by default).
 
 Original class `Company`:
 ```java
-@JFactoryMethod(all = true)
+@JFactoryMethod
 public class Company {
     private int id;
     private String name;
@@ -377,9 +404,7 @@ public final class CompanyFactory {
 ### @JFunction
 
 The **@JFunction** annotation generates `Function` implementation to use functional-way for programming.
-You can specify different types of `Function` interface for implementation generation.
-
-Available types of functions (`JFunctionType`):
+You can specify different function interfaces for implementation generation (`JFunctionType`):
 
 * **GUAVA** - Guava functions (`com.google.common.base.Function`)
 * **JAVA** - functions from Java 8 (`java.util.function.Function`)
@@ -388,7 +413,7 @@ There are several ways to generate function or group of functions.
 It depends on the annotation location:
 
 * **annotation on field** - generate function only for one specified field.
-* **annotation on method without args** - generate function using methods with empty arguments and non-void return-value.
+* **annotation on method without args** - generate function using method with empty list of arguments and non-void return-value.
 * **annotation on class** - generate functions using 2 previous strategies (for all fields and simple methods).
 
 Original class:
@@ -446,9 +471,7 @@ This feature could be also useful in pair with CI servers (detect `[WARNING]` an
 ### @JPredicate
 
 The **@JPredicate** annotation generates `Predicate` implementation to use functional-way for programming.
-You can specify different types of `JPredicate` interface for implementation generation.
-
-Available types of functions (`JPredicateType`) are the same, like for functions:
+You can specify different predicate interfaces for implementation generation (`JPredicateType`):
 
 * **GUAVA** - Guava predicates (`com.google.common.base.Predicate`)
 * **JAVA** - predicates from Java 8 (`java.util.function.Predicate`)
@@ -457,7 +480,7 @@ There are several ways to generate predicate or group of predicates.
 It depends on the annotation location:
 
 * **annotation on field** - generate predicate only for one specified field.
-* **annotation on method without args** - generate predicate using methods with empty arguments and non-void return-value.
+* **annotation on method without args** - generate predicate using method with empty list of arguments and non-void return-value.
 * **annotation on class** - generate predicate using 2 previous strategies (for all fields and simple methods).
 
 Original class:

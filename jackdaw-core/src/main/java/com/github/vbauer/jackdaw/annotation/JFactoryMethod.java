@@ -19,6 +19,6 @@ public @interface JFactoryMethod {
 
     String[] arguments() default {};
 
-    boolean all() default false;
+    boolean all() default true;
 
 }

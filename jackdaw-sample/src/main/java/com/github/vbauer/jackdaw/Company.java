@@ -25,6 +25,8 @@ public class Company {
     @JComparator
     private String name;
 
+    private Long revenue;
+
     @JPredicate(reverse = true)
     private boolean listed;
 
@@ -41,6 +43,15 @@ public class Company {
 
     public void setName(final String name) {
         this.name = name;
+    }
+
+    @JComparator
+    public Long getRevenue() {
+        return revenue;
+    }
+
+    public void setRevenue(final Long revenue) {
+        this.revenue = revenue;
     }
 
     @JFunction
