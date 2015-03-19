@@ -42,10 +42,7 @@ public class JComparatorCodeGenerator extends GeneratedCodeGenerator {
             builder, typeElement, JComparator.class,
             new SimpleProcessorCallback<JComparator>() {
                 @Override
-                public void process(
-                    final TypeSpec.Builder builder, final TypeElement type, final String methodName,
-                    final JComparator annotation
-                ) {
+                public void process(final TypeElement type, final String methodName, final JComparator annotation) {
                     addFunction(builder, type, methodName, annotation);
                 }
             }
@@ -54,8 +51,7 @@ public class JComparatorCodeGenerator extends GeneratedCodeGenerator {
 
 
     private void addFunction(
-        final TypeSpec.Builder builder, final TypeElement type, final String methodName,
-        final JComparator annotation
+        final TypeSpec.Builder builder, final TypeElement type, final String methodName, final JComparator annotation
     ) {
         final boolean reverse = annotation.reverse();
         final String param1 = reverse ? PARAM_2 : PARAM_1;

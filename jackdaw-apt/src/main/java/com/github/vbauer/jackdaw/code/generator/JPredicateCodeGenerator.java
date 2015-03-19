@@ -42,10 +42,7 @@ public class JPredicateCodeGenerator extends GeneratedCodeGenerator {
             builder, typeElement, JPredicate.class,
             new SimpleProcessorCallback<JPredicate>() {
                 @Override
-                public void process(
-                    final TypeSpec.Builder builder, final TypeElement type, final String methodName,
-                    final JPredicate annotation
-                ) {
+                public void process(final TypeElement type, final String methodName, final JPredicate annotation) {
                     addPredicate(builder, type, methodName, annotation);
                 }
             }
@@ -54,8 +51,7 @@ public class JPredicateCodeGenerator extends GeneratedCodeGenerator {
 
 
     private void addPredicate(
-        final TypeSpec.Builder builder, final TypeElement type, final String methodName,
-        final JPredicate annotation
+        final TypeSpec.Builder builder, final TypeElement type, final String methodName, final JPredicate annotation
     ) {
         if (TypeUtils.hasAnyType(type, Boolean.class, boolean.class)) {
             final JPredicateType functionType = annotation.type();

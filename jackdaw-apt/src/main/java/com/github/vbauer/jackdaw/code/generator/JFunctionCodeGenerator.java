@@ -11,7 +11,6 @@ import com.github.vbauer.jackdaw.util.model.ClassType;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.ParameterizedTypeName;
-import com.squareup.javapoet.TypeSpec;
 import com.squareup.javapoet.TypeSpec.Builder;
 
 import javax.lang.model.element.Modifier;
@@ -42,10 +41,7 @@ public class JFunctionCodeGenerator extends GeneratedCodeGenerator {
             builder, typeElement, JFunction.class,
             new SimpleProcessorCallback<JFunction>() {
                 @Override
-                public void process(
-                    final TypeSpec.Builder builder, final TypeElement type, final String methodName,
-                    final JFunction annotation
-                ) {
+                public void process(final TypeElement type, final String methodName, final JFunction annotation) {
                     addFunction(builder, type, methodName, annotation);
                 }
             }
@@ -54,8 +50,7 @@ public class JFunctionCodeGenerator extends GeneratedCodeGenerator {
 
 
     private void addFunction(
-        final Builder builder, final TypeElement type, final String methodName,
-        final JFunction annotation
+        final Builder builder, final TypeElement type, final String methodName, final JFunction annotation
     ) {
         final JFunctionType functionType = annotation.type();
         final String packageName = getFunctionPackageName(functionType);

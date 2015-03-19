@@ -65,7 +65,7 @@ public final class TypeUtils {
     }
 
     public static String getterName(final Element e) {
-        final char[] field = TypeUtils.getName(e).toCharArray();
+        final char[] field = getName(e).toCharArray();
         field[0] = Character.toUpperCase(field[0]);
 
         final TypeMirror typeMirror = e.asType();
@@ -113,10 +113,10 @@ public final class TypeUtils {
     public static void processMethod(
         final TypeSpec.Builder builder, final Element element, final NamedTypeCallback namedTypeCallback
     ) throws Exception {
-        if (!hasAnyModifier(element, Modifier.STATIC)) {
+        if (isSimpleMethod(element)) {
             final ExecutableElement ee = (ExecutableElement) element;
             final TypeElement type = ProcessorUtils.getWrappedType(ee.getReturnType());
-            final String methodName = TypeUtils.getName(element);
+            final String methodName = getName(element);
             final String normalizedName = SourceCodeUtils.normalizeName(methodName);
 
             if (!SourceCodeUtils.hasField(builder, normalizedName)) {
@@ -145,32 +145,30 @@ public final class TypeUtils {
     ) throws Exception {
         final List<? extends Element> elements = typeElement.getEnclosedElements();
 
-        TypeUtils.filterElementsWithAnnotation(
+        filterElementsWithAnnotation(
             typeElement, ElementFilter.fieldsIn(elements), annotationClass,
             new AnnotatedElementCallback<T>() {
                 @Override
                 public void process(final Element element, final T annotation) throws Exception {
-                    TypeUtils.processVariable(builder, element, new NamedTypeCallback() {
+                    processVariable(builder, element, new NamedTypeCallback() {
                         @Override
                         public void process(final String methodName, final TypeElement type) {
-                            callback.process(builder, type, methodName, annotation);
+                            callback.process(type, methodName, annotation);
                         }
                     });
                 }
             }
         );
 
-        TypeUtils.filterElementsWithAnnotation(
+        filterElementsWithAnnotation(
             typeElement, ElementFilter.methodsIn(elements), annotationClass,
             new AnnotatedElementCallback<T>() {
                 @Override
                 public void process(final Element element, final T annotation) throws Exception {
-                    TypeUtils.processMethod(builder, element, new NamedTypeCallback() {
+                    processMethod(builder, element, new NamedTypeCallback() {
                         @Override
                         public void process(final String methodName, final TypeElement type) {
-                            if (TypeUtils.isSimpleMethod(element)) {
-                                callback.process(builder, type, methodName, annotation);
-                            }
+                            callback.process(type, methodName, annotation);
                         }
                     });
                 }
@@ -269,7 +267,7 @@ public final class TypeUtils {
                 }
             }
 
-            root = TypeUtils.getSuperclass(root);
+            root = getSuperclass(root);
         }
 
         unimplementedMethods.removeAll(implementedMethods);
