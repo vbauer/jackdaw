@@ -4,7 +4,7 @@
 <img align="right" style="margin-left: 15px" width="300" height="243" src="jackdaw-misc/jackdaw.png" />
 
 **Jackdaw** is a Java [Annotation Processor](http://docs.oracle.com/javase/7/docs/api/javax/annotation/processing/Processor.html) which
-allows to simplify development without using reflections and prevents writing of tedious code.
+allows to simplify Java/Android development without using reflections and prevents writing of tedious code.
 
 Jackdaw was inspired by [Lombok](http://projectlombok.org) project, but in comparison with Lombok:
 
@@ -14,7 +14,7 @@ Jackdaw was inspired by [Lombok](http://projectlombok.org) project, but in compa
 
 ## Features
 
-**Jackdaw** support the following compile time annotations:
+**Jackdaw** supports the following compile time annotations:
 
 <ul>
     <li><a href="#jadapter">@JAdapter</a></li>
