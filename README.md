@@ -494,7 +494,7 @@ Generated class `CompanyPredicates`:
 public final class CompanyPredicates {
     public static final Predicate<Company> LISTED = new Predicate<Company>() {
         public boolean apply(final Company input) {
-            return (input != null) ? !input.isListed() : null;
+            return !input.isListed();
         }
     };
 }
