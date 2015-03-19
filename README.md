@@ -3,13 +3,13 @@
 
 <img align="right" style="margin-left: 15px" width="300" height="243" src="jackdaw-misc/jackdaw.png" />
 
-**Jackdaw** is a Java [Annotation Processor](http://docs.oracle.com/javase/7/docs/api/javax/annotation/processing/Processor.html) which
-allows to simplify Java/Android development without using reflections and prevents writing of tedious code.
+**Jackdaw** is a Java [Annotation Processor](http://docs.oracle.com/javase/7/docs/api/javax/annotation/processing/Processor.html)
+which allows to simplify Java/Android development and prevents writing of tedious code.
 
 Jackdaw was inspired by [Lombok](http://projectlombok.org) project, but in comparison with Lombok:
 
 * it does not need to have an extra plugin in IDE
-* it does not modify an existing source code
+* it does not modify the existing source code
 
 
 ## Features
@@ -416,7 +416,7 @@ It depends on the annotation location:
 * **annotation on method without args** - generate function using method with empty list of arguments and non-void return-value.
 * **annotation on class** - generate functions using 2 previous strategies (for all fields and simple methods).
 
-Original class:
+Original class `Company`:
 ```java
 public class Company {
     @JFunction private int id;
@@ -425,7 +425,7 @@ public class Company {
     public void setId(final int id) { this.id = id; }
 }
 ```
-Generated class:
+Generated class `CompanyFunctions`:
 ```java
 public final class CompanyFunctions {
     public static final Function<Company, Integer> ID = new Function<Company, Integer>() {
@@ -483,13 +483,13 @@ It depends on the annotation location:
 * **annotation on method without args** - generate predicate using method with empty list of arguments and non-void return-value.
 * **annotation on class** - generate predicate using 2 previous strategies (for all fields and simple methods).
 
-Original class:
+Original class `Company`:
 ```java
 public class Company {
     @JPredicate(reverse = true) private boolean listed;
 }
 ```
-Generated class:
+Generated class `CompanyPredicates`:
 ```java
 public final class CompanyPredicates {
     public static final Predicate<Company> LISTED = new Predicate<Company>() {
