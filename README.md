@@ -254,7 +254,7 @@ public class CompanyBuilder {
 }
 ```
 
-`@Builder` lets you automatically produce the code required to have your class be instantiable with code such as:
+`@JBuilder` lets you automatically produce the code required to have your class be instantiable with code such as:
 ```java
 CompanyBuilder.create()
     .id(1)
