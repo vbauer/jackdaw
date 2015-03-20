@@ -49,7 +49,7 @@ Example configuration for Maven:
 <dependencies>
     <dependency>
         <groupId>com.github.vbauer</groupId>
-        <artifactId>jackdaw-core</artifactId>
+        <artifactId>jackdaw.jackdaw-core</artifactId>
         <version>${jackdaw.version}</version>
     </dependency>
 </dependencies>
@@ -94,7 +94,7 @@ After that, you need to configure annotation processor plugin.
             <dependencies>
                 <dependency>
                     <groupId>com.github.vbauer</groupId>
-                    <artifactId>jackdaw-apt</artifactId>
+                    <artifactId>jackdaw.jackdaw-apt</artifactId>
                     <version>${jackdaw.version}</version>
                 </dependency>
             </dependencies>
