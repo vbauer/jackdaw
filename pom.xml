@@ -44,6 +44,15 @@
         </developer>
     </developers>
 
+    <repositories>
+
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+
+    </repositories>
+
     <modules>
         <module>jackdaw-core</module>
         <module>jackdaw-apt</module>
