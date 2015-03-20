@@ -1,11 +1,11 @@
 package com.github.vbauer.jackdaw.code.base;
 
 import com.github.vbauer.jackdaw.JackdawProcessor;
+import com.github.vbauer.jackdaw.code.context.CodeGeneratorContext;
 import com.github.vbauer.jackdaw.context.ProcessorContext;
 import com.github.vbauer.jackdaw.context.ProcessorContextHolder;
 import com.github.vbauer.jackdaw.util.ProcessorUtils;
 import com.github.vbauer.jackdaw.util.SourceCodeUtils;
-import com.github.vbauer.jackdaw.util.TypeUtils;
 import com.github.vbauer.jackdaw.util.model.ClassType;
 import com.google.common.base.Function;
 import com.squareup.javapoet.AnnotationSpec;
@@ -26,43 +26,58 @@ import java.util.Date;
  * @author Vladislav Bauer
  */
 
-public abstract class GeneratedCodeGenerator extends CodeGenerator {
+public abstract class GeneratedCodeGenerator implements CodeGenerator {
 
     protected final Function<String, String> nameModifier;
     protected final ClassType classType;
-    protected final String className;
 
 
     public GeneratedCodeGenerator(
-        final TypeElement typeElement, Function<String, String> nameModifier, final ClassType classType
+        final Function<String, String> nameModifier, final ClassType classType
     ) {
-        super(typeElement);
         this.nameModifier = nameModifier;
         this.classType = classType;
-        this.className = nameModifier.apply(TypeUtils.getName(typeElement));
     }
 
 
     @Override
-    public void generate() throws Exception {
+    public void generate(final CodeGeneratorContext context) throws Exception {
+        final TypeElement typeElement = context.getTypeElement();
+        final String packageName = context.getPackageName();
+        final String className = context.getClassName(getNameModifier());
+
         final JavaFileObject file = ProcessorUtils.createSourceFile(typeElement, packageName, className);
         final Writer writer = file.openWriter();
         final PrintWriter printWriter = new PrintWriter(writer);
 
-        final JavaFile javaFile = generateSourceCode();
-        final String sourceCode = javaFile.toString();
+        final TypeSpec.Builder typeSpecBuilder = generateCommon(className);
+        generateBody(context, typeSpecBuilder);
 
+        final TypeSpec typeSpec = typeSpecBuilder.build();
+        final JavaFile javaFile =
+            JavaFile.builder(packageName, typeSpec)
+                .indent(SourceCodeUtils.INDENT)
+                .skipJavaLangImports(true)
+                .build();
+
+        final String sourceCode = javaFile.toString();
         printWriter.write(sourceCode);
         printWriter.flush();
 
         writer.close();
     }
 
+    public Function<String, String> getNameModifier() {
+        return nameModifier;
+    }
 
-    protected abstract void generateBody(TypeSpec.Builder builder) throws Exception;
+
+    protected abstract void generateBody(
+        final CodeGeneratorContext context, TypeSpec.Builder builder
+    ) throws Exception;
 
 
-    private TypeSpec.Builder generateCommon() {
+    private TypeSpec.Builder generateCommon(final String className) {
         final TypeSpec.Builder typeSpecBuilder = createTypeSpecBuilder(classType, className);
         typeSpecBuilder.addModifiers(Modifier.PUBLIC);
 
@@ -121,17 +136,6 @@ public abstract class GeneratedCodeGenerator extends CodeGenerator {
         }
 
         typeSpecBuilder.addAnnotation(annotationBuilder.build());
-    }
-
-    private JavaFile generateSourceCode() throws Exception {
-        final TypeSpec.Builder typeSpecBuilder = generateCommon();
-        generateBody(typeSpecBuilder);
-
-        final TypeSpec typeSpec = typeSpecBuilder.build();
-        return JavaFile.builder(packageName, typeSpec)
-            .indent(SourceCodeUtils.INDENT)
-            .skipJavaLangImports(true)
-            .build();
     }
 
 }

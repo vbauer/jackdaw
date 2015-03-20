@@ -2,6 +2,7 @@ package com.github.vbauer.jackdaw.code.generator;
 
 import com.github.vbauer.jackdaw.annotation.JFactoryMethod;
 import com.github.vbauer.jackdaw.code.base.GeneratedCodeGenerator;
+import com.github.vbauer.jackdaw.code.context.CodeGeneratorContext;
 import com.github.vbauer.jackdaw.util.SourceCodeUtils;
 import com.github.vbauer.jackdaw.util.TypeUtils;
 import com.github.vbauer.jackdaw.util.function.AddSuffix;
@@ -28,24 +29,30 @@ public class JFactoryMethodCodeGenerator extends GeneratedCodeGenerator {
     private static final AddSuffix NAME_MODIFIER = new AddSuffix(SUFFIX);
 
 
-    public JFactoryMethodCodeGenerator(TypeElement typeElement) {
-        super(typeElement, NAME_MODIFIER, ClassType.UTILITY);
+    public JFactoryMethodCodeGenerator() {
+        super(NAME_MODIFIER, ClassType.UTILITY);
     }
 
 
     @Override
-    protected void generateBody(final TypeSpec.Builder builder) throws Exception {
+    protected void generateBody(
+        final CodeGeneratorContext context, final TypeSpec.Builder builder
+    ) throws Exception {
+        final TypeElement typeElement = context.getTypeElement();
         final JFactoryMethod annotation = typeElement.getAnnotation(JFactoryMethod.class);
         final Set<Modifier> modifiers = typeElement.getModifiers();
         final ElementKind kind = typeElement.getKind();
 
         if (annotation != null && kind == ElementKind.CLASS && !modifiers.contains(Modifier.ABSTRACT)) {
-            generateFactoryMethod(builder, annotation);
+            generateFactoryMethod(builder, typeElement, annotation);
         }
     }
 
 
-    private void generateFactoryMethod(TypeSpec.Builder builder, JFactoryMethod annotation) {
+    private void generateFactoryMethod(
+        final TypeSpec.Builder builder, final TypeElement typeElement,
+        final JFactoryMethod annotation
+    ) {
         final String methodName = annotation.method();
         final String[] args = annotation.arguments();
         final boolean all = annotation.all();

@@ -3,6 +3,7 @@ package com.github.vbauer.jackdaw.code.generator;
 import com.github.vbauer.jackdaw.annotation.JFunction;
 import com.github.vbauer.jackdaw.annotation.type.JFunctionType;
 import com.github.vbauer.jackdaw.code.base.GeneratedCodeGenerator;
+import com.github.vbauer.jackdaw.code.context.CodeGeneratorContext;
 import com.github.vbauer.jackdaw.util.SourceCodeUtils;
 import com.github.vbauer.jackdaw.util.TypeUtils;
 import com.github.vbauer.jackdaw.util.callback.SimpleProcessorCallback;
@@ -30,19 +31,22 @@ public class JFunctionCodeGenerator extends GeneratedCodeGenerator {
     private static final String PACKAGE_JAVA = "java.util.function";
 
 
-    public JFunctionCodeGenerator(final TypeElement element) {
-        super(element, NAME_MODIFIER, ClassType.UTILITY);
+    public JFunctionCodeGenerator() {
+        super(NAME_MODIFIER, ClassType.UTILITY);
     }
 
 
     @Override
-    protected void generateBody(final Builder builder) throws Exception {
+    protected void generateBody(
+        final CodeGeneratorContext context, final Builder builder
+    ) throws Exception {
+        final TypeElement typeElement = context.getTypeElement();
         TypeUtils.processSimpleMethodsAndVariables(
             builder, typeElement, JFunction.class,
             new SimpleProcessorCallback<JFunction>() {
                 @Override
                 public void process(final TypeElement type, final String methodName, final JFunction annotation) {
-                    addFunction(builder, type, methodName, annotation);
+                    addFunction(builder, typeElement, type, methodName, annotation);
                 }
             }
         );
@@ -50,7 +54,8 @@ public class JFunctionCodeGenerator extends GeneratedCodeGenerator {
 
 
     private void addFunction(
-        final Builder builder, final TypeElement type, final String methodName, final JFunction annotation
+        final Builder builder, final TypeElement typeElement, final TypeElement type,
+        final String methodName, final JFunction annotation
     ) {
         final JFunctionType functionType = annotation.type();
         final String packageName = getFunctionPackageName(functionType);

@@ -1,6 +1,7 @@
 package com.github.vbauer.jackdaw.code.generator;
 
 import com.github.vbauer.jackdaw.code.base.GeneratedCodeGenerator;
+import com.github.vbauer.jackdaw.code.context.CodeGeneratorContext;
 import com.github.vbauer.jackdaw.util.SourceCodeUtils;
 import com.github.vbauer.jackdaw.util.TypeUtils;
 import com.github.vbauer.jackdaw.util.function.AddSuffix;
@@ -24,40 +25,46 @@ public class JBuilderCodeGenerator extends GeneratedCodeGenerator {
     private static final AddSuffix NAME_MODIFIER = new AddSuffix(SUFFIX);
 
 
-    public JBuilderCodeGenerator(final TypeElement typeElement) {
-        super(typeElement, NAME_MODIFIER, ClassType.POJO);
+    public JBuilderCodeGenerator() {
+        super(NAME_MODIFIER, ClassType.POJO);
     }
 
 
     @Override
-    protected void generateBody(final TypeSpec.Builder builder) throws Exception {
+    protected void generateBody(
+        final CodeGeneratorContext context, final TypeSpec.Builder builder
+    ) throws Exception {
+        final TypeElement typeElement = context.getTypeElement();
+        final ClassName originType = getOriginType(context);
         final Map<String, TypeName> variables = SourceCodeUtils.getVariables(typeElement);
-        addCreateMethod(builder);
-        addMethods(builder, variables);
-        addBuildMethod(builder, variables);
+
+        addCreateMethod(builder, originType);
+        addMethods(builder, variables, originType);
+        addBuildMethod(builder, typeElement, variables);
     }
 
 
     private void addMethods(
-        final TypeSpec.Builder builder, final Map<String, TypeName> variables
+        final TypeSpec.Builder builder, final Map<String, TypeName> variables,
+        final ClassName originType
     ) {
         for (final Map.Entry<String, TypeName> entry : variables.entrySet()) {
             final String variableName = entry.getKey();
             final TypeName variableType = entry.getValue();
-            addMethod(builder, variableName, variableType);
+            addMethod(builder, variableName, variableType, originType);
         }
     }
 
     private void addBuildMethod(
-        final TypeSpec.Builder builder, final Map<String, TypeName> variables
+        final TypeSpec.Builder builder, final TypeElement typeElement,
+        final Map<String, TypeName> variables
     ) {
         builder.addMethod(SourceCodeUtils.createFactoryMethod(
             "build", TypeUtils.getTypeName(typeElement), variables, Modifier.PUBLIC
         ));
     }
 
-    private void addCreateMethod(final TypeSpec.Builder builder) {
-        final ClassName originType = getOriginType();
+    private void addCreateMethod(final TypeSpec.Builder builder, final ClassName originType) {
         builder.addMethod(
             MethodSpec.methodBuilder("create")
                 .returns(originType)
@@ -68,7 +75,8 @@ public class JBuilderCodeGenerator extends GeneratedCodeGenerator {
     }
 
     private void addMethod(
-        final TypeSpec.Builder builder, final String variableName, final TypeName variableType
+        final TypeSpec.Builder builder, final String variableName, final TypeName variableType,
+        final ClassName originType
     ) {
         builder.addField(variableType, variableName, Modifier.PRIVATE);
 
@@ -76,14 +84,16 @@ public class JBuilderCodeGenerator extends GeneratedCodeGenerator {
             MethodSpec.methodBuilder(variableName)
                 .addModifiers(Modifier.PUBLIC)
                 .addParameter(variableType, variableName, Modifier.FINAL)
-                .returns(getOriginType())
+                .returns(originType)
                 .addStatement("this.$L = $L", variableName, variableName)
                 .addStatement("return this")
                 .build()
         );
     }
 
-    private ClassName getOriginType() {
+    private ClassName getOriginType(final CodeGeneratorContext context) {
+        final String packageName = context.getPackageName();
+        final String className = context.getClassName(getNameModifier());
         return ClassName.get(packageName, className);
     }
 

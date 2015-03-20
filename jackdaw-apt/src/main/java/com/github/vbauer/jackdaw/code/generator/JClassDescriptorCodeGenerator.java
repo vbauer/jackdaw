@@ -1,6 +1,7 @@
 package com.github.vbauer.jackdaw.code.generator;
 
 import com.github.vbauer.jackdaw.code.base.GeneratedCodeGenerator;
+import com.github.vbauer.jackdaw.code.context.CodeGeneratorContext;
 import com.github.vbauer.jackdaw.util.SourceCodeUtils;
 import com.github.vbauer.jackdaw.util.TypeUtils;
 import com.github.vbauer.jackdaw.util.function.AddSuffix;
@@ -31,13 +32,16 @@ public class JClassDescriptorCodeGenerator extends GeneratedCodeGenerator {
     private static final String PREFIX_METHOD = "method";
 
 
-    public JClassDescriptorCodeGenerator(final TypeElement typeElement) {
-        super(typeElement, NAME_MODIFIER, ClassType.UTILITY);
+    public JClassDescriptorCodeGenerator() {
+        super(NAME_MODIFIER, ClassType.UTILITY);
     }
 
 
     @Override
-    protected void generateBody(final TypeSpec.Builder builder) throws Exception {
+    protected void generateBody(
+        final CodeGeneratorContext context, final TypeSpec.Builder builder
+    ) throws Exception {
+        final TypeElement typeElement = context.getTypeElement();
         final List<? extends Element> elements = typeElement.getEnclosedElements();
         final List<VariableElement> fields = ElementFilter.fieldsIn(elements);
         final List<ExecutableElement> methods = ElementFilter.methodsIn(elements);

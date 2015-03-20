@@ -1,6 +1,7 @@
 package com.github.vbauer.jackdaw.code.generator;
 
 import com.github.vbauer.jackdaw.code.base.GeneratedCodeGenerator;
+import com.github.vbauer.jackdaw.code.context.CodeGeneratorContext;
 import com.github.vbauer.jackdaw.util.SourceCodeUtils;
 import com.github.vbauer.jackdaw.util.TypeUtils;
 import com.github.vbauer.jackdaw.util.function.NameBean;
@@ -28,13 +29,16 @@ public class JBeanCodeGenerator extends GeneratedCodeGenerator {
     private static final NameBean NAME_MODIFIER = new NameBean();
 
 
-    public JBeanCodeGenerator(TypeElement typeElement) {
-        super(typeElement, NAME_MODIFIER, ClassType.POJO);
+    public JBeanCodeGenerator() {
+        super(NAME_MODIFIER, ClassType.POJO);
     }
 
 
     @Override
-    protected void generateBody(final TypeSpec.Builder builder) throws Exception {
+    protected void generateBody(
+        final CodeGeneratorContext context, final TypeSpec.Builder builder
+    ) throws Exception {
+        final TypeElement typeElement = context.getTypeElement();
         SourceCodeUtils.addParent(builder, typeElement);
         SourceCodeUtils.copyConstructors(builder, typeElement);
 

@@ -2,6 +2,7 @@ package com.github.vbauer.jackdaw.code.generator;
 
 import com.github.vbauer.jackdaw.annotation.JMessage;
 import com.github.vbauer.jackdaw.code.base.CodeGenerator;
+import com.github.vbauer.jackdaw.code.context.CodeGeneratorContext;
 import com.github.vbauer.jackdaw.util.ProcessorUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -15,17 +16,14 @@ import java.util.List;
  * @author Vladislav Bauer
  */
 
-public class JMessageCodeGenerator extends CodeGenerator {
+public class JMessageCodeGenerator implements CodeGenerator {
 
     private static final String SEPARATOR = ": ";
 
 
-    public JMessageCodeGenerator(final TypeElement typeElement) {
-        super(typeElement);
-    }
-
     @Override
-    public void generate() throws Exception {
+    public void generate(final CodeGeneratorContext context) throws Exception {
+        final TypeElement typeElement = context.getTypeElement();
         printInfoIfNecessary(typeElement);
     }
 

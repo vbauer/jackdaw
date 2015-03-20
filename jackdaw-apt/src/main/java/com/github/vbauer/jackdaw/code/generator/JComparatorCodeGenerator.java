@@ -2,6 +2,7 @@ package com.github.vbauer.jackdaw.code.generator;
 
 import com.github.vbauer.jackdaw.annotation.JComparator;
 import com.github.vbauer.jackdaw.code.base.GeneratedCodeGenerator;
+import com.github.vbauer.jackdaw.code.context.CodeGeneratorContext;
 import com.github.vbauer.jackdaw.util.SourceCodeUtils;
 import com.github.vbauer.jackdaw.util.TypeUtils;
 import com.github.vbauer.jackdaw.util.callback.SimpleProcessorCallback;
@@ -31,19 +32,22 @@ public class JComparatorCodeGenerator extends GeneratedCodeGenerator {
     private static final String PARAM_2 = "o2";
 
 
-    public JComparatorCodeGenerator(final TypeElement element) {
-        super(element, NAME_MODIFIER, ClassType.UTILITY);
+    public JComparatorCodeGenerator() {
+        super(NAME_MODIFIER, ClassType.UTILITY);
     }
 
 
     @Override
-    protected void generateBody(final TypeSpec.Builder builder) throws Exception {
+    protected void generateBody(
+        final CodeGeneratorContext context, final TypeSpec.Builder builder
+    ) throws Exception {
+        final TypeElement typeElement = context.getTypeElement();
         TypeUtils.processSimpleMethodsAndVariables(
             builder, typeElement, JComparator.class,
             new SimpleProcessorCallback<JComparator>() {
                 @Override
                 public void process(final TypeElement type, final String methodName, final JComparator annotation) {
-                    addFunction(builder, type, methodName, annotation);
+                    addFunction(builder, typeElement, type, methodName, annotation);
                 }
             }
         );
@@ -51,7 +55,8 @@ public class JComparatorCodeGenerator extends GeneratedCodeGenerator {
 
 
     private void addFunction(
-        final TypeSpec.Builder builder, final TypeElement type, final String methodName, final JComparator annotation
+        final TypeSpec.Builder builder, final TypeElement typeElement, final TypeElement type,
+        final String methodName, final JComparator annotation
     ) {
         final boolean reverse = annotation.reverse();
         final String param1 = reverse ? PARAM_2 : PARAM_1;
