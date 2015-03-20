@@ -47,23 +47,17 @@ public final class SourceCodeGenerator {
 
 
     public static boolean generate(final TypeElement element, final String annotationClassName) {
-        final Class<? extends CodeGenerator> codeGeneratorClass =
-            CODE_GENERATORS.get(annotationClassName);
-
-        return generateCode(element, codeGeneratorClass);
-    }
-
-    public static Set<String> getSupportedAnnotations() {
-        return CODE_GENERATORS.keySet();
-    }
-
-
-    private static boolean generateCode(
-        final TypeElement element, final Class<? extends CodeGenerator> codeGeneratorClass
-    ) {
         try {
+            final Class<? extends CodeGenerator> generatorClass =
+                CODE_GENERATORS.get(annotationClassName);
+
+            ProcessorUtils.message(
+                Diagnostic.Kind.NOTE,
+                String.format("Detected %s on %s", generatorClass.getSimpleName(), element)
+            );
+
             final Constructor<? extends CodeGenerator> constructor =
-                codeGeneratorClass.getConstructor(TypeElement.class);
+                generatorClass.getConstructor(TypeElement.class);
 
             final CodeGenerator generator = constructor.newInstance(element);
             generator.generate();
@@ -73,7 +67,13 @@ public final class SourceCodeGenerator {
             ProcessorUtils.message(Diagnostic.Kind.ERROR, ExceptionUtils.getMessage(ex));
             return false;
         }
+
     }
+
+    public static Set<String> getSupportedAnnotations() {
+        return CODE_GENERATORS.keySet();
+    }
+
 
     private static Map<String, Class<? extends CodeGenerator>> createCodeWriterMap() {
         final Map<String, Class<? extends CodeGenerator>> map = Maps.newLinkedHashMap();
