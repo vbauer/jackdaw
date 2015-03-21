@@ -4,18 +4,12 @@ import com.github.vbauer.jackdaw.context.ProcessorContext;
 import com.github.vbauer.jackdaw.context.ProcessorContextHolder;
 import com.github.vbauer.jackdaw.context.ProcessorSourceContext;
 import com.github.vbauer.jackdaw.util.callback.AnnotatedElementCallback;
-import com.github.vbauer.jackdaw.util.callback.NamedTypeCallback;
-import com.github.vbauer.jackdaw.util.callback.SimpleProcessorCallback;
-import com.github.vbauer.jackdaw.util.model.MethodInfo;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.squareup.javapoet.ArrayTypeName;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.TypeName;
-import com.squareup.javapoet.TypeSpec;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.tuple.ImmutablePair;
-import org.apache.commons.lang3.tuple.Pair;
 
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ExecutableElement;
@@ -24,7 +18,6 @@ import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.VariableElement;
 import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
-import javax.lang.model.util.ElementFilter;
 import java.lang.annotation.Annotation;
 import java.util.Collection;
 import java.util.List;
@@ -114,73 +107,6 @@ public final class TypeUtils {
 
     }
 
-    public static void processMethod(
-        final TypeSpec.Builder builder, final Element element, final NamedTypeCallback namedTypeCallback
-    ) throws Exception {
-        if (isSimpleMethod(element)) {
-            final ExecutableElement ee = (ExecutableElement) element;
-            final TypeElement type = ProcessorUtils.getWrappedType(ee.getReturnType());
-            final String methodName = getName(element);
-            final String normalizedName = SourceCodeUtils.normalizeName(methodName);
-
-            if (!SourceCodeUtils.hasField(builder, normalizedName)) {
-                namedTypeCallback.process(methodName, type);
-            }
-        }
-    }
-
-    public static void processVariable(
-        final TypeSpec.Builder builder, final Element element, final NamedTypeCallback namedTypeCallback
-    ) throws Exception {
-        if (!hasAnyModifier(element, Modifier.STATIC)) {
-            final String methodName = getterName(element);
-            final String normalizedName = SourceCodeUtils.normalizeName(methodName);
-
-            if (!SourceCodeUtils.hasField(builder, normalizedName)) {
-                final TypeElement type = ProcessorUtils.getWrappedType(element.asType());
-                namedTypeCallback.process(methodName, type);
-            }
-        }
-    }
-
-    public static <T extends Annotation> void processSimpleMethodsAndVariables(
-        final TypeSpec.Builder builder, final TypeElement typeElement,
-        final Class<T> annotationClass, final SimpleProcessorCallback<T> callback
-    ) throws Exception {
-        final List<? extends Element> elements = typeElement.getEnclosedElements();
-
-        filterElementsWithAnnotation(
-            typeElement, ElementFilter.fieldsIn(elements), annotationClass,
-            new AnnotatedElementCallback<T>() {
-                @Override
-                public void process(final Element element, final T annotation) throws Exception {
-                    processVariable(builder, element, new NamedTypeCallback() {
-                        @Override
-                        public void process(final String methodName, final TypeElement type) {
-                            callback.process(type, methodName, annotation);
-                        }
-                    });
-                }
-            }
-        );
-
-        filterElementsWithAnnotation(
-            typeElement, ElementFilter.methodsIn(elements), annotationClass,
-            new AnnotatedElementCallback<T>() {
-                @Override
-                public void process(final Element element, final T annotation) throws Exception {
-                    processMethod(builder, element, new NamedTypeCallback() {
-                        @Override
-                        public void process(final String methodName, final TypeElement type) {
-                            callback.process(type, methodName, annotation);
-                        }
-                    });
-                }
-            }
-        );
-
-    }
-
     public static boolean isSimpleMethod(final Element element) {
         if (element instanceof ExecutableElement) {
             final ExecutableElement ee = (ExecutableElement) element;
@@ -227,12 +153,6 @@ public final class TypeUtils {
         return types;
     }
 
-    public static Collection<ExecutableElement> findUnimplementedMethods(final TypeElement rootElement) {
-        final Pair<Collection<MethodInfo>, Collection<MethodInfo>> methodInfo = calculateMethodInfo(rootElement);
-        final Collection<MethodInfo> unimplementedMethods = methodInfo.getRight();
-        return MethodInfo.convert(unimplementedMethods);
-    }
-
     public static String getName(final Element element) {
         return element.getSimpleName().toString();
     }
@@ -260,40 +180,6 @@ public final class TypeUtils {
 
     public static TypeName getArrayTypeName(final Element parameter) {
         return ArrayTypeName.get(parameter.asType());
-    }
-
-    public static Pair<Collection<MethodInfo>, Collection<MethodInfo>> calculateMethodInfo(
-        final TypeElement rootElement
-    ) {
-        final Collection<MethodInfo> unimplementedMethods = Sets.newLinkedHashSet();
-        final Collection<MethodInfo> implementedMethods = Sets.newLinkedHashSet();
-        TypeElement root = rootElement;
-
-        while (root != null) {
-            final List<ExecutableElement> methods = ElementFilter.methodsIn(root.getEnclosedElements());
-            for (final ExecutableElement method : methods) {
-                if (hasAnyModifier(method, Modifier.ABSTRACT)) {
-                    unimplementedMethods.add(MethodInfo.create(method));
-                } else {
-                    implementedMethods.add(MethodInfo.create(method));
-                }
-            }
-
-            final List<? extends TypeMirror> interfaces = root.getInterfaces();
-            for (final TypeMirror interfaceMirror : interfaces) {
-                final TypeElement element = ProcessorUtils.getWrappedType(interfaceMirror);
-                final List<ExecutableElement> interfaceMethods = ElementFilter.methodsIn(element.getEnclosedElements());
-                for (final ExecutableElement method : interfaceMethods) {
-                    unimplementedMethods.add(MethodInfo.create(method));
-                }
-            }
-
-            root = getSuperclass(root);
-        }
-
-        unimplementedMethods.removeAll(implementedMethods);
-
-        return ImmutablePair.of(implementedMethods, unimplementedMethods);
     }
 
     public static boolean hasAnyModifier(final Element element, Modifier... modifiers) {

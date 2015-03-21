@@ -42,7 +42,7 @@ public class JPredicateCodeGenerator extends GeneratedCodeGenerator {
         final CodeGeneratorContext context, final TypeSpec.Builder builder
     ) throws Exception {
         final TypeElement typeElement = context.getTypeElement();
-        TypeUtils.processSimpleMethodsAndVariables(
+        SourceCodeUtils.processSimpleMethodsAndVariables(
             builder, typeElement, JPredicate.class,
             new SimpleProcessorCallback<JPredicate>() {
                 @Override

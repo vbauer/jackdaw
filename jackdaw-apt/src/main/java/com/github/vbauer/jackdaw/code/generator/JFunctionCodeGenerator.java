@@ -41,7 +41,7 @@ public class JFunctionCodeGenerator extends GeneratedCodeGenerator {
         final CodeGeneratorContext context, final Builder builder
     ) throws Exception {
         final TypeElement typeElement = context.getTypeElement();
-        TypeUtils.processSimpleMethodsAndVariables(
+        SourceCodeUtils.processSimpleMethodsAndVariables(
             builder, typeElement, JFunction.class,
             new SimpleProcessorCallback<JFunction>() {
                 @Override

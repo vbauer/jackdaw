@@ -44,7 +44,7 @@ public class JAdapterCodeGenerator extends GeneratedCodeGenerator {
         SourceCodeUtils.addParent(builder, typeElement);
         SourceCodeUtils.copyConstructors(builder, typeElement);
 
-        final Collection<ExecutableElement> methods = TypeUtils.findUnimplementedMethods(typeElement);
+        final Collection<ExecutableElement> methods = SourceCodeUtils.findUnimplementedMethods(typeElement);
         for (final ExecutableElement method : methods) {
             addMethod(builder, method);
         }

@@ -10,7 +10,6 @@ import com.github.vbauer.jackdaw.util.model.MethodInfo;
 import com.google.common.collect.Lists;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeSpec;
-import org.apache.commons.lang3.tuple.Pair;
 
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
@@ -43,8 +42,7 @@ public class JBeanCodeGenerator extends GeneratedCodeGenerator {
         SourceCodeUtils.copyConstructors(builder, typeElement);
 
         final List<VariableElement> fields = ElementFilter.fieldsIn(typeElement.getEnclosedElements());
-        final Pair<Collection<MethodInfo>, Collection<MethodInfo>> methods = TypeUtils.calculateMethodInfo(typeElement);
-        final Collection<MethodInfo> implementedMethods = methods.getLeft();
+        final Collection<MethodInfo> implementedMethods = SourceCodeUtils.findImplementedMethods(typeElement);
 
         for (final VariableElement field : fields) {
             if (!TypeUtils.hasAnyModifier(field, Modifier.STATIC)) {

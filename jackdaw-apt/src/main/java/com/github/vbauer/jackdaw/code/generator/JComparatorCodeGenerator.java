@@ -42,7 +42,7 @@ public class JComparatorCodeGenerator extends GeneratedCodeGenerator {
         final CodeGeneratorContext context, final TypeSpec.Builder builder
     ) throws Exception {
         final TypeElement typeElement = context.getTypeElement();
-        TypeUtils.processSimpleMethodsAndVariables(
+        SourceCodeUtils.processSimpleMethodsAndVariables(
             builder, typeElement, JComparator.class,
             new SimpleProcessorCallback<JComparator>() {
                 @Override
