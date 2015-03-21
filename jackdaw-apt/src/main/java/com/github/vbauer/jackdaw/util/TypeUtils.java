@@ -247,10 +247,12 @@ public final class TypeUtils {
 
             final String typeName = String.valueOf(typeMirror);
             final TypeElement originElement = ProcessorSourceContext.guessOriginElement(sourceContexts, typeName);
+
             if (originElement != null) {
                 final String packageName = ProcessorUtils.packageName(originElement);
                 return ClassName.get(packageName, typeName);
             }
+            return ClassName.bestGuess(typeName);
         }
 
         return TypeName.get(typeMirror);
