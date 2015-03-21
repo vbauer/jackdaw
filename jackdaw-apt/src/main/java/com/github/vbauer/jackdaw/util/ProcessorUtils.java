@@ -65,8 +65,12 @@ public final class ProcessorUtils {
 
 
     private static ProcessingEnvironment getProcessingEnvironment() {
-        final ProcessorContext processorContext = ProcessorContextHolder.getContext();
+        final ProcessorContext processorContext = getContext();
         return processorContext.getProcessingEnvironment();
+    }
+
+    private static ProcessorContext getContext() {
+        return ProcessorContextHolder.getContext();
     }
 
 }

@@ -1,6 +1,7 @@
 package com.github.vbauer.jackdaw.context;
 
 import javax.annotation.processing.ProcessingEnvironment;
+import java.util.Collection;
 
 /**
  * @author Vladislav Bauer
@@ -12,6 +13,8 @@ public class ProcessorContext {
     private boolean addSuppressWarningsAnnotation;
     private boolean addGeneratedAnnotation;
     private boolean addGeneratedDate;
+
+    private Collection<ProcessorSourceContext> sourceContexts;
 
 
     public ProcessorContext(final ProcessingEnvironment pe) {
@@ -48,6 +51,14 @@ public class ProcessorContext {
     public ProcessorContext setAddGeneratedDate(final boolean addGeneratedDate) {
         this.addGeneratedDate = addGeneratedDate;
         return this;
+    }
+
+    public Collection<ProcessorSourceContext> getSourceContexts() {
+        return sourceContexts;
+    }
+
+    public void setSourceContexts(final Collection<ProcessorSourceContext> sourceContexts) {
+        this.sourceContexts = sourceContexts;
     }
 
 }

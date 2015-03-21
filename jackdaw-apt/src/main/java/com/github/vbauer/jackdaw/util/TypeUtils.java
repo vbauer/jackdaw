@@ -1,5 +1,8 @@
 package com.github.vbauer.jackdaw.util;
 
+import com.github.vbauer.jackdaw.context.ProcessorContext;
+import com.github.vbauer.jackdaw.context.ProcessorContextHolder;
+import com.github.vbauer.jackdaw.context.ProcessorSourceContext;
 import com.github.vbauer.jackdaw.util.callback.AnnotatedElementCallback;
 import com.github.vbauer.jackdaw.util.callback.NamedTypeCallback;
 import com.github.vbauer.jackdaw.util.callback.SimpleProcessorCallback;
@@ -7,6 +10,7 @@ import com.github.vbauer.jackdaw.util.model.MethodInfo;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.squareup.javapoet.ArrayTypeName;
+import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
 import org.apache.commons.lang3.StringUtils;
@@ -234,7 +238,22 @@ public final class TypeUtils {
     }
 
     public static TypeName getTypeName(final Element parameter) {
-        return TypeName.get(parameter.asType());
+        final TypeMirror typeMirror = parameter.asType();
+        final TypeKind kind = typeMirror.getKind();
+
+        if (kind == TypeKind.ERROR) {
+            final ProcessorContext context = ProcessorContextHolder.getContext();
+            final Collection<ProcessorSourceContext> sourceContexts = context.getSourceContexts();
+
+            final String typeName = String.valueOf(typeMirror);
+            final TypeElement originElement = ProcessorSourceContext.guessOriginElement(sourceContexts, typeName);
+            if (originElement != null) {
+                final String packageName = ProcessorUtils.packageName(originElement);
+                return ClassName.get(packageName, typeName);
+            }
+        }
+
+        return TypeName.get(typeMirror);
     }
 
     public static TypeName getArrayTypeName(final Element parameter) {

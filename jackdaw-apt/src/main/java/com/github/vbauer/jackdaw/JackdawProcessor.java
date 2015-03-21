@@ -5,17 +5,17 @@ import com.github.vbauer.jackdaw.code.SourceCodeGeneratorRegistry;
 import com.github.vbauer.jackdaw.context.ProcessorContext;
 import com.github.vbauer.jackdaw.context.ProcessorContextFactory;
 import com.github.vbauer.jackdaw.context.ProcessorContextHolder;
-import com.github.vbauer.jackdaw.util.TypeUtils;
-import com.google.common.collect.Maps;
+import com.github.vbauer.jackdaw.context.ProcessorSourceContext;
+import org.apache.commons.lang3.tuple.Pair;
 
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedOptions;
 import javax.lang.model.SourceVersion;
-import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
-import java.util.Map;
+import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 
@@ -53,15 +53,26 @@ public class JackdawProcessor extends AbstractProcessor {
             !(roundEnv.processingOver() || annotations.isEmpty());
 
         if (needToProcess) {
-            final Map<String, Set<TypeElement>> classMap =
-                calculateClassMap(annotations, roundEnv);
+            final Collection<ProcessorSourceContext> sourceContexts =
+                ProcessorSourceContext.calculate(roundEnv, annotations);
 
-            for (final Map.Entry<String, Set<TypeElement>> entry : classMap.entrySet()) {
-                final String annotationName = entry.getKey();
-                final Set<TypeElement> elements = entry.getValue();
+            processorContext.setSourceContexts(sourceContexts);
 
-                process(annotationName, elements);
-            }
+            ProcessorContextHolder.withContext(processorContext, new Runnable() {
+                @Override
+                public void run() {
+                    for (final ProcessorSourceContext sourceContext : sourceContexts) {
+                        final List<Pair<TypeElement, String>> elementsInfo =
+                            sourceContext.getElementInfo();
+
+                        for (final Pair<TypeElement, String> elementInfo : elementsInfo) {
+                            final TypeElement element = elementInfo.getLeft();
+                            final String annotationName = sourceContext.getAnnotationClassName();
+                            SourceCodeGenerator.generate(element, annotationName);
+                        }
+                    }
+                }
+            });
         }
         return false;
     }
@@ -74,33 +85,6 @@ public class JackdawProcessor extends AbstractProcessor {
     @Override
     public Set<String> getSupportedAnnotationTypes() {
         return SourceCodeGeneratorRegistry.getSupportedAnnotations();
-    }
-
-
-    private void process(final String annotationName, final Set<TypeElement> elements) {
-        ProcessorContextHolder.withContext(processorContext, new Runnable() {
-            @Override
-            public void run() {
-                for (final TypeElement element : elements) {
-                    SourceCodeGenerator.generate(element, annotationName);
-                }
-            }
-        });
-    }
-
-    private Map<String, Set<TypeElement>> calculateClassMap(
-        final Set<? extends TypeElement> annotations, final RoundEnvironment roundEnv
-    ) {
-        final Map<String, Set<TypeElement>> classMap = Maps.newHashMap();
-
-        for (final TypeElement annotation : annotations) {
-            final String annotationName = annotation.getQualifiedName().toString();
-            final Set<? extends Element> allElements = roundEnv.getElementsAnnotatedWith(annotation);
-            final Set<TypeElement> elements = TypeUtils.foldToTypeElements(allElements);
-
-            classMap.put(annotationName, elements);
-        }
-        return classMap;
     }
 
 }
