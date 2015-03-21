@@ -127,6 +127,7 @@
                             <failOnViolation>true</failOnViolation>
                             <printFailingErrors>true</printFailingErrors>
                             <includeTests>true</includeTests>
+                            <linkXRef>false</linkXRef>
                         </configuration>
                         <executions>
                             <execution>
