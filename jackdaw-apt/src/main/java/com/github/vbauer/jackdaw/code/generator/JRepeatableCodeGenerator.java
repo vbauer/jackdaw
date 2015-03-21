@@ -21,6 +21,7 @@ import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.VariableElement;
+import java.lang.annotation.Annotation;
 import java.util.List;
 import java.util.Map;
 
@@ -36,6 +37,12 @@ public class JRepeatableCodeGenerator extends GeneratedCodeGenerator {
 
     public JRepeatableCodeGenerator() {
         super(NAME_MODIFIER, ClassType.ANNOTATION);
+    }
+
+
+    @Override
+    public Class<? extends Annotation> getAnnotation() {
+        return JRepeatable.class;
     }
 
 

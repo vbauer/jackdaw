@@ -17,6 +17,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
+import java.lang.annotation.Annotation;
 
 /**
  * @author Vladislav Bauer
@@ -34,6 +35,12 @@ public class JPredicateCodeGenerator extends GeneratedCodeGenerator {
 
     public JPredicateCodeGenerator() {
         super(NAME_MODIFIER, ClassType.UTILITY);
+    }
+
+
+    @Override
+    public Class<? extends Annotation> getAnnotation() {
+        return JPredicate.class;
     }
 
 

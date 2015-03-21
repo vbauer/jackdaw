@@ -526,6 +526,32 @@ public @interface RoleList {
 ```
 
 
+## Extensions
+
+**Jackdaw** is based on APT processor which executes different code generators.
+Each code generator should implement interface [CodeGenerator](jackdaw-apt/src/main/java/com/github/vbauer/jackdaw/code/base/CodeGenerator.java)
+(or extends from class [GeneratedCodeGenerator](jackdaw-apt/src/main/java/com/github/vbauer/jackdaw/code/base/GeneratedCodeGenerator.java)).
+
+Signature of CodeGenerator interface:
+```java
+public interface CodeGenerator {
+
+    Class<? extends Annotation> getAnnotation();
+
+    void generate(CodeGeneratorContext context) throws Exception;
+
+}
+```
+
+All generators are loaded by Java [ServiceLoader](http://docs.oracle.com/javase/7/docs/api/java/util/ServiceLoader.html) mechanism,
+so you can add your custom generator in few steps:
+
+* Create new generator class. It must have no-argument constructor.
+* Create file META-INF/services/com.github.vbauer.jackdaw.code.base.CodeGenerator and put canonical name of you class in this file.
+
+That's all!
+
+
 ## Building from source
 
 Jackdaw uses Maven for its build. 

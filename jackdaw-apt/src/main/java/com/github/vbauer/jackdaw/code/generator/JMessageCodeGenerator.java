@@ -10,6 +10,7 @@ import javax.lang.model.element.Element;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.TypeElement;
 import javax.tools.Diagnostic;
+import java.lang.annotation.Annotation;
 import java.util.List;
 
 /**
@@ -20,6 +21,11 @@ public class JMessageCodeGenerator implements CodeGenerator {
 
     private static final String SEPARATOR = ": ";
 
+
+    @Override
+    public Class<? extends Annotation> getAnnotation() {
+        return JMessage.class;
+    }
 
     @Override
     public void generate(final CodeGeneratorContext context) throws Exception {

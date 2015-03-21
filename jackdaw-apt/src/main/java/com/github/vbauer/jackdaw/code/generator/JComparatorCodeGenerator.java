@@ -15,6 +15,7 @@ import com.squareup.javapoet.TypeSpec;
 
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
+import java.lang.annotation.Annotation;
 
 /**
  * @author Vladislav Bauer
@@ -34,6 +35,12 @@ public class JComparatorCodeGenerator extends GeneratedCodeGenerator {
 
     public JComparatorCodeGenerator() {
         super(NAME_MODIFIER, ClassType.UTILITY);
+    }
+
+
+    @Override
+    public Class<? extends Annotation> getAnnotation() {
+        return JComparator.class;
     }
 
 

@@ -1,5 +1,6 @@
 package com.github.vbauer.jackdaw.code.generator;
 
+import com.github.vbauer.jackdaw.annotation.JClassDescriptor;
 import com.github.vbauer.jackdaw.code.base.GeneratedCodeGenerator;
 import com.github.vbauer.jackdaw.code.context.CodeGeneratorContext;
 import com.github.vbauer.jackdaw.util.SourceCodeUtils;
@@ -17,6 +18,7 @@ import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.VariableElement;
 import javax.lang.model.util.ElementFilter;
+import java.lang.annotation.Annotation;
 import java.util.List;
 
 /**
@@ -34,6 +36,12 @@ public class JClassDescriptorCodeGenerator extends GeneratedCodeGenerator {
 
     public JClassDescriptorCodeGenerator() {
         super(NAME_MODIFIER, ClassType.UTILITY);
+    }
+
+
+    @Override
+    public Class<? extends Annotation> getAnnotation() {
+        return JClassDescriptor.class;
     }
 
 

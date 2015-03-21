@@ -1,5 +1,6 @@
 package com.github.vbauer.jackdaw.code.generator;
 
+import com.github.vbauer.jackdaw.annotation.JAdapter;
 import com.github.vbauer.jackdaw.code.base.GeneratedCodeGenerator;
 import com.github.vbauer.jackdaw.code.context.CodeGeneratorContext;
 import com.github.vbauer.jackdaw.util.SourceCodeUtils;
@@ -17,6 +18,7 @@ import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.VariableElement;
 import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
+import java.lang.annotation.Annotation;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -33,6 +35,12 @@ public class JAdapterCodeGenerator extends GeneratedCodeGenerator {
 
     public JAdapterCodeGenerator() {
         super(NAME_MODIFIER, ClassType.POJO);
+    }
+
+
+    @Override
+    public Class<? extends Annotation> getAnnotation() {
+        return JAdapter.class;
     }
 
 

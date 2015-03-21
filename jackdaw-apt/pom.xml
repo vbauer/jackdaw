@@ -58,6 +58,7 @@
                 <version>${maven.serviceloader.plugin.version}</version>
                 <configuration>
                     <services>
+                        <param>com.github.vbauer.jackdaw.code.base.CodeGenerator</param>
                         <param>javax.annotation.processing.Processor</param>
                     </services>
                 </configuration>

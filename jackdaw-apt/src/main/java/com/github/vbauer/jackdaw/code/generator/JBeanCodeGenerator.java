@@ -1,5 +1,6 @@
 package com.github.vbauer.jackdaw.code.generator;
 
+import com.github.vbauer.jackdaw.annotation.JBean;
 import com.github.vbauer.jackdaw.code.base.GeneratedCodeGenerator;
 import com.github.vbauer.jackdaw.code.context.CodeGeneratorContext;
 import com.github.vbauer.jackdaw.util.SourceCodeUtils;
@@ -16,6 +17,7 @@ import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.VariableElement;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.ElementFilter;
+import java.lang.annotation.Annotation;
 import java.util.Collection;
 import java.util.List;
 
@@ -30,6 +32,12 @@ public class JBeanCodeGenerator extends GeneratedCodeGenerator {
 
     public JBeanCodeGenerator() {
         super(NAME_MODIFIER, ClassType.POJO);
+    }
+
+
+    @Override
+    public Class<? extends Annotation> getAnnotation() {
+        return JBean.class;
     }
 
 

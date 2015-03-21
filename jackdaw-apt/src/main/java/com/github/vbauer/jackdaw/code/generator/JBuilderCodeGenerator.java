@@ -1,5 +1,6 @@
 package com.github.vbauer.jackdaw.code.generator;
 
+import com.github.vbauer.jackdaw.annotation.JBuilder;
 import com.github.vbauer.jackdaw.code.base.GeneratedCodeGenerator;
 import com.github.vbauer.jackdaw.code.context.CodeGeneratorContext;
 import com.github.vbauer.jackdaw.util.SourceCodeUtils;
@@ -13,6 +14,7 @@ import com.squareup.javapoet.TypeSpec;
 
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
+import java.lang.annotation.Annotation;
 import java.util.Map;
 
 /**
@@ -27,6 +29,12 @@ public class JBuilderCodeGenerator extends GeneratedCodeGenerator {
 
     public JBuilderCodeGenerator() {
         super(NAME_MODIFIER, ClassType.POJO);
+    }
+
+
+    @Override
+    public Class<? extends Annotation> getAnnotation() {
+        return JBuilder.class;
     }
 
 
