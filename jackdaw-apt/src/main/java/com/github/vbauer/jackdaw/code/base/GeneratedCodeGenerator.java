@@ -73,7 +73,7 @@ public abstract class GeneratedCodeGenerator implements CodeGenerator {
 
 
     protected abstract void generateBody(
-        final CodeGeneratorContext context, TypeSpec.Builder builder
+        CodeGeneratorContext context, TypeSpec.Builder builder
     ) throws Exception;
 
 

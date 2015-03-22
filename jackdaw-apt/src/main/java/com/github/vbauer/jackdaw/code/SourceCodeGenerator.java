@@ -29,7 +29,7 @@ public final class SourceCodeGenerator {
                 Diagnostic.Kind.NOTE, String.format("Detected %s on %s", generatorName, element)
             );
 
-            generator.generate(new CodeGeneratorContext(element));
+            generator.generate(CodeGeneratorContext.create(element));
 
             return true;
         } catch (final Exception ex) {

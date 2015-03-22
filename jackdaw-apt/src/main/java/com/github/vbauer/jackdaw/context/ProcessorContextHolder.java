@@ -17,7 +17,7 @@ public final class ProcessorContextHolder {
 
 
     public static void withContext(final ProcessorContext processorContext, final Runnable runnable) {
-        Validate.notNull(processorContext);
+        Validate.notNull(processorContext, "Processor context must be defined");
         CONTEXT.set(processorContext);
         try {
             runnable.run();
@@ -28,7 +28,7 @@ public final class ProcessorContextHolder {
 
     public static ProcessorContext getContext() {
         final ProcessorContext processorContext = CONTEXT.get();
-        Validate.notNull(processorContext);
+        Validate.notNull(processorContext, "Processor context is not setup");
         return processorContext;
     }
 

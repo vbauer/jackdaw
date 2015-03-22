@@ -1,13 +1,11 @@
 package com.github.vbauer.jackdaw.context;
 
+import com.google.common.collect.ImmutableSet;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.annotation.processing.ProcessingEnvironment;
 import java.util.Map;
-
-import static com.github.vbauer.jackdaw.JackdawProcessor.ADD_GENERATED_ANNOTATION;
-import static com.github.vbauer.jackdaw.JackdawProcessor.ADD_GENERATED_DATE;
-import static com.github.vbauer.jackdaw.JackdawProcessor.ADD_SUPPRESS_WARNINGS_ANNOTATION;
+import java.util.Set;
 
 /**
  * @author Vladislav Bauer
@@ -15,16 +13,39 @@ import static com.github.vbauer.jackdaw.JackdawProcessor.ADD_SUPPRESS_WARNINGS_A
 
 public final class ProcessorContextFactory {
 
+    private static final String OPT_ADD_SUPPRESS_WARNINGS_ANNOTATION = "addSuppressWarningsAnnotation";
+    private static final String OPT_ADD_GENERATED_ANNOTATION = "addGeneratedAnnotation";
+    private static final String OPT_ADD_GENERATED_DATE = "addGeneratedDate";
+
+    private static final boolean DEF_ADD_SUPPRESS_WARNINGS_ANNOTATION = true;
+    private static final boolean DEF_ADD_GENERATED_ANNOTATION = true;
+    private static final boolean DEF_ADD_GENERATED_DATE = false;
+
+
     private ProcessorContextFactory() {
         throw new UnsupportedOperationException();
     }
 
 
+    public static Set<String> getSupportedOptions() {
+        return ImmutableSet.of(
+            OPT_ADD_SUPPRESS_WARNINGS_ANNOTATION,
+            OPT_ADD_GENERATED_ANNOTATION,
+            OPT_ADD_GENERATED_DATE
+        );
+    }
+
     public static ProcessorContext create(final ProcessingEnvironment env) {
         return new ProcessorContext(env)
-            .setAddSuppressWarningsAnnotation(getBool(env, ADD_SUPPRESS_WARNINGS_ANNOTATION, true))
-            .setAddGeneratedAnnotation(getBool(env, ADD_GENERATED_ANNOTATION, true))
-            .setAddGeneratedDate(getBool(env, ADD_GENERATED_DATE, false));
+            .setAddSuppressWarningsAnnotation(
+                getBool(env, OPT_ADD_SUPPRESS_WARNINGS_ANNOTATION, DEF_ADD_SUPPRESS_WARNINGS_ANNOTATION)
+            )
+            .setAddGeneratedAnnotation(
+                getBool(env, OPT_ADD_GENERATED_ANNOTATION, DEF_ADD_GENERATED_ANNOTATION)
+            )
+            .setAddGeneratedDate(
+                getBool(env, OPT_ADD_GENERATED_DATE, DEF_ADD_GENERATED_DATE)
+            );
     }
 
 
