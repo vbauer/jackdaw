@@ -55,51 +55,25 @@ Example configuration for Maven:
 </dependencies>
 ```
 
-After that, you need to configure annotation processor plugin.
-`maven-processor-plugin` is used as example, you can use another APT plugin for Maven instead of it.
-
-
+After that, you need to configure `maven-compiler-plugin`:
 ```xml
 <build>
     <plugins>
-
-        <!-- Disable annotation processors during normal compilation -->
         <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-compiler-plugin</artifactId>
             <version>${maven.compiler.plugin.version}</version>
             <configuration>
-                <compilerArgument>-proc:none</compilerArgument>
+                <forceJavacCompilerUse>true</forceJavacCompilerUse>
             </configuration>
-        </plugin>
-
-        <plugin>
-            <groupId>org.bsc.maven</groupId>
-            <artifactId>maven-processor-plugin</artifactId>
-            <version>${maven.processor.plugin.version}</version>
-            <executions>
-                <execution>
-                    <id>process</id>
-                    <goals>
-                        <goal>process</goal>
-                    </goals>
-                    <phase>generate-sources</phase>
-                    <configuration>
-                        <processors>
-                            <processor>com.github.vbauer.jackdaw.JackdawProcessor</processor>
-                        </processors>
-                    </configuration>
-                </execution>
-            </executions>
             <dependencies>
                 <dependency>
                     <groupId>com.github.vbauer</groupId>
-                    <artifactId>jackdaw.jackdaw-apt</artifactId>
+                    <artifactId>jackdaw-apt</artifactId>
                     <version>${jackdaw.version}</version>
                 </dependency>
             </dependencies>
         </plugin>
-
     </plugins>
 </build>
 ```
@@ -113,17 +87,14 @@ Available parameters for annotation processor:
 * **addGeneratedAnnotation** - Add `@Generated` annotation on all generated classes to have possibility skip execution of static code analysis (default value is `true`).
 * **addGeneratedDate** - Add `date` parameter to `@Generated` annotation. It is also necessary to switch on `addGeneratedAnnotation` parameter (default value is `false`).
 
-Example configuration for maven-processor-plugin:
+Example configuration for maven-compiler-plugin:
 ```xml
 <configuration>
-    <processors>
-        <processor>com.github.vbauer.jackdaw.JackdawProcessor</processor>
-    </processors>
-    <optionMap>
-        <addGeneratedAnnotation>true</addGeneratedAnnotation>
-        <addGeneratedDate>true</addGeneratedDate>
-        <addSuppressWarningsAnnotation>false</addSuppressWarningsAnnotation>
-    </optionMap>
+    <compilerArgs>
+        <arg>-AaddGeneratedAnnotation=true</arg>
+        <arg>-AaddGeneratedDate=true</arg>
+        <arg>-AaddSuppressWarningsAnnotation=false</arg>
+    </compilerArgs>
 </configuration>
 ```
 

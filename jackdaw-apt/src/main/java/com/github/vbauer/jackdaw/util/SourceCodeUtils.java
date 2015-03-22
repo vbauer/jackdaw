@@ -191,6 +191,8 @@ public final class SourceCodeUtils {
             builder.addSuperinterface(parentType);
         } else if (kind.isClass()) {
             builder.superclass(parentType);
+        } else {
+            throw new UnsupportedOperationException("Unknown type of parent");
         }
     }
 
@@ -220,7 +222,7 @@ public final class SourceCodeUtils {
     }
 
     public static Pair<Collection<MethodInfo>, Collection<MethodInfo>> calculateMethodInfo(
-            final TypeElement rootElement
+        final TypeElement rootElement
     ) {
         final Collection<MethodInfo> unimplementedMethods = Sets.newLinkedHashSet();
         final Collection<MethodInfo> implementedMethods = Sets.newLinkedHashSet();
@@ -306,22 +308,22 @@ public final class SourceCodeUtils {
 
 
     private static void processMethod(
-        final TypeSpec.Builder builder, final Element element, final NamedTypeCallback namedTypeCallback
+        final TypeSpec.Builder builder, final Element element, final NamedTypeCallback callback
     ) throws Exception {
         if (TypeUtils.isSimpleMethod(element)) {
-            final ExecutableElement ee = (ExecutableElement) element;
-            final TypeElement type = ProcessorUtils.getWrappedType(ee.getReturnType());
             final String methodName = TypeUtils.getName(element);
             final String normalizedName = SourceCodeUtils.normalizeName(methodName);
 
             if (!SourceCodeUtils.hasField(builder, normalizedName)) {
-                namedTypeCallback.process(methodName, type);
+                final ExecutableElement ee = (ExecutableElement) element;
+                final TypeElement type = ProcessorUtils.getWrappedType(ee.getReturnType());
+                callback.process(methodName, type);
             }
         }
     }
 
     private static void processVariable(
-        final TypeSpec.Builder builder, final Element element, final NamedTypeCallback namedTypeCallback
+        final TypeSpec.Builder builder, final Element element, final NamedTypeCallback callback
     ) throws Exception {
         if (!TypeUtils.hasAnyModifier(element, Modifier.STATIC)) {
             final String methodName = TypeUtils.getterName(element);
@@ -329,7 +331,7 @@ public final class SourceCodeUtils {
 
             if (!SourceCodeUtils.hasField(builder, normalizedName)) {
                 final TypeElement type = ProcessorUtils.getWrappedType(element.asType());
-                namedTypeCallback.process(methodName, type);
+                callback.process(methodName, type);
             }
         }
     }

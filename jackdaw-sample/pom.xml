@@ -17,7 +17,6 @@
         <jackdaw.version>1.0.2</jackdaw.version>
 
         <maven.compiler.plugin.version>3.2</maven.compiler.plugin.version>
-        <maven.processor.plugin.version>2.2.4</maven.processor.plugin.version>
     </properties>
 
     <dependencies>
@@ -37,39 +36,16 @@
     <build>
         <plugins>
 
-            <!-- Disable annotation processors during normal compilation -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${maven.compiler.plugin.version}</version>
                 <configuration>
-                    <compilerArgument>-proc:none</compilerArgument>
+                    <forceJavacCompilerUse>true</forceJavacCompilerUse>
+                    <compilerArgs>
+                        <arg>-AaddGeneratedDate=true</arg>
+                    </compilerArgs>
                 </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.bsc.maven</groupId>
-                <artifactId>maven-processor-plugin</artifactId>
-                <version>${maven.processor.plugin.version}</version>
-                <executions>
-                    <execution>
-                        <id>process</id>
-                        <goals>
-                            <goal>process</goal>
-                        </goals>
-                        <phase>generate-sources</phase>
-                        <configuration>
-                            <encoding>${file.encoding}</encoding>
-                            <processors>
-                                <processor>com.github.vbauer.jackdaw.JackdawProcessor</processor>
-                            </processors>
-                            <optionMap>
-                                <!--<addGeneratedAnnotation>false</addGeneratedAnnotation>-->
-                                <addGeneratedDate>true</addGeneratedDate>
-                            </optionMap>
-                        </configuration>
-                    </execution>
-                </executions>
                 <dependencies>
                     <dependency>
                         <groupId>com.github.vbauer</groupId>
