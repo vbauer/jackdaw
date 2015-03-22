@@ -8,8 +8,7 @@ import java.lang.annotation.Target;
 
 /**
  * <p>To generated safe and well-coded comparator, you have to write a lot of boilerplate code.
- * &#64;JComparator annotation allows to simplify this situation. To generate reverse order comparator,
- * use parameter "reverse".</p>
+ * &#64;JComparator annotation allows to simplify this situation.</p>
  *
  * <p>There are several ways to generate comparator or group of comparators.
  * It depends on the annotation location:</p>
@@ -81,6 +80,10 @@ import java.lang.annotation.Target;
 @Target({ ElementType.TYPE, ElementType.FIELD, ElementType.METHOD })
 public @interface JComparator {
 
+    /**
+     * Reverse order of comparator.
+     * @return use true to reverse order and false otherwise
+     */
     boolean reverse() default false;
 
 }

@@ -49,6 +49,10 @@ import java.lang.annotation.Target;
 @Target({ ElementType.TYPE, ElementType.FIELD, ElementType.METHOD })
 public @interface JFunction {
 
+    /**
+     * Type of function interface for implementation generation (default is GUAVA).
+     * @return type of function interface
+     */
     JFunctionType type() default JFunctionType.GUAVA;
 
 }

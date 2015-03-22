@@ -10,13 +10,6 @@ import java.lang.annotation.Target;
  * <p>&#64;JFactoryMethod allows to use pattern Factory Method for object instantiation. To use this annotation
  * it is necessary to have setters and default constructor in original class.</p>
  *
- * Available parameters:
- * <ul>
- *     <li>method - factory method name (default value is "create").</li>
- *     <li>all - use all fields of class in factory method (default value is true).</li>
- *     <li>arguments - use only specified fields in factory method (it is an empty array by default).</li>
- * </ul>
- *
  * <br/> Original class Company:
  * <pre>{@code
  * &#64;JFactoryMethod
@@ -55,10 +48,22 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 public @interface JFactoryMethod {
 
+    /**
+     * Factory method name (default value is "create").
+     * @return method name
+     */
     String method() default "create";
 
+    /**
+     * Use only specified fields in factory method (it is an empty array by default).
+     * @return true to use specified fields or false otherwise.
+     */
     String[] arguments() default {};
 
+    /**
+     * Use all fields of class in factory method (default value is true).
+     * @return true to use all fields or false otherwise
+     */
     boolean all() default true;
 
 }

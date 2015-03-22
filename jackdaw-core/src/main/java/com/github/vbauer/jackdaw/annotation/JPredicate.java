@@ -40,8 +40,6 @@ import java.lang.annotation.Target;
  * }
  * }</pre>
  *
- * To generate reverse predicate, use parameter "reverse".
- *
  * @author Vladislav Bauer
  */
 
@@ -50,8 +48,16 @@ import java.lang.annotation.Target;
 @Target({ ElementType.TYPE, ElementType.FIELD, ElementType.METHOD })
 public @interface JPredicate {
 
+    /**
+     * Type of predicate interface for implementation generation (default is GUAVA).
+     * @return type of predicate interface
+     */
     JPredicateType type() default JPredicateType.GUAVA;
 
+    /**
+     * Reverse predicate function.
+     * @return use true to reverse predicate and false otherwise
+     */
     boolean reverse() default false;
 
 }

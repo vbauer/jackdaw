@@ -12,13 +12,6 @@ import java.lang.annotation.Target;
  * logs during project compiling. It could be useful to make some really meaningful notes for you or your team,
  * instead of using TODOs in comments.</p>
  *
- * Available parameters:
- * <ul>
- *     <li>value - List of notes, that will be logged.</li>
- *     <li>type - Logging level (default value is Diagnostic.Kind.MANDATORY_WARNING).</li>
- *     <li>details - Add information about annotated element with note message (default value is false).</li>
- * </ul>
- *
  * <br/> Example:
  * <pre>{@code
  * &#64;JMessage({
@@ -54,10 +47,22 @@ import java.lang.annotation.Target;
 })
 public @interface JMessage {
 
+    /**
+     * List of notes, that will be logged.
+     * @return list of messages
+     */
     String[] value();
 
+    /**
+     * Logging level (default value is Diagnostic.Kind.MANDATORY_WARNING).
+     * @return logging level
+     */
     Diagnostic.Kind type() default Diagnostic.Kind.MANDATORY_WARNING;
 
+    /**
+     * Add information about annotated element with note message (default value is false).
+     * @return add details information in note
+     */
     boolean details() default false;
 
 }
