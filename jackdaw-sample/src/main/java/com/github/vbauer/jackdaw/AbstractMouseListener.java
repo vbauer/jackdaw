@@ -23,6 +23,7 @@ public abstract class AbstractMouseListener implements MouseListener {
     private int y;
 
 
+    @JMessage(value = "DEADLINE!", showAfter = "22/03/2015", type = Diagnostic.Kind.NOTE)
     public AbstractMouseListener() {
         this(0, 0);
     }

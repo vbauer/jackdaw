@@ -3,7 +3,6 @@ package com.github.vbauer.jackdaw.util;
 import com.github.vbauer.jackdaw.context.ProcessorContextHolder;
 
 import javax.annotation.processing.Filer;
-import javax.annotation.processing.Messager;
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.PackageElement;
 import javax.lang.model.element.TypeElement;
@@ -12,7 +11,6 @@ import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
-import javax.tools.Diagnostic;
 import javax.tools.JavaFileObject;
 
 /**
@@ -54,12 +52,6 @@ public final class ProcessorUtils {
             return typeUtils.boxedClass((PrimitiveType) mirror);
         }
         return (TypeElement) typeUtils.asElement(mirror);
-    }
-
-    public static void message(final Diagnostic.Kind type, final String message) {
-        final ProcessingEnvironment env = ProcessorContextHolder.getProcessingEnvironment();
-        final Messager messager = env.getMessager();
-        messager.printMessage(type, message);
     }
 
 }

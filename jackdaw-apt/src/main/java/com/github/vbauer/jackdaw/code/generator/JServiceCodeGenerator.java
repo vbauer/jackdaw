@@ -4,7 +4,7 @@ import com.github.vbauer.jackdaw.annotation.JService;
 import com.github.vbauer.jackdaw.code.base.BaseCodeGenerator;
 import com.github.vbauer.jackdaw.code.context.CodeGeneratorContext;
 import com.github.vbauer.jackdaw.context.ProcessorContextHolder;
-import com.github.vbauer.jackdaw.util.ProcessorUtils;
+import com.github.vbauer.jackdaw.util.MessageUtils;
 import com.github.vbauer.jackdaw.util.TypeUtils;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -17,7 +17,6 @@ import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.MirroredTypeException;
 import javax.lang.model.type.TypeMirror;
-import javax.tools.Diagnostic;
 import javax.tools.FileObject;
 import java.io.OutputStream;
 import java.lang.annotation.Annotation;
@@ -106,7 +105,7 @@ public class JServiceCodeGenerator extends BaseCodeGenerator {
                 IOUtils.closeQuietly(outputStream);
             }
         } catch (final Exception ex) {
-            ProcessorUtils.message(Diagnostic.Kind.ERROR, ExceptionUtils.getMessage(ex));
+            MessageUtils.error(ExceptionUtils.getMessage(ex));
         }
     }
 

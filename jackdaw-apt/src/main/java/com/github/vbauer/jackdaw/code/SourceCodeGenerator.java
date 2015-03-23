@@ -2,11 +2,10 @@ package com.github.vbauer.jackdaw.code;
 
 import com.github.vbauer.jackdaw.code.base.CodeGenerator;
 import com.github.vbauer.jackdaw.code.context.CodeGeneratorContext;
-import com.github.vbauer.jackdaw.util.ProcessorUtils;
+import com.github.vbauer.jackdaw.util.MessageUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
 import javax.lang.model.element.TypeElement;
-import javax.tools.Diagnostic;
 import java.util.Collection;
 
 /**
@@ -33,7 +32,7 @@ public final class SourceCodeGenerator {
             generator.onFinish();
             return true;
         } catch (final Exception ex) {
-            ProcessorUtils.message(Diagnostic.Kind.ERROR, ExceptionUtils.getMessage(ex));
+            MessageUtils.error(ExceptionUtils.getMessage(ex));
             return false;
         }
 
@@ -46,10 +45,7 @@ public final class SourceCodeGenerator {
         final Class<? extends CodeGenerator> generatorClass = generator.getClass();
         final String generatorName = generatorClass.getSimpleName();
 
-        ProcessorUtils.message(
-            Diagnostic.Kind.NOTE, String.format("Detected %s on %s", generatorName, element)
-        );
-
+        MessageUtils.note(String.format("Detected %s on %s", generatorName, element));
         generator.generate(CodeGeneratorContext.create(element));
     }
 

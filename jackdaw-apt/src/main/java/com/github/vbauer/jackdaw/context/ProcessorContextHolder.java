@@ -1,11 +1,10 @@
 package com.github.vbauer.jackdaw.context;
 
-import com.github.vbauer.jackdaw.util.ProcessorUtils;
+import com.github.vbauer.jackdaw.util.MessageUtils;
 import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
 import javax.annotation.processing.ProcessingEnvironment;
-import javax.tools.Diagnostic;
 
 /**
  * @author Vladislav Bauer
@@ -30,7 +29,7 @@ public final class ProcessorContextHolder {
         try {
             runnable.run();
         } catch (final Exception ex) {
-            ProcessorUtils.message(Diagnostic.Kind.ERROR, ExceptionUtils.getMessage(ex));
+            MessageUtils.error(ExceptionUtils.getMessage(ex));
         }  finally {
             CONTEXT.remove();
         }

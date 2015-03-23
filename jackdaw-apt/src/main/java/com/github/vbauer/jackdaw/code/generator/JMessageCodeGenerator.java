@@ -3,14 +3,17 @@ package com.github.vbauer.jackdaw.code.generator;
 import com.github.vbauer.jackdaw.annotation.JMessage;
 import com.github.vbauer.jackdaw.code.base.BaseCodeGenerator;
 import com.github.vbauer.jackdaw.code.context.CodeGeneratorContext;
-import com.github.vbauer.jackdaw.util.ProcessorUtils;
-import org.apache.commons.lang3.StringUtils;
+import com.github.vbauer.jackdaw.util.DateTimeUtils;
+import com.github.vbauer.jackdaw.util.MessageUtils;
 
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.TypeElement;
 import javax.tools.Diagnostic;
 import java.lang.annotation.Annotation;
+import java.text.Format;
+import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -19,7 +22,8 @@ import java.util.List;
 
 public class JMessageCodeGenerator extends BaseCodeGenerator {
 
-    private static final String SEPARATOR = ": ";
+    private static final Collection<Format> DATE_FORMATS =
+        DateTimeUtils.createDateFormats(DateTimeUtils.DATE_FORMATS);
 
 
     @Override
@@ -56,21 +60,24 @@ public class JMessageCodeGenerator extends BaseCodeGenerator {
         final JMessage annotation = element.getAnnotation(JMessage.class);
 
         if (annotation != null) {
-            final String[] messages = annotation.value();
-            for (final String message : messages) {
-                printInfo(element, annotation, message);
+            final String showAfter = annotation.showAfter();
+
+            if (showMessage(showAfter)) {
+                final Diagnostic.Kind type = annotation.type();
+                final String[] messages = annotation.value();
+                final boolean details = annotation.details();
+                final Element elem = details ? element : null;
+
+                for (final String message : messages) {
+                    MessageUtils.message(type, message, elem);
+                }
             }
         }
     }
 
-    private void printInfo(
-        final Element element, final JMessage annotation, final String message
-    ) {
-        final Diagnostic.Kind type = annotation.type();
-        final boolean details = annotation.details();
-        final String detailsInfo = details ? (element.toString() + SEPARATOR) : StringUtils.EMPTY;
-
-        ProcessorUtils.message(type, detailsInfo + message);
+    private boolean showMessage(final String dateString) {
+        final Date date = DateTimeUtils.parseDate(dateString, DATE_FORMATS);
+        return date == null || date.after(new Date());
     }
 
 }

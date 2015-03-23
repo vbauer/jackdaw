@@ -422,6 +422,11 @@ Available parameters:
 * **value** - List of notes, that will be logged.
 * **type** - Logging level (default value is `Diagnostic.Kind.MANDATORY_WARNING`).
 * **details** - Add information about annotated element with note message (default value is `false`).
+* **showAfter** - Show message only after the given date. It could be useful to specify deadline. Supported formats:
+    * yyyy-MM-dd
+    * yyyy/MM/dd
+    * dd-MM-yyyy
+    * dd/MM/yyyy
 
 Example:
 ```java

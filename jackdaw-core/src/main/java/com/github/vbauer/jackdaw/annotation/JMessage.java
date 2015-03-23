@@ -65,4 +65,17 @@ public @interface JMessage {
      */
     boolean details() default false;
 
+    /**
+     * Show message only after the given date.
+     * Supported formats:
+     * <ul>
+     *     <li>yyyy-MM-dd</li>
+     *     <li>yyyy/MM/dd</li>
+     *     <li>dd-MM-yyyy</li>
+     *     <li>dd/MM/yyyy</li>
+     * </ul>
+     * @return deadline date
+     */
+    String showAfter() default "";
+
 }
