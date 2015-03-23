@@ -27,19 +27,14 @@ public final class MessageUtils {
     }
 
     public static void message(final Diagnostic.Kind type, final String message) {
-        final Messager messager = getMessager();
-        messager.printMessage(type, message);
+        message(type, message, null);
     }
 
     public static void message(
         final Diagnostic.Kind type, final String message, final Element element
     ) {
-        if (element != null) {
-            final Messager messager = getMessager();
-            messager.printMessage(type, message, element);
-        } else {
-            message(type, message);
-        }
+        final Messager messager = getMessager();
+        messager.printMessage(type, message, element);
     }
 
 
