@@ -4,13 +4,11 @@ import com.github.vbauer.jackdaw.annotation.JService;
 import com.github.vbauer.jackdaw.code.base.BaseCodeGenerator;
 import com.github.vbauer.jackdaw.code.context.CodeGeneratorContext;
 import com.github.vbauer.jackdaw.context.ProcessorContextHolder;
-import com.github.vbauer.jackdaw.util.MessageUtils;
 import com.github.vbauer.jackdaw.util.TypeUtils;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.exception.ExceptionUtils;
 
 import javax.annotation.processing.Filer;
 import javax.annotation.processing.ProcessingEnvironment;
@@ -95,17 +93,13 @@ public class JServiceCodeGenerator extends BaseCodeGenerator {
 
     private void writeServices(
         final Filer filer, final String resourceFile, final Collection<String> services
-    ) {
+    ) throws Exception {
+        final FileObject file = createResource(filer, resourceFile);
+        final OutputStream outputStream = file.openOutputStream();
         try {
-            final FileObject file = createResource(filer, resourceFile);
-            final OutputStream outputStream = file.openOutputStream();
-            try {
-                IOUtils.writeLines(services, "\n", outputStream);
-            } finally {
-                IOUtils.closeQuietly(outputStream);
-            }
-        } catch (final Exception ex) {
-            MessageUtils.error(ExceptionUtils.getMessage(ex));
+            IOUtils.writeLines(services, "\n", outputStream);
+        } finally {
+            IOUtils.closeQuietly(outputStream);
         }
     }
 
