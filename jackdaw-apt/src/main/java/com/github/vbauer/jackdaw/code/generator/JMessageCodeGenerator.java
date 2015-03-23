@@ -2,7 +2,6 @@ package com.github.vbauer.jackdaw.code.generator;
 
 import com.github.vbauer.jackdaw.annotation.JMessage;
 import com.github.vbauer.jackdaw.code.base.BaseCodeGenerator;
-import com.github.vbauer.jackdaw.code.base.CodeGenerator;
 import com.github.vbauer.jackdaw.code.context.CodeGeneratorContext;
 import com.github.vbauer.jackdaw.util.ProcessorUtils;
 import org.apache.commons.lang3.StringUtils;
