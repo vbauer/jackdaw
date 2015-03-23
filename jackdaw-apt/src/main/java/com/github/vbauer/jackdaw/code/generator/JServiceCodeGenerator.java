@@ -6,6 +6,7 @@ import com.github.vbauer.jackdaw.code.context.CodeGeneratorContext;
 import com.github.vbauer.jackdaw.context.ProcessorContextHolder;
 import com.github.vbauer.jackdaw.util.ProcessorUtils;
 import com.github.vbauer.jackdaw.util.TypeUtils;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -21,7 +22,6 @@ import javax.tools.FileObject;
 import java.io.OutputStream;
 import java.lang.annotation.Annotation;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -35,7 +35,7 @@ public class JServiceCodeGenerator extends BaseCodeGenerator {
 
     private static final String DIR_SERVICES = "META-INF/services/";
 
-    private Map<String, Set<String>> allServices;
+    private final Map<String, Set<String>> allServices = Maps.newTreeMap();
 
 
     @Override
@@ -56,7 +56,7 @@ public class JServiceCodeGenerator extends BaseCodeGenerator {
 
     @Override
     public void onStart() throws Exception {
-        allServices = new HashMap<String, Set<String>>();
+        allServices.clear();
     }
 
     @Override

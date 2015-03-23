@@ -47,7 +47,7 @@ public final class SourceCodeGenerator {
         final String generatorName = generatorClass.getSimpleName();
 
         ProcessorUtils.message(
-                Diagnostic.Kind.NOTE, String.format("Detected %s on %s", generatorName, element)
+            Diagnostic.Kind.NOTE, String.format("Detected %s on %s", generatorName, element)
         );
 
         generator.generate(CodeGeneratorContext.create(element));

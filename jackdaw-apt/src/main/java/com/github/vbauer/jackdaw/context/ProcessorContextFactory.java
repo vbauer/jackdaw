@@ -36,23 +36,28 @@ public final class ProcessorContextFactory {
     }
 
     public static ProcessorContext create(final ProcessingEnvironment env) {
+        final Map<String, String> options = env.getOptions();
+
         return new ProcessorContext(env)
             .setAddSuppressWarningsAnnotation(
-                getBool(env, OPT_ADD_SUPPRESS_WARNINGS_ANNOTATION, DEF_ADD_SUPPRESS_WARNINGS_ANNOTATION)
+                getBool(
+                    options,
+                    OPT_ADD_SUPPRESS_WARNINGS_ANNOTATION,
+                    DEF_ADD_SUPPRESS_WARNINGS_ANNOTATION
+                )
             )
             .setAddGeneratedAnnotation(
-                getBool(env, OPT_ADD_GENERATED_ANNOTATION, DEF_ADD_GENERATED_ANNOTATION)
+                getBool(options, OPT_ADD_GENERATED_ANNOTATION, DEF_ADD_GENERATED_ANNOTATION)
             )
             .setAddGeneratedDate(
-                getBool(env, OPT_ADD_GENERATED_DATE, DEF_ADD_GENERATED_DATE)
+                getBool(options, OPT_ADD_GENERATED_DATE, DEF_ADD_GENERATED_DATE)
             );
     }
 
 
     private static boolean getBool(
-        final ProcessingEnvironment processingEnv, final String key, final boolean defaultValue
+        final Map<String, String> options, final String key, final boolean defaultValue
     ) {
-        final Map<String, String> options = processingEnv.getOptions();
         final String value = options.get(key);
         return StringUtils.isBlank(value) ? defaultValue : Boolean.parseBoolean(value);
     }

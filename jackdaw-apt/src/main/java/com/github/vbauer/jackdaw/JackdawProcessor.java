@@ -74,25 +74,17 @@ public class JackdawProcessor extends AbstractProcessor {
         ProcessorContextHolder.withContext(processorContext, new Runnable() {
             @Override
             public void run() {
-                try {
-                    processImpl();
-                } catch (final Exception ex) {
-                    ProcessorUtils.message(Diagnostic.Kind.ERROR, ExceptionUtils.getMessage(ex));
+                final Collection<ProcessorSourceContext> sourceContexts =
+                    processorContext.getSourceContexts();
+
+                for (final ProcessorSourceContext sourceContext : sourceContexts) {
+                    final List<TypeElement> elements = sourceContext.getElements();
+                    final String annotationName = sourceContext.getAnnotationClassName();
+
+                    SourceCodeGenerator.generate(annotationName, elements);
                 }
             }
         });
-    }
-
-    private void processImpl() {
-        final Collection<ProcessorSourceContext> sourceContexts =
-            processorContext.getSourceContexts();
-
-        for (final ProcessorSourceContext sourceContext : sourceContexts) {
-            final List<TypeElement> elements = sourceContext.getElements();
-            final String annotationName = sourceContext.getAnnotationClassName();
-
-            SourceCodeGenerator.generate(annotationName, elements);
-        }
     }
 
 }

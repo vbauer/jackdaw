@@ -1,8 +1,11 @@
 package com.github.vbauer.jackdaw.context;
 
+import com.github.vbauer.jackdaw.util.ProcessorUtils;
 import org.apache.commons.lang3.Validate;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 
 import javax.annotation.processing.ProcessingEnvironment;
+import javax.tools.Diagnostic;
 
 /**
  * @author Vladislav Bauer
@@ -10,7 +13,8 @@ import javax.annotation.processing.ProcessingEnvironment;
 
 public final class ProcessorContextHolder {
 
-    private static final ThreadLocal<ProcessorContext> CONTEXT = new ThreadLocal<ProcessorContext>();
+    private static final InheritableThreadLocal<ProcessorContext> CONTEXT =
+        new InheritableThreadLocal<ProcessorContext>();
 
 
     private ProcessorContextHolder() {
@@ -18,12 +22,16 @@ public final class ProcessorContextHolder {
     }
 
 
-    public static void withContext(final ProcessorContext processorContext, final Runnable runnable) {
-        Validate.notNull(processorContext, "Processor context must be defined");
-        CONTEXT.set(processorContext);
+    public static void withContext(final ProcessorContext context, final Runnable runnable) {
+        Validate.notNull(context, "Processor context must be defined");
+        Validate.notNull(runnable, "Operation must be defined");
+
+        CONTEXT.set(context);
         try {
             runnable.run();
-        } finally {
+        } catch (final Exception ex) {
+            ProcessorUtils.message(Diagnostic.Kind.ERROR, ExceptionUtils.getMessage(ex));
+        }  finally {
             CONTEXT.remove();
         }
     }
