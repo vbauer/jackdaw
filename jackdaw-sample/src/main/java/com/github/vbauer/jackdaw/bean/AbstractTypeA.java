@@ -1,8 +1,14 @@
 package com.github.vbauer.jackdaw.bean;
 
 import com.github.vbauer.jackdaw.annotation.JBean;
+import com.github.vbauer.jackdaw.annotation.JService;
+
+/**
+ * @author Vladislav Bauer
+ */
 
 @JBean
-public class AbstractTypeA {
+@JService(BaseType.class)
+public class AbstractTypeA implements BaseType {
     protected boolean hasSomething;
 }

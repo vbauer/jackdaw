@@ -15,6 +15,7 @@
     <properties>
         <javapoet.version>1.0.0</javapoet.version>
         <commons.lang3.version>3.3.2</commons.lang3.version>
+        <commons.io.version>2.4</commons.io.version>
         <guava.version>18.0</guava.version>
         <jackdaw.version>1.0.2</jackdaw.version>
 
@@ -33,6 +34,12 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>${commons.lang3.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>${commons.io.version}</version>
         </dependency>
 
         <dependency>

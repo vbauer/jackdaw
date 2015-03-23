@@ -198,4 +198,27 @@ public final class TypeUtils {
         return false;
     }
 
+    public static boolean inHierarchy(final TypeElement rootElement, final String className) {
+        TypeElement root = rootElement;
+
+        while (root != null) {
+            final String elementName = root.getQualifiedName().toString();
+            if (StringUtils.equals(className, elementName)) {
+                return true;
+            }
+
+            final List<? extends TypeMirror> interfaces = root.getInterfaces();
+            for (final TypeMirror interfaceMirror : interfaces) {
+                final String interfaceName = interfaceMirror.toString();
+                if (StringUtils.equals(className, interfaceName)) {
+                    return true;
+                }
+            }
+
+            root = TypeUtils.getSuperclass(root);
+        }
+
+        return false;
+    }
+
 }

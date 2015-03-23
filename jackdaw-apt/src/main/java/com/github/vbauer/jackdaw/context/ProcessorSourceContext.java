@@ -43,6 +43,16 @@ public class ProcessorSourceContext {
         return elementInfo;
     }
 
+    public List<TypeElement> getElements() {
+        final List<TypeElement> elements = Lists.newArrayList();
+        final List<Pair<TypeElement, String>> info = getElementInfo();
+
+        for (final Pair<TypeElement, String> pair : info) {
+            final TypeElement element = pair.getLeft();
+            elements.add(element);
+        }
+        return elements;
+    }
 
     public static TypeElement guessOriginElement(
         final Collection<ProcessorSourceContext> contexts, final String className

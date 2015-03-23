@@ -14,4 +14,8 @@ public interface CodeGenerator {
 
     void generate(CodeGeneratorContext context) throws Exception;
 
+    void onStart() throws Exception;
+
+    void onFinish() throws Exception;
+
 }

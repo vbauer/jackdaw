@@ -6,13 +6,15 @@ import com.github.vbauer.jackdaw.context.ProcessorContext;
 import com.github.vbauer.jackdaw.context.ProcessorContextFactory;
 import com.github.vbauer.jackdaw.context.ProcessorContextHolder;
 import com.github.vbauer.jackdaw.context.ProcessorSourceContext;
-import org.apache.commons.lang3.tuple.Pair;
+import com.github.vbauer.jackdaw.util.ProcessorUtils;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.TypeElement;
+import javax.tools.Diagnostic;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -72,18 +74,25 @@ public class JackdawProcessor extends AbstractProcessor {
         ProcessorContextHolder.withContext(processorContext, new Runnable() {
             @Override
             public void run() {
-                final Collection<ProcessorSourceContext> sourceContexts = processorContext.getSourceContexts();
-                for (final ProcessorSourceContext sourceContext : sourceContexts) {
-                    final List<Pair<TypeElement, String>> elementsInfo =  sourceContext.getElementInfo();
-
-                    for (final Pair<TypeElement, String> elementInfo : elementsInfo) {
-                        final TypeElement element = elementInfo.getLeft();
-                        final String annotationName = sourceContext.getAnnotationClassName();
-                        SourceCodeGenerator.generate(element, annotationName);
-                    }
+                try {
+                    processImpl();
+                } catch (final Exception ex) {
+                    ProcessorUtils.message(Diagnostic.Kind.ERROR, ExceptionUtils.getMessage(ex));
                 }
             }
         });
+    }
+
+    private void processImpl() {
+        final Collection<ProcessorSourceContext> sourceContexts =
+            processorContext.getSourceContexts();
+
+        for (final ProcessorSourceContext sourceContext : sourceContexts) {
+            final List<TypeElement> elements = sourceContext.getElements();
+            final String annotationName = sourceContext.getAnnotationClassName();
+
+            SourceCodeGenerator.generate(annotationName, elements);
+        }
     }
 
 }

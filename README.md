@@ -1,4 +1,3 @@
-
 # Jackdaw [![Build Status](https://travis-ci.org/vbauer/jackdaw.svg)](https://travis-ci.org/vbauer/jackdaw) [![Maven](https://img.shields.io/github/tag/vbauer/jackdaw.svg?label=maven)](https://jitpack.io/#vbauer/jackdaw)
 
 <img align="right" style="margin-left: 15px" width="300" height="243" src="jackdaw-misc/jackdaw.png" />
@@ -27,6 +26,7 @@ Jackdaw was inspired by [Lombok](http://projectlombok.org) project, but in compa
     <li><a href="#jmessage">@JMessage</a></li>
     <li><a href="#jpredicate">@JPredicate</a></li>
     <li><a href="#jrepeatable">@JRepeatable</a></li>
+    <li><a href="#jservice">@JService</a></li>
 </ul>
 
 
@@ -497,11 +497,35 @@ public @interface RoleList {
 ```
 
 
+### @JService
+
+Java annotation processors and other systems use [ServiceLoader](http://docs.oracle.com/javase/7/docs/api/java/util/ServiceLoader.html)
+to register implementations of well-known types using META-INF metadata.
+However, it is easy for a developer to forget to update or correctly specify the service descriptors.
+This annotation generates metadata for any class annotated with **@JService**.
+
+Example:
+```java
+public interface BaseType {}
+
+@JService(BaseType.class)
+public class TypeA implements BaseType {}
+
+@JService(BaseType.class)
+public class TypeB implements BaseType {}
+```
+Generated file `META-INF/services/BaseType`:
+```java
+TypeA
+TypeB
+```
+
+
 ## Extensions
 
 **Jackdaw** is based on APT processor which executes different code generators.
 Each code generator should implement interface [CodeGenerator](jackdaw-apt/src/main/java/com/github/vbauer/jackdaw/code/base/CodeGenerator.java)
-(or extends from class [GeneratedCodeGenerator](jackdaw-apt/src/main/java/com/github/vbauer/jackdaw/code/base/GeneratedCodeGenerator.java)).
+(or extends from [BaseCodeGenerator](jackdaw-apt/src/main/java/com/github/vbauer/jackdaw/code/base/BaseCodeGenerator.java) / [GeneratedCodeGenerator](jackdaw-apt/src/main/java/com/github/vbauer/jackdaw/code/base/GeneratedCodeGenerator.java)).
 
 Signature of CodeGenerator interface:
 ```java
@@ -510,6 +534,10 @@ public interface CodeGenerator {
     Class<? extends Annotation> getAnnotation();
 
     void generate(CodeGeneratorContext context) throws Exception;
+
+    void onStart() throws Exception;
+
+    void onFinish() throws Exception;
 
 }
 ```

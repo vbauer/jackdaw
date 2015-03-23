@@ -1,6 +1,7 @@
 package com.github.vbauer.jackdaw.code.generator;
 
 import com.github.vbauer.jackdaw.annotation.JMessage;
+import com.github.vbauer.jackdaw.code.base.BaseCodeGenerator;
 import com.github.vbauer.jackdaw.code.base.CodeGenerator;
 import com.github.vbauer.jackdaw.code.context.CodeGeneratorContext;
 import com.github.vbauer.jackdaw.util.ProcessorUtils;
@@ -17,7 +18,7 @@ import java.util.List;
  * @author Vladislav Bauer
  */
 
-public class JMessageCodeGenerator implements CodeGenerator {
+public class JMessageCodeGenerator extends BaseCodeGenerator {
 
     private static final String SEPARATOR = ": ";
 

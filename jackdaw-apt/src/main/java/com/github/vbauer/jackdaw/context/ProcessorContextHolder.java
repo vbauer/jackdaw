@@ -2,6 +2,8 @@ package com.github.vbauer.jackdaw.context;
 
 import org.apache.commons.lang3.Validate;
 
+import javax.annotation.processing.ProcessingEnvironment;
+
 /**
  * @author Vladislav Bauer
  */
@@ -30,6 +32,11 @@ public final class ProcessorContextHolder {
         final ProcessorContext processorContext = CONTEXT.get();
         Validate.notNull(processorContext, "Processor context is not setup");
         return processorContext;
+    }
+
+    public static ProcessingEnvironment getProcessingEnvironment() {
+        final ProcessorContext processorContext = getContext();
+        return processorContext.getProcessingEnvironment();
     }
 
 }

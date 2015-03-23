@@ -1,6 +1,5 @@
 package com.github.vbauer.jackdaw.util;
 
-import com.github.vbauer.jackdaw.context.ProcessorContext;
 import com.github.vbauer.jackdaw.context.ProcessorContextHolder;
 
 import javax.annotation.processing.Filer;
@@ -31,22 +30,22 @@ public final class ProcessorUtils {
     public static JavaFileObject createSourceFile(
         final TypeElement baseElement, final String packageName, final String className
     ) throws Exception {
-        final ProcessingEnvironment processingEnv = getProcessingEnvironment();
-        final Filer filer = processingEnv.getFiler();
+        final ProcessingEnvironment env = ProcessorContextHolder.getProcessingEnvironment();
+        final Filer filer = env.getFiler();
 
         return filer.createSourceFile(packageName + SourceCodeUtils.PACKAGE_SEPARATOR + className, baseElement);
     }
 
     public static String packageName(final TypeElement element) {
-        final ProcessingEnvironment processingEnv = getProcessingEnvironment();
-        final Elements elementUtils = processingEnv.getElementUtils();
+        final ProcessingEnvironment env = ProcessorContextHolder.getProcessingEnvironment();
+        final Elements elementUtils = env.getElementUtils();
         final PackageElement packageElement = elementUtils.getPackageOf(element);
         return packageElement.getQualifiedName().toString();
     }
 
     public static TypeElement getWrappedType(final TypeMirror mirror) {
-        final ProcessingEnvironment processingEnv = getProcessingEnvironment();
-        final Types typeUtils = processingEnv.getTypeUtils();
+        final ProcessingEnvironment env = ProcessorContextHolder.getProcessingEnvironment();
+        final Types typeUtils = env.getTypeUtils();
 
         final TypeKind kind = mirror.getKind();
         final boolean primitive = kind.isPrimitive();
@@ -58,19 +57,9 @@ public final class ProcessorUtils {
     }
 
     public static void message(final Diagnostic.Kind type, final String message) {
-        final ProcessingEnvironment processingEnv = getProcessingEnvironment();
-        final Messager messager = processingEnv.getMessager();
+        final ProcessingEnvironment env = ProcessorContextHolder.getProcessingEnvironment();
+        final Messager messager = env.getMessager();
         messager.printMessage(type, message);
-    }
-
-
-    private static ProcessingEnvironment getProcessingEnvironment() {
-        final ProcessorContext processorContext = getContext();
-        return processorContext.getProcessingEnvironment();
-    }
-
-    private static ProcessorContext getContext() {
-        return ProcessorContextHolder.getContext();
     }
 
 }

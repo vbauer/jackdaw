@@ -7,6 +7,7 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 
 import javax.lang.model.element.TypeElement;
 import javax.tools.Diagnostic;
+import java.util.Collection;
 
 /**
  * @author Vladislav Bauer
@@ -19,24 +20,37 @@ public final class SourceCodeGenerator {
     }
 
 
-    public static boolean generate(final TypeElement element, final String annotationClassName) {
+    public static boolean generate(
+        final String annotationClassName, final Collection<TypeElement> elements
+    ) {
         try {
             final CodeGenerator generator = SourceCodeGeneratorRegistry.find(annotationClassName);
-            final Class<? extends CodeGenerator> generatorClass = generator.getClass();
-            final String generatorName = generatorClass.getSimpleName();
+            generator.onStart();
 
-            ProcessorUtils.message(
-                Diagnostic.Kind.NOTE, String.format("Detected %s on %s", generatorName, element)
-            );
-
-            generator.generate(CodeGeneratorContext.create(element));
-
+            for (final TypeElement element : elements) {
+                generate(generator, element);
+            }
+            generator.onFinish();
             return true;
         } catch (final Exception ex) {
             ProcessorUtils.message(Diagnostic.Kind.ERROR, ExceptionUtils.getMessage(ex));
             return false;
         }
 
+    }
+
+
+    private static void generate(
+        final CodeGenerator generator, final TypeElement element
+    ) throws Exception {
+        final Class<? extends CodeGenerator> generatorClass = generator.getClass();
+        final String generatorName = generatorClass.getSimpleName();
+
+        ProcessorUtils.message(
+                Diagnostic.Kind.NOTE, String.format("Detected %s on %s", generatorName, element)
+        );
+
+        generator.generate(CodeGeneratorContext.create(element));
     }
 
 }

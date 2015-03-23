@@ -26,7 +26,7 @@ import java.util.Date;
  * @author Vladislav Bauer
  */
 
-public abstract class GeneratedCodeGenerator implements CodeGenerator {
+public abstract class GeneratedCodeGenerator extends BaseCodeGenerator {
 
     protected final Function<String, String> nameModifier;
     protected final ClassType classType;
