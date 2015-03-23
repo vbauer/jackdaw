@@ -49,4 +49,17 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.CLASS)
 @Target({ ElementType.TYPE, ElementType.ANNOTATION_TYPE })
 public @interface JClassDescriptor {
+
+    /**
+     * Generate information about fields.
+     * @return true to  generate fields info or false otherwise
+     */
+    boolean fields() default true;
+
+    /**
+     * Generate information about methods.
+     * @return true to  generate methods info or false otherwise
+     */
+    boolean methods() default true;
+
 }

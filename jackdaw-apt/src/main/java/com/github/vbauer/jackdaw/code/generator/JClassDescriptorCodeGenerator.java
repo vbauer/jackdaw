@@ -54,8 +54,13 @@ public class JClassDescriptorCodeGenerator extends GeneratedCodeGenerator {
         final List<VariableElement> fields = ElementFilter.fieldsIn(elements);
         final List<ExecutableElement> methods = ElementFilter.methodsIn(elements);
 
-        addStaticFields(builder, fields, PREFIX_FIELD);
-        addStaticFields(builder, methods, PREFIX_METHOD);
+        final JClassDescriptor annotation = typeElement.getAnnotation(JClassDescriptor.class);
+        if (annotation.fields()) {
+            addStaticFields(builder, fields, PREFIX_FIELD);
+        }
+        if (annotation.methods()) {
+            addStaticFields(builder, methods, PREFIX_METHOD);
+        }
     }
 
 

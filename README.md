@@ -239,6 +239,11 @@ CompanyBuilder.create()
 Sometimes it is necessary to use reflection, so it will be useful to have some string constants.
 **@JClassDescriptor** generates it for you easily.
 
+Available parameters:
+
+* **fields** - generate information about fields (default is `true`).
+* **methods** - generate information about methods (default is `true`).
+
 Original class `Company`:
 ```java
 @JClassDescriptor

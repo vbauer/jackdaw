@@ -6,15 +6,12 @@ import com.github.vbauer.jackdaw.context.ProcessorContext;
 import com.github.vbauer.jackdaw.context.ProcessorContextFactory;
 import com.github.vbauer.jackdaw.context.ProcessorContextHolder;
 import com.github.vbauer.jackdaw.context.ProcessorSourceContext;
-import com.github.vbauer.jackdaw.util.ProcessorUtils;
-import org.apache.commons.lang3.exception.ExceptionUtils;
 
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.TypeElement;
-import javax.tools.Diagnostic;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
