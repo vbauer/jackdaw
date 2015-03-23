@@ -69,7 +69,7 @@ After that, you need to configure `maven-compiler-plugin`:
             <dependencies>
                 <dependency>
                     <groupId>com.github.vbauer</groupId>
-                    <artifactId>jackdaw-apt</artifactId>
+                    <artifactId>jackdaw.jackdaw-apt</artifactId>
                     <version>${jackdaw.version}</version>
                 </dependency>
             </dependencies>
