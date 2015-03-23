@@ -13,7 +13,7 @@ import javax.annotation.processing.ProcessingEnvironment;
 public final class ProcessorContextHolder {
 
     private static final InheritableThreadLocal<ProcessorContext> CONTEXT =
-        new InheritableThreadLocal<ProcessorContext>();
+        new InheritableThreadLocal<>();
 
 
     private ProcessorContextHolder() {
