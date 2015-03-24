@@ -274,7 +274,7 @@ public final class SourceCodeUtils {
     ) throws Exception {
         final List<? extends Element> elements = typeElement.getEnclosedElements();
 
-        TypeUtils.filterElementsWithAnnotation(
+        TypeUtils.filterWithAnnotation(
             typeElement, ElementFilter.fieldsIn(elements), annotationClass,
             new AnnotatedElementCallback<T>() {
                 @Override
@@ -289,7 +289,7 @@ public final class SourceCodeUtils {
             }
         );
 
-        TypeUtils.filterElementsWithAnnotation(
+        TypeUtils.filterWithAnnotation(
             typeElement, ElementFilter.methodsIn(elements), annotationClass,
             new AnnotatedElementCallback<T>() {
                 @Override

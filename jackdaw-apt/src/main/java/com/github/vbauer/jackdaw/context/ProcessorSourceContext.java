@@ -1,5 +1,6 @@
 package com.github.vbauer.jackdaw.context;
 
+import com.github.vbauer.jackdaw.annotation.JIgnore;
 import com.github.vbauer.jackdaw.code.SourceCodeGeneratorRegistry;
 import com.github.vbauer.jackdaw.code.base.CodeGenerator;
 import com.github.vbauer.jackdaw.code.base.GeneratedCodeGenerator;
@@ -85,12 +86,14 @@ public class ProcessorSourceContext {
     ) {
         final String annotationName = annotation.getQualifiedName().toString();
         final Set<? extends Element> allElements = roundEnv.getElementsAnnotatedWith(annotation);
-        final Set<TypeElement> elements = TypeUtils.foldToTypeElements(allElements);
+        final Collection<TypeElement> elements = TypeUtils.foldToTypeElements(allElements);
+        final Collection<TypeElement> filteredElements =
+            TypeUtils.filterWithoutAnnotation(elements, JIgnore.class);
 
         final CodeGenerator generator = SourceCodeGeneratorRegistry.find(annotationName);
         final List<Pair<TypeElement, String>> classes = Lists.newArrayList();
 
-        for (final TypeElement element : elements) {
+        for (final TypeElement element : filteredElements) {
             final String className = getClassName(generator, element);
             classes.add(Pair.of(element, className));
         }

@@ -34,8 +34,8 @@ public final class TypeUtils {
     }
 
 
-    public static Set<TypeElement> foldToTypeElements(final Set<? extends Element> allElements) {
-        final Set<TypeElement> elements = Sets.newHashSet();
+    public static Collection<TypeElement> foldToTypeElements(final Set<? extends Element> allElements) {
+        final Collection<TypeElement> elements = Sets.newHashSet();
 
         for (final Element element : allElements) {
             if (element instanceof TypeElement) {
@@ -93,7 +93,20 @@ public final class TypeUtils {
         return false;
     }
 
-    public static <T extends Annotation> void filterElementsWithAnnotation(
+    public static <T extends Element> Collection<T> filterWithoutAnnotation(
+        final Collection<T> elements, final Class<? extends Annotation> annotationClass
+    ) {
+        final Collection<T> result = Lists.newArrayList();
+        for (final T element : elements) {
+            final Annotation annotation = getAnnotation(annotationClass, element);
+            if (annotation == null) {
+                result.add(element);
+            }
+        }
+        return result;
+    }
+
+    public static <T extends Annotation> void filterWithAnnotation(
         final TypeElement typeElement, final Collection<? extends Element> elements,
         final Class<T> annotationClass, final AnnotatedElementCallback<T> callback
     ) throws Exception {
