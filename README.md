@@ -512,7 +512,7 @@ public @interface RoleList {
 Java annotation processors and other systems use [ServiceLoader](http://docs.oracle.com/javase/7/docs/api/java/util/ServiceLoader.html)
 to register implementations of well-known types using META-INF metadata.
 However, it is easy for a developer to forget to update or correctly specify the service descriptors.
-This annotation generates metadata for any class annotated with **@JService**.
+Metadata will be generated for any class annotated with **@JService**.
 
 Example:
 ```java
