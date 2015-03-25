@@ -32,7 +32,9 @@ public class Company {
 
     private Set<String> descriptions;
 
+    @JFunction
     @JPredicate
+    @JComparator
     public boolean llp;
 
 
