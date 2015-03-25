@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <parent>
-        <groupId>com.github.vbauer</groupId>
+        <groupId>com.github.vbauer.jackdaw</groupId>
         <artifactId>jackdaw</artifactId>
         <version>1.0.4</version>
     </parent>
@@ -21,7 +21,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.github.vbauer</groupId>
+            <groupId>com.github.vbauer.jackdaw</groupId>
             <artifactId>jackdaw-core</artifactId>
             <version>${jackdaw.version}</version>
         </dependency>
@@ -48,7 +48,7 @@
                 </configuration>
                 <dependencies>
                     <dependency>
-                        <groupId>com.github.vbauer</groupId>
+                        <groupId>com.github.vbauer.jackdaw</groupId>
                         <artifactId>jackdaw-apt</artifactId>
                         <version>${jackdaw.version}</version>
                     </dependency>
