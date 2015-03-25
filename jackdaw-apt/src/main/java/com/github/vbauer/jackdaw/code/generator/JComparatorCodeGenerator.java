@@ -5,14 +5,16 @@ import com.github.vbauer.jackdaw.code.base.GeneratedCodeGenerator;
 import com.github.vbauer.jackdaw.code.context.CodeGeneratorContext;
 import com.github.vbauer.jackdaw.util.SourceCodeUtils;
 import com.github.vbauer.jackdaw.util.TypeUtils;
-import com.github.vbauer.jackdaw.util.callback.SimpleProcessorCallback;
+import com.github.vbauer.jackdaw.util.callback.AnnotatedElementCallback;
 import com.github.vbauer.jackdaw.util.function.AddSuffix;
 import com.github.vbauer.jackdaw.util.model.ClassType;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.ParameterizedTypeName;
+import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
 
+import javax.lang.model.element.Element;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
 import java.lang.annotation.Annotation;
@@ -51,10 +53,10 @@ public class JComparatorCodeGenerator extends GeneratedCodeGenerator {
         final TypeElement typeElement = context.getTypeElement();
         SourceCodeUtils.processSimpleMethodsAndVariables(
             builder, typeElement, JComparator.class,
-            new SimpleProcessorCallback<JComparator>() {
+            new AnnotatedElementCallback<JComparator>() {
                 @Override
-                public void process(final TypeElement type, final String methodName, final JComparator annotation) {
-                    addFunction(builder, typeElement, type, methodName, annotation);
+                public void process(final Element element, final JComparator annotation) {
+                    addFunction(builder, typeElement, element, annotation);
                 }
             }
         );
@@ -62,9 +64,11 @@ public class JComparatorCodeGenerator extends GeneratedCodeGenerator {
 
 
     private void addFunction(
-        final TypeSpec.Builder builder, final TypeElement typeElement, final TypeElement type,
-        final String methodName, final JComparator annotation
+        final TypeSpec.Builder builder, final TypeElement typeElement,
+        final Element element, final JComparator annotation
     ) {
+        final TypeName typeName = TypeUtils.getTypeName(element, true);
+        final String caller = SourceCodeUtils.getCaller(element);
         final boolean reverse = annotation.reverse();
         final String param1 = reverse ? PARAM_2 : PARAM_1;
         final String param2 = reverse ? PARAM_1 : PARAM_2;
@@ -75,15 +79,15 @@ public class JComparatorCodeGenerator extends GeneratedCodeGenerator {
                     ClassName.get(PACKAGE_JAVA, CLASS_NAME),
                     TypeUtils.getTypeName(typeElement)
                 ),
-                SourceCodeUtils.normalizeName(methodName),
+                SourceCodeUtils.normalizeName(TypeUtils.getName(element)),
                 Modifier.PUBLIC, Modifier.FINAL, Modifier.STATIC
             )
             .initializer(
                 SourceCodeUtils.lines(
                     "new " + CLASS_NAME + "<$T>() {",
                         "public int compare(final $T " + param1 + ", final $T " + param2 + ") {",
-                            "final $T v1 = o1 == null ? null : o1.$L();",
-                            "final $T v2 = o2 == null ? null : o2.$L();",
+                            "final $T v1 = o1 == null ? null : o1.$L;",
+                            "final $T v2 = o2 == null ? null : o2.$L;",
                             "if (v1 == v2) {",
                                 "return 0;",
                             "} else if (v1 == null) {",
@@ -96,8 +100,8 @@ public class JComparatorCodeGenerator extends GeneratedCodeGenerator {
                     "}"
                 ),
                 typeElement, typeElement, typeElement,
-                type, methodName,
-                type, methodName
+                typeName, caller,
+                typeName, caller
             )
             .build()
         );

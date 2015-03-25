@@ -6,14 +6,16 @@ import com.github.vbauer.jackdaw.code.base.GeneratedCodeGenerator;
 import com.github.vbauer.jackdaw.code.context.CodeGeneratorContext;
 import com.github.vbauer.jackdaw.util.SourceCodeUtils;
 import com.github.vbauer.jackdaw.util.TypeUtils;
-import com.github.vbauer.jackdaw.util.callback.SimpleProcessorCallback;
+import com.github.vbauer.jackdaw.util.callback.AnnotatedElementCallback;
 import com.github.vbauer.jackdaw.util.function.AddSuffix;
 import com.github.vbauer.jackdaw.util.model.ClassType;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.ParameterizedTypeName;
+import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec.Builder;
 
+import javax.lang.model.element.Element;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
 import java.lang.annotation.Annotation;
@@ -50,10 +52,10 @@ public class JFunctionCodeGenerator extends GeneratedCodeGenerator {
         final TypeElement typeElement = context.getTypeElement();
         SourceCodeUtils.processSimpleMethodsAndVariables(
             builder, typeElement, JFunction.class,
-            new SimpleProcessorCallback<JFunction>() {
+            new AnnotatedElementCallback<JFunction>() {
                 @Override
-                public void process(final TypeElement type, final String methodName, final JFunction annotation) {
-                    addFunction(builder, typeElement, type, methodName, annotation);
+                public void process(final Element element, final JFunction annotation) {
+                    addFunction(builder, typeElement, element, annotation);
                 }
             }
         );
@@ -61,33 +63,35 @@ public class JFunctionCodeGenerator extends GeneratedCodeGenerator {
 
 
     private void addFunction(
-        final Builder builder, final TypeElement typeElement, final TypeElement type,
-        final String methodName, final JFunction annotation
+        final Builder builder, final TypeElement typeElement,
+        final Element element, final JFunction annotation
     ) {
         final JFunctionType functionType = annotation.type();
         final String packageName = getFunctionPackageName(functionType);
+        final String caller = SourceCodeUtils.getCaller(element);
+        final TypeName typeName = TypeUtils.getTypeName(element, true);
 
         builder.addField(
             FieldSpec.builder(
                 ParameterizedTypeName.get(
                     ClassName.get(packageName, CLASS_NAME),
                     TypeUtils.getTypeName(typeElement),
-                    TypeUtils.getTypeName(type)
+                    typeName
                 ),
-                SourceCodeUtils.normalizeName(methodName),
+                SourceCodeUtils.normalizeName(TypeUtils.getName(element)),
                 Modifier.PUBLIC, Modifier.FINAL, Modifier.STATIC
             )
             .initializer(
                 SourceCodeUtils.lines(
                     "new " + CLASS_NAME + "<$T, $T>() {",
                         "public $T apply(final $T input) {",
-                            "return (input != null) ? input.$L() : null;",
+                            "return (input != null) ? input.$L : null;",
                         "}",
                     "}"
                 ),
-                typeElement, type,
-                type, typeElement,
-                methodName
+                typeElement, typeName,
+                typeName, typeElement,
+                caller
             )
             .build()
         );

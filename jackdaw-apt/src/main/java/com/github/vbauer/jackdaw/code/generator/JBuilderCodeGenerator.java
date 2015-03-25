@@ -44,7 +44,10 @@ public class JBuilderCodeGenerator extends GeneratedCodeGenerator {
     ) throws Exception {
         final TypeElement typeElement = context.getTypeElement();
         final ClassName originType = getOriginType(context);
-        final Map<String, TypeName> variables = SourceCodeUtils.getVariables(typeElement);
+
+        final Map<String, TypeName> variables = SourceCodeUtils.getVariables(
+            typeElement, SourceCodeUtils.createHasSetterPredicate(typeElement)
+        );
 
         addCreateMethod(builder, originType);
         addMethods(builder, variables, originType);

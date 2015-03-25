@@ -70,7 +70,9 @@ public class JFactoryMethodCodeGenerator extends GeneratedCodeGenerator {
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC);
 
         final List<String> arguments = Lists.newArrayList(args);
-        final Map<String, TypeName> variables = SourceCodeUtils.getVariables(typeElement);
+        final Map<String, TypeName> variables = SourceCodeUtils.getVariables(
+            typeElement, SourceCodeUtils.createHasSetterPredicate(typeElement)
+        );
 
         methodBuilder.addStatement("final $T object = new $T()", typeElement, typeElement);
         for (final Map.Entry<String, TypeName> entry : variables.entrySet()) {

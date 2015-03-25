@@ -83,8 +83,8 @@ public final class TypeUtils {
         return null;
     }
 
-    public static boolean hasAnyType(final TypeElement typeElement, Class<?>... types) {
-        final String typeName = typeElement.getQualifiedName().toString();
+    public static boolean hasAnyType(final TypeMirror typeMirror, Class<?>... types) {
+        final String typeName = typeMirror.toString();
         for (final Class<?> type : types) {
             if (StringUtils.equals(type.getCanonicalName(), typeName)) {
                 return true;
@@ -170,8 +170,12 @@ public final class TypeUtils {
         return element.getSimpleName().toString();
     }
 
-    public static TypeName getTypeName(final Element parameter) {
-        final TypeMirror typeMirror = parameter.asType();
+    public static TypeName getTypeName(final Element element) {
+        return getTypeName(element, false);
+    }
+
+    public static TypeName getTypeName(final Element element, final boolean wrap) {
+        final TypeMirror typeMirror = getTypeMirror(element);
         final TypeKind kind = typeMirror.getKind();
 
         if (kind == TypeKind.ERROR) {
@@ -188,7 +192,12 @@ public final class TypeUtils {
             return ClassName.bestGuess(typeName);
         }
 
-        return TypeName.get(typeMirror);
+        return TypeName.get(wrap ? ProcessorUtils.getWrappedType(typeMirror).asType() : typeMirror);
+    }
+
+    public static TypeMirror getTypeMirror(final Element element) {
+        return element instanceof ExecutableElement
+            ? ((ExecutableElement) element).getReturnType() : element.asType();
     }
 
     public static TypeName getArrayTypeName(final Element parameter) {
@@ -200,7 +209,7 @@ public final class TypeUtils {
         return hasAnyModifier(elementModifiers, modifiers);
     }
 
-    private static boolean hasAnyModifier(
+    public static boolean hasAnyModifier(
         final Collection<Modifier> element, final Modifier... modifiers
     ) {
         for (final Modifier modifier : modifiers) {

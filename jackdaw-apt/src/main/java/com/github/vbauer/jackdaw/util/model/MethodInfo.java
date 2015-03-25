@@ -3,6 +3,7 @@ package com.github.vbauer.jackdaw.util.model;
 import com.github.vbauer.jackdaw.util.TypeUtils;
 import com.google.common.base.Objects;
 import com.google.common.collect.Sets;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.type.TypeMirror;
@@ -47,6 +48,19 @@ public class MethodInfo {
             methods.add(method.getElement());
         }
         return methods;
+    }
+
+    public static MethodInfo find(
+        final Collection<MethodInfo> info, final String name, final Collection<TypeMirror> types
+    ) {
+        for (final MethodInfo method : info) {
+            final String methodName = method.getName();
+            if (StringUtils.equals(methodName, name)
+                && Objects.equal(method.getParameterTypes(), types)) {
+                return method;
+            }
+        }
+        return null;
     }
 
 

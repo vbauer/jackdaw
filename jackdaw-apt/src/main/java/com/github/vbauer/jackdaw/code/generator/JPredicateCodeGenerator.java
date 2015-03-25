@@ -6,7 +6,7 @@ import com.github.vbauer.jackdaw.code.base.GeneratedCodeGenerator;
 import com.github.vbauer.jackdaw.code.context.CodeGeneratorContext;
 import com.github.vbauer.jackdaw.util.SourceCodeUtils;
 import com.github.vbauer.jackdaw.util.TypeUtils;
-import com.github.vbauer.jackdaw.util.callback.SimpleProcessorCallback;
+import com.github.vbauer.jackdaw.util.callback.AnnotatedElementCallback;
 import com.github.vbauer.jackdaw.util.function.AddSuffix;
 import com.github.vbauer.jackdaw.util.model.ClassType;
 import com.squareup.javapoet.ClassName;
@@ -15,8 +15,10 @@ import com.squareup.javapoet.ParameterizedTypeName;
 import com.squareup.javapoet.TypeSpec;
 import org.apache.commons.lang3.StringUtils;
 
+import javax.lang.model.element.Element;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
+import javax.lang.model.type.TypeMirror;
 import java.lang.annotation.Annotation;
 
 /**
@@ -51,10 +53,13 @@ public class JPredicateCodeGenerator extends GeneratedCodeGenerator {
         final TypeElement typeElement = context.getTypeElement();
         SourceCodeUtils.processSimpleMethodsAndVariables(
             builder, typeElement, JPredicate.class,
-            new SimpleProcessorCallback<JPredicate>() {
+            new AnnotatedElementCallback<JPredicate>() {
                 @Override
-                public void process(final TypeElement type, final String methodName, final JPredicate annotation) {
-                    addPredicate(builder, typeElement, type, methodName, annotation);
+                public void process(final Element element, final JPredicate annotation) {
+                    final TypeMirror type = TypeUtils.getTypeMirror(element);
+                    if (TypeUtils.hasAnyType(type, Boolean.class, boolean.class)) {
+                        addPredicate(builder, typeElement, element, annotation);
+                    }
                 }
             }
         );
@@ -62,37 +67,36 @@ public class JPredicateCodeGenerator extends GeneratedCodeGenerator {
 
 
     private void addPredicate(
-        final TypeSpec.Builder builder, final TypeElement typeElement, final TypeElement type,
-        final String methodName, final JPredicate annotation
+        final TypeSpec.Builder builder, final TypeElement typeElement,
+        final Element element, final JPredicate annotation
     ) {
-        if (TypeUtils.hasAnyType(type, Boolean.class, boolean.class)) {
-            final JPredicateType functionType = annotation.type();
-            final boolean reverse = annotation.reverse();
-            final String operation = reverse ? "!" : StringUtils.EMPTY;
-            final String packageName = getPredicatePackageName(functionType);
+        final JPredicateType functionType = annotation.type();
+        final boolean reverse = annotation.reverse();
+        final String operation = reverse ? "!" : StringUtils.EMPTY;
+        final String packageName = getPredicatePackageName(functionType);
+        final String caller = SourceCodeUtils.getCaller(element);
 
-            builder.addField(
-                FieldSpec.builder(
-                    ParameterizedTypeName.get(
-                        ClassName.get(packageName, CLASS_NAME),
-                        TypeUtils.getTypeName(typeElement)
-                    ),
-                    SourceCodeUtils.normalizeName(methodName),
-                    Modifier.PUBLIC, Modifier.FINAL, Modifier.STATIC
-                )
-                .initializer(
-                    SourceCodeUtils.lines(
-                        "new " + CLASS_NAME + "<$T>() {",
-                            "public boolean apply(final $T input) {",
-                                "return " + operation + "input.$L();",
-                            "}",
-                        "}"
-                    ),
-                    typeElement, typeElement, methodName
-                )
-                .build()
-            );
-        }
+        builder.addField(
+            FieldSpec.builder(
+                ParameterizedTypeName.get(
+                    ClassName.get(packageName, CLASS_NAME),
+                    TypeUtils.getTypeName(typeElement)
+                ),
+                SourceCodeUtils.normalizeName(TypeUtils.getName(element)),
+                Modifier.PUBLIC, Modifier.FINAL, Modifier.STATIC
+            )
+            .initializer(
+                SourceCodeUtils.lines(
+                    "new " + CLASS_NAME + "<$T>() {",
+                        "public boolean apply(final $T input) {",
+                            "return " + operation + "input.$L;",
+                        "}",
+                    "}"
+                ),
+                typeElement, typeElement, caller
+            )
+            .build()
+        );
     }
 
     private String getPredicatePackageName(final JPredicateType type) {

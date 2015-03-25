@@ -32,6 +32,9 @@ public class Company {
 
     private Set<String> descriptions;
 
+    @JPredicate
+    public boolean llp;
+
 
     public int getId() { return id; }
 

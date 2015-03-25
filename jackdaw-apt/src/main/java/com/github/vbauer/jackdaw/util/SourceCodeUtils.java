@@ -1,11 +1,10 @@
 package com.github.vbauer.jackdaw.util;
 
 import com.github.vbauer.jackdaw.util.callback.AnnotatedElementCallback;
-import com.github.vbauer.jackdaw.util.callback.NamedTypeCallback;
-import com.github.vbauer.jackdaw.util.callback.SimpleProcessorCallback;
 import com.github.vbauer.jackdaw.util.model.MethodInfo;
 import com.google.common.base.CaseFormat;
 import com.google.common.base.Objects;
+import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -31,6 +30,7 @@ import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.ElementFilter;
 import java.lang.annotation.Annotation;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -169,15 +169,19 @@ public final class SourceCodeUtils {
         return methodBuilder.build();
     }
 
-    public static Map<String, TypeName> getVariables(final Element element) {
-        final List<? extends Element> elements = element.getEnclosedElements();
+    public static Map<String, TypeName> getVariables(
+        final TypeElement typeElement, final Predicate<Element> predicate
+    ) {
+        final List<? extends Element> elements = typeElement.getEnclosedElements();
         final List<VariableElement> variables = ElementFilter.fieldsIn(elements);
         final Map<String, TypeName> result = Maps.newLinkedHashMap();
 
         for (final VariableElement variable : variables) {
-            final String variableName = TypeUtils.getName(variable);
-            final TypeName variableType = TypeUtils.getTypeName(variable);
-            result.put(variableName, variableType);
+            if (predicate.apply(variable)) {
+                final String variableName = TypeUtils.getName(variable);
+                final TypeName variableType = TypeUtils.getTypeName(variable);
+                result.put(variableName, variableType);
+            }
         }
 
         return result;
@@ -270,69 +274,83 @@ public final class SourceCodeUtils {
 
     public static <T extends Annotation> void processSimpleMethodsAndVariables(
         final TypeSpec.Builder builder, final TypeElement typeElement,
-        final Class<T> annotationClass, final SimpleProcessorCallback<T> callback
+        final Class<T> annotationClass, final AnnotatedElementCallback<T> callback
     ) throws Exception {
         final List<? extends Element> elements = typeElement.getEnclosedElements();
+        final List<VariableElement> fields = ElementFilter.fieldsIn(elements);
+        final List<ExecutableElement> methods = ElementFilter.methodsIn(elements);
 
-        TypeUtils.filterWithAnnotation(
-            typeElement, ElementFilter.fieldsIn(elements), annotationClass,
+        TypeUtils.filterWithAnnotation(typeElement, fields, annotationClass,
             new AnnotatedElementCallback<T>() {
                 @Override
                 public void process(final Element element, final T annotation) throws Exception {
-                    processVariable(builder, element, new NamedTypeCallback() {
-                        @Override
-                        public void process(final String methodName, final TypeElement type) {
-                            callback.process(type, methodName, annotation);
+                    if (!TypeUtils.hasAnyModifier(element, Modifier.STATIC)) {
+                        final String name = TypeUtils.getterName(element);
+                        final Collection<MethodInfo> methods = findImplementedMethods(typeElement);
+                        Element processingElement = element;
+
+                        @SuppressWarnings("unchecked")
+                        final MethodInfo method = MethodInfo.find(methods, name, Collections.EMPTY_LIST);
+                        if (method != null) {
+                            processingElement = method.getElement();
                         }
-                    });
+
+                        processSimple(builder, processingElement, annotation, name, callback);
+                    }
                 }
             }
         );
 
-        TypeUtils.filterWithAnnotation(
-            typeElement, ElementFilter.methodsIn(elements), annotationClass,
+        TypeUtils.filterWithAnnotation(typeElement, methods, annotationClass,
             new AnnotatedElementCallback<T>() {
                 @Override
                 public void process(final Element element, final T annotation) throws Exception {
-                    processMethod(builder, element, new NamedTypeCallback() {
-                        @Override
-                        public void process(final String methodName, final TypeElement type) {
-                            callback.process(type, methodName, annotation);
-                        }
-                    });
+                    if (TypeUtils.isSimpleMethod(element)) {
+                        final String name = TypeUtils.getName(element);
+                        processSimple(builder, element, annotation, name, callback);
+                    }
                 }
             }
         );
-
     }
 
-
-    private static void processMethod(
-        final TypeSpec.Builder builder, final Element element, final NamedTypeCallback callback
-    ) throws Exception {
-        if (TypeUtils.isSimpleMethod(element)) {
-            final String methodName = TypeUtils.getName(element);
-            final String normalizedName = SourceCodeUtils.normalizeName(methodName);
-
-            if (!SourceCodeUtils.hasField(builder, normalizedName)) {
-                final ExecutableElement ee = (ExecutableElement) element;
-                final TypeElement type = ProcessorUtils.getWrappedType(ee.getReturnType());
-                callback.process(methodName, type);
-            }
+    public static String getCaller(final Element element) {
+        final String name = TypeUtils.getName(element);
+        if (element instanceof ExecutableElement) {
+            return name + "()";
         }
+        return name;
     }
 
-    private static void processVariable(
-        final TypeSpec.Builder builder, final Element element, final NamedTypeCallback callback
-    ) throws Exception {
-        if (!TypeUtils.hasAnyModifier(element, Modifier.STATIC)) {
-            final String methodName = TypeUtils.getterName(element);
-            final String normalizedName = SourceCodeUtils.normalizeName(methodName);
+    public static Predicate<Element> createHasSetterPredicate(final TypeElement typeElement) {
+        final Collection<MethodInfo> methods = findImplementedMethods(typeElement);
+        return new Predicate<Element>() {
+            @Override
+            public boolean apply(final Element element) {
+                final String name = TypeUtils.getName(element);
+                final String setterName = TypeUtils.setterName(name);
 
-            if (!SourceCodeUtils.hasField(builder, normalizedName)) {
-                final TypeElement type = ProcessorUtils.getWrappedType(element.asType());
-                callback.process(methodName, type);
+                final List<TypeMirror> types = Collections.singletonList(TypeUtils.getTypeMirror(element));
+                final MethodInfo setter = MethodInfo.find(methods, setterName, types);
+
+                if (setter != null) {
+                    final ExecutableElement setterElement = setter.getElement();
+                    return TypeUtils.hasAnyModifier(setterElement, Modifier.PUBLIC);
+                }
+                return false;
             }
+        };
+    }
+
+
+    private static <T extends Annotation> void processSimple(
+        final TypeSpec.Builder builder, final Element element,
+        final T annotation, final String name, final AnnotatedElementCallback<T> callback
+    ) throws Exception {
+        final String normalizedName = SourceCodeUtils.normalizeName(name);
+
+        if (!SourceCodeUtils.hasField(builder, normalizedName)) {
+            callback.process(element, annotation);
         }
     }
 
