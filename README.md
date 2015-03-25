@@ -48,8 +48,8 @@ Example configuration for Maven:
 
 <dependencies>
     <dependency>
-        <groupId>com.github.vbauer</groupId>
-        <artifactId>jackdaw.jackdaw-core</artifactId>
+        <groupId>com.github.vbauer.jackdaw</groupId>
+        <artifactId>jackdaw-core</artifactId>
         <version>${jackdaw.version}</version>
     </dependency>
 </dependencies>
@@ -68,8 +68,8 @@ After that, you need to configure `maven-compiler-plugin`:
             </configuration>
             <dependencies>
                 <dependency>
-                    <groupId>com.github.vbauer</groupId>
-                    <artifactId>jackdaw.jackdaw-apt</artifactId>
+                    <groupId>com.github.vbauer.jackdaw</groupId>
+                    <artifactId>jackdaw-apt</artifactId>
                     <version>${jackdaw.version}</version>
                 </dependency>
             </dependencies>
