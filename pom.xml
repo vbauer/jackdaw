@@ -71,6 +71,7 @@
         <maven.source.plugin.version>2.4</maven.source.plugin.version>
         <maven.surefire.plugin.version>2.18.1</maven.surefire.plugin.version>
         <maven.pmd.plugin.version>3.4</maven.pmd.plugin.version>
+        <maven.animal.sniffer.plugin.version>1.14</maven.animal.sniffer.plugin.version>
     </properties>
 
     <build>
@@ -118,6 +119,7 @@
             <id>strict</id>
             <build>
                 <plugins>
+
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-pmd-plugin</artifactId>
@@ -137,6 +139,29 @@
                             </execution>
                         </executions>
                     </plugin>
+
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>animal-sniffer-maven-plugin</artifactId>
+                        <version>${maven.animal.sniffer.plugin.version}</version>
+                        <configuration>
+                            <signature>
+                                <groupId>org.codehaus.mojo.signature</groupId>
+                                <artifactId>java16-sun</artifactId>
+                                <version>1.0</version>
+                            </signature>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>check-java16-sun</id>
+                                <phase>test</phase>
+                                <goals>
+                                    <goal>check</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
                 </plugins>
             </build>
         </profile>
