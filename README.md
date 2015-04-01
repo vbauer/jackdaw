@@ -37,8 +37,9 @@ you need to configure JitPack's Maven repository to fetch artifacts (dependencie
 
 It is necessary to make dependency on `jackdaw-core`.
 This module contains compile time annotations which will be used to give a hints for APT.
+Module `jackdaw-apt` contains annotation processor and all correlated logic.
 
-Example configuration for Maven:
+### Maven
 
 ```xml
 <repository>
@@ -76,6 +77,40 @@ After that, you need to configure `maven-compiler-plugin`:
         </plugin>
     </plugins>
 </build>
+```
+
+### Gradle
+
+Add custom repository:
+
+```groovy
+repositories {
+    mavenCentral()
+    maven {
+        url 'https://jitpack.io'
+    }
+}
+```
+
+Add `provided` scope to prevent `jackdaw-apt`:
+```groovy
+configurations {
+    provided
+}
+
+sourceSets {
+    main.compileClasspath += configurations.provided
+    test.compileClasspath += configurations.provided
+    test.runtimeClasspath += configurations.provided
+}
+```
+
+Specify needed dependencies:
+```
+dependencies {
+    compile 'com.github.vbauer.jackdaw:jackdaw-core:1.0.5'
+    provided 'com.github.vbauer.jackdaw:jackdaw-apt:1.0.5'
+}
 ```
 
 
