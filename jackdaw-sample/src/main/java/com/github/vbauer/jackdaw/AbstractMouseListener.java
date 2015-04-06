@@ -1,6 +1,7 @@
 package com.github.vbauer.jackdaw;
 
 import com.github.vbauer.jackdaw.annotation.JAdapter;
+import com.github.vbauer.jackdaw.annotation.JClassDescriptor;
 import com.github.vbauer.jackdaw.annotation.JMessage;
 
 import javax.tools.Diagnostic;
@@ -9,7 +10,6 @@ import javax.tools.Diagnostic;
  * @author Vladislav Bauer
  */
 
-@JAdapter
 @JMessage(
     type = Diagnostic.Kind.NOTE,
     value = {
@@ -17,6 +17,8 @@ import javax.tools.Diagnostic;
         "MouseListener interface will be used instead of it"
     }
 )
+@JAdapter
+@JClassDescriptor
 public abstract class AbstractMouseListener implements MouseListener {
 
     private int x;
@@ -34,6 +36,7 @@ public abstract class AbstractMouseListener implements MouseListener {
     }
 
 
+    @SuppressWarnings("unused")
     protected abstract void testMouse();
 
     @Override

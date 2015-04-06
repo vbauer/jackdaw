@@ -242,9 +242,8 @@ public final class SourceCodeUtils {
                 }
             }
 
-            final List<? extends TypeMirror> interfaces = root.getInterfaces();
-            for (final TypeMirror interfaceMirror : interfaces) {
-                final TypeElement element = ProcessorUtils.getWrappedType(interfaceMirror);
+            final List<TypeElement> interfaces = getInterfaces(rootElement);
+            for (final TypeElement element : interfaces) {
                 final List<ExecutableElement> interfaceMethods =
                     ElementFilter.methodsIn(element.getEnclosedElements());
 
@@ -259,6 +258,16 @@ public final class SourceCodeUtils {
         unimplementedMethods.removeAll(implementedMethods);
 
         return ImmutablePair.of(implementedMethods, unimplementedMethods);
+    }
+
+    public static List<TypeElement> getInterfaces(final TypeElement root) {
+        final List<? extends TypeMirror> interfaces = root.getInterfaces();
+        final List<TypeElement> result = Lists.newArrayList();
+
+        for (final TypeMirror interfaceMirror : interfaces) {
+            result.add(ProcessorUtils.getWrappedType(interfaceMirror));
+        }
+        return result;
     }
 
     public static Collection<ExecutableElement> findUnimplementedMethods(final TypeElement rootElement) {
