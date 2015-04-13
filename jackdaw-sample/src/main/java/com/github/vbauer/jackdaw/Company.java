@@ -34,7 +34,7 @@ public class Company {
 
     @JFunction
     @JPredicate
-    @JComparator
+    @JComparator(nullable = false)
     public boolean llp;
 
 

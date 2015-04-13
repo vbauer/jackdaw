@@ -86,4 +86,10 @@ public @interface JComparator {
      */
     boolean reverse() default false;
 
+    /**
+     * Safe comparison for null-values.
+     * @return use true to check null-values and false otherwise
+     */
+    boolean nullable() default true;
+
 }

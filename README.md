@@ -314,6 +314,8 @@ public final class CompanyClassDescriptor {
 To generated safe and well-coded comparator, you have to write a lot of boilerplate code.
 **@JComparator** annotation allows to simplify this situation.
 To generate reverse order comparator, use parameter `reverse`.
+By default, all generated comparators are thread-safe.
+Use `nullable` parameter to generate not thread-safe comparators..
 
 There are several ways to generate comparator or group of comparators.
 It depends on the annotation location:
@@ -325,7 +327,7 @@ It depends on the annotation location:
 Original class `Company`:
 ```java
 public class Company {
-    @JComparator private String name;
+    @JComparator(nullable = false) private String name;
     private long revenue;
     
     public String getName() { return name; }
@@ -340,15 +342,8 @@ Generated class `CompanyComparators`:
 public final class CompanyComparators {
     public static final Comparator<Company> NAME = new Comparator<Company>() {
         public int compare(final Company o1, final Company o2) {
-            final String v1 = o1 == null ? null : o1.getName();
-            final String v2 = o2 == null ? null : o2.getName();
-            if (v1 == v2) {
-                return 0;
-            } else if (v1 == null) {
-                return -1;
-            } else if (v2 == null) {
-                return 1;
-            }
+            final String v1 = o1.getName();
+            final String v2 = o2.getName();
             return v1.compareTo(v2);
         }
     };
