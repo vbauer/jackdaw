@@ -13,8 +13,8 @@
     <artifactId>jackdaw-apt</artifactId>
 
     <properties>
-        <javapoet.version>1.0.0</javapoet.version>
-        <commons.lang3.version>3.3.2</commons.lang3.version>
+        <javapoet.version>28a40bbfe4</javapoet.version>
+        <commons.lang3.version>3.4</commons.lang3.version>
         <commons.io.version>2.4</commons.io.version>
         <guava.version>18.0</guava.version>
         <jackdaw.version>1.0.5</jackdaw.version>
@@ -27,7 +27,7 @@
         <dependency>
             <groupId>com.github.square</groupId>
             <artifactId>javapoet</artifactId>
-            <version>acc49154b3</version>
+            <version>${javapoet.version}</version>
         </dependency>
 
         <dependency>
