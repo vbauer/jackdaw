@@ -10,7 +10,7 @@
     <version>1.0.5</version>
 
     <description>Type conversion system for Spring</description>
-    <url>https://github.com/vbauer/houdini</url>
+    <url>https://github.com/vbauer/jackdaw</url>
     <inceptionYear>2015</inceptionYear>
 
     <licenses>
@@ -70,6 +70,7 @@
         <maven.compiler.plugin.version>3.3</maven.compiler.plugin.version>
         <maven.source.plugin.version>2.4</maven.source.plugin.version>
         <maven.surefire.plugin.version>2.18.1</maven.surefire.plugin.version>
+        <maven.project.info.reports.plugin.version>2.8</maven.project.info.reports.plugin.version>
         <maven.pmd.plugin.version>3.4</maven.pmd.plugin.version>
         <maven.animal.sniffer.plugin.version>1.14</maven.animal.sniffer.plugin.version>
     </properties>
@@ -108,6 +109,12 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${maven.surefire.plugin.version}</version>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+                <version>${maven.project.info.reports.plugin.version}</version>
             </plugin>
 
         </plugins>
