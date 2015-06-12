@@ -76,6 +76,13 @@ public @interface JMessage {
      * </ul>
      * @return deadline date
      */
-    String showAfter() default "";
+    String after() default "";
+
+    /**
+     * Show message only after the given date.
+     * Supported formats are the same like for the {@link JMessage#after()}.
+     * @return formatted date
+     */
+    String before() default "";
 
 }

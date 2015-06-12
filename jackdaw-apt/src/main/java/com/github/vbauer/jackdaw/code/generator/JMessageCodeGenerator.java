@@ -60,9 +60,10 @@ public class JMessageCodeGenerator extends BaseCodeGenerator {
         final JMessage annotation = element.getAnnotation(JMessage.class);
 
         if (annotation != null) {
-            final String showAfter = annotation.showAfter();
+            final String before = annotation.before();
+            final String after = annotation.after();
 
-            if (showMessage(showAfter)) {
+            if (showMessage(before, after)) {
                 final Diagnostic.Kind type = annotation.type();
                 final String[] messages = annotation.value();
                 final boolean details = annotation.details();
@@ -75,9 +76,13 @@ public class JMessageCodeGenerator extends BaseCodeGenerator {
         }
     }
 
-    private boolean showMessage(final String dateString) {
-        final Date date = DateTimeUtils.parseDate(dateString, DATE_FORMATS);
-        return date == null || date.after(new Date());
+    private boolean showMessage(final String beforeString, final String afterString) {
+        final Date before = DateTimeUtils.parseDate(beforeString, DATE_FORMATS);
+        final Date after = DateTimeUtils.parseDate(afterString, DATE_FORMATS);
+
+        final Date current = new Date();
+        return (before == null || before.before(current))
+            && (after == null || after.after(current));
     }
 
 }
