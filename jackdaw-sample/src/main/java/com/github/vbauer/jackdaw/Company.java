@@ -6,6 +6,7 @@ import com.github.vbauer.jackdaw.annotation.JComparator;
 import com.github.vbauer.jackdaw.annotation.JFactoryMethod;
 import com.github.vbauer.jackdaw.annotation.JFunction;
 import com.github.vbauer.jackdaw.annotation.JPredicate;
+import com.github.vbauer.jackdaw.annotation.JSupplier;
 
 import java.util.Set;
 
@@ -25,6 +26,7 @@ public class Company {
     @JComparator
     private String name;
 
+    @JSupplier
     private Long revenue;
 
     @JPredicate(reverse = true)
@@ -32,6 +34,7 @@ public class Company {
 
     private Set<String> descriptions;
 
+    @JSupplier
     @JFunction
     @JPredicate
     @JComparator(nullable = false)
@@ -44,6 +47,7 @@ public class Company {
         this.id = id;
     }
 
+    @JSupplier
     public String getName() { return name; }
 
     public void setName(final String name) {

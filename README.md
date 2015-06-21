@@ -27,6 +27,7 @@ Jackdaw was inspired by [Lombok](http://projectlombok.org) project, but in compa
     <li><a href="#jpredicate">@JPredicate</a></li>
     <li><a href="#jrepeatable">@JRepeatable</a></li>
     <li><a href="#jservice">@JService</a></li>
+    <li><a href="#jsupplier">@JSupplier</a></li>
 </ul>
 
 
@@ -559,6 +560,44 @@ Generated file `META-INF/services/BaseType`:
 ```java
 TypeA
 TypeB
+```
+
+
+### @JSupplier
+
+The **@JSupplier** annotation generates `Supplier` implementation to use functional-way for programming.
+You can specify different supplier interfaces for implementation generation (`JSupplierType`):
+
+* **GUAVA** - Guava suppliers (`com.google.common.base.Supplier`)
+* **JAVA** - suppliers from Java 8 (`java.util.function.Supplier`)
+
+There are several ways to generate supplier or group of suppliers.
+It depends on the annotation location:
+
+* **annotation on field** - generate supplier only for one specified field.
+* **annotation on method without args** - generate supplier using method with empty list of arguments and non-void return-value.
+* **annotation on class** - generate suppliers using 2 previous strategies (for all fields and simple methods).
+
+Original class `Company`:
+```java
+public class Company {
+    @JSupplier public Integer id;
+    
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
+}
+```
+Generated class `CompanySuppliers`:
+```java
+public final class CompanySuppliers {
+    public static Supplier<Integer> getId(final Company o) {
+        return new Supplier<Integer>() {
+            public Integer get() {
+                return o.getId();
+            }
+        };
+    }
+}
 ```
 
 
