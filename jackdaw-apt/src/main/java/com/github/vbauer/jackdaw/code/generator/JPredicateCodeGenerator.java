@@ -88,6 +88,7 @@ public class JPredicateCodeGenerator extends GeneratedCodeGenerator {
             .initializer(
                 SourceCodeUtils.lines(
                     "new " + CLASS_NAME + "<$T>() {",
+                        "@Override",
                         "public boolean apply(final $T input) {",
                             "return " + operation + "input.$L;",
                         "}",

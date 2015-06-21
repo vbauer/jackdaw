@@ -84,6 +84,7 @@ public class JFunctionCodeGenerator extends GeneratedCodeGenerator {
             .initializer(
                 SourceCodeUtils.lines(
                     "new " + CLASS_NAME + "<$T, $T>() {",
+                        "@Override",
                         "public $T apply(final $T input) {",
                             "return (input != null) ? input.$L : null;",
                         "}",

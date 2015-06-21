@@ -99,6 +99,7 @@ public class JComparatorCodeGenerator extends GeneratedCodeGenerator {
     ) {
         final List<String> code = Lists.newArrayList();
         code.add("new " + CLASS_NAME + "<$T>() {");
+        code.add("@Override");
         code.add("public int compare(final $T " + param1 + ", final $T " + param2 + ") {");
 
         if (nullable) {

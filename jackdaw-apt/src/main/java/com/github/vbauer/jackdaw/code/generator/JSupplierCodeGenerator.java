@@ -81,6 +81,7 @@ public class JSupplierCodeGenerator extends GeneratedCodeGenerator {
                 .addCode(
                     SourceCodeUtils.lines(
                         "return new $T<$T>() {",
+                            "@Override",
                             "public $T get() {",
                                 "return o.$L;",
                             "}",

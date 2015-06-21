@@ -72,6 +72,7 @@ public class JAdapterCodeGenerator extends GeneratedCodeGenerator {
         final MethodSpec.Builder methodBuilder =
             MethodSpec.methodBuilder(methodName)
                 .addModifiers(methodModifiers)
+                .addAnnotation(Override.class)
                 .returns(TypeName.get(returnType));
 
         final TypeKind returnTypeKind = returnType.getKind();
