@@ -109,8 +109,8 @@ sourceSets {
 Specify needed dependencies:
 ```
 dependencies {
-    compile 'com.github.vbauer.jackdaw:jackdaw-core:1.0.5'
-    provided 'com.github.vbauer.jackdaw:jackdaw-apt:1.0.5'
+    compile 'com.github.vbauer.jackdaw:jackdaw-core:1.0.6'
+    provided 'com.github.vbauer.jackdaw:jackdaw-apt:1.0.6'
 }
 ```
 
