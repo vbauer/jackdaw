@@ -645,6 +645,7 @@ from the root of the project directory.
 
 ## Might also like
 
+* [jconditions](https://github.com/vbauer/jconditions) - Extra conditional annotations for JUnit.
 * [caesar](https://github.com/vbauer/caesar) - Library that allows to create async beans from sync beans.
 * [houdini](https://github.com/vbauer/houdini) - Type conversion system for Spring framework.
 * [herald](https://github.com/vbauer/herald) - Logging annotation for Spring framework.
