@@ -648,7 +648,7 @@ from the root of the project directory.
 * [jconditions](https://github.com/vbauer/jconditions) - Extra conditional annotations for JUnit.
 * [caesar](https://github.com/vbauer/caesar) - Library that allows to create async beans from sync beans.
 * [houdini](https://github.com/vbauer/houdini) - Type conversion system for Spring framework.
-* [herald](https://github.com/vbauer/herald) - Logging annotation for Spring framework.
+* [herald](https://github.com/vbauer/herald) - Log annotation for logging frameworks.
 * [commons-vfs2-cifs](https://github.com/vbauer/commons-vfs2-cifs) - SMB/CIFS provider for Commons VFS.
 * [avconv4java](https://github.com/vbauer/avconv4java) - Java interface to avconv tool.
 
