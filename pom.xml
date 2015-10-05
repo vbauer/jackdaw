@@ -60,7 +60,7 @@
     </modules>
 
     <prerequisites>
-        <maven>2.2.1</maven>
+        <maven>3.0.0</maven>
     </prerequisites>
 
     <properties>
