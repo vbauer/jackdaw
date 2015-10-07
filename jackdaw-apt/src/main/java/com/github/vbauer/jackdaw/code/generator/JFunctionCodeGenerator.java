@@ -71,26 +71,28 @@ public class JFunctionCodeGenerator extends GeneratedCodeGenerator {
         final String caller = SourceCodeUtils.getCaller(element);
         final TypeName typeName = TypeUtils.getTypeName(element, true);
 
+        final ParameterizedTypeName fieldTypeName = ParameterizedTypeName.get(
+            ClassName.get(packageName, CLASS_NAME),
+            TypeUtils.getTypeName(typeElement),
+            typeName
+        );
+
         builder.addField(
             FieldSpec.builder(
-                ParameterizedTypeName.get(
-                    ClassName.get(packageName, CLASS_NAME),
-                    TypeUtils.getTypeName(typeElement),
-                    typeName
-                ),
+                fieldTypeName,
                 SourceCodeUtils.normalizeName(TypeUtils.getName(element)),
                 Modifier.PUBLIC, Modifier.FINAL, Modifier.STATIC
             )
             .initializer(
                 SourceCodeUtils.lines(
-                    "new " + CLASS_NAME + "<$T, $T>() {",
+                    "new $T() {",
                         "@Override",
                         "public $T apply(final $T input) {",
                             "return (input != null) ? input.$L : null;",
                         "}",
                     "}"
                 ),
-                typeElement, typeName,
+                fieldTypeName,
                 typeName, typeElement,
                 caller
             )
