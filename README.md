@@ -442,6 +442,8 @@ public final class CompanyFunctions {
 }
 ```
 
+By default, all generated functions are null-safe. Use `nullable` parameter to generate not null-safe functions.
+
 
 ### @JMessage
 The **@JMessage** annotation does not generate any additional code, instead of this it prints information in logs during project compiling.

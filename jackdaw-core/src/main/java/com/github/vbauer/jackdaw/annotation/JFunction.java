@@ -55,4 +55,10 @@ public @interface JFunction {
      */
     JFunctionType type() default JFunctionType.GUAVA;
 
+    /**
+     * Switch off/on check for null-arguments.
+     * @return use true to check null-values and false otherwise
+     */
+    boolean nullable() default true;
+
 }

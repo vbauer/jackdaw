@@ -71,6 +71,9 @@ public class JFunctionCodeGenerator extends GeneratedCodeGenerator {
         final String caller = SourceCodeUtils.getCaller(element);
         final TypeName typeName = TypeUtils.getTypeName(element, true);
 
+        final boolean nullable = annotation.nullable();
+        final String operation = nullable ? "(input != null) ? input.$L : null" : "input.$L";
+
         final ParameterizedTypeName fieldTypeName = ParameterizedTypeName.get(
             ClassName.get(packageName, CLASS_NAME),
             TypeUtils.getTypeName(typeElement),
@@ -88,7 +91,7 @@ public class JFunctionCodeGenerator extends GeneratedCodeGenerator {
                     "new $T() {",
                         "@Override",
                         "public $T apply(final $T input) {",
-                            "return (input != null) ? input.$L : null;",
+                        "return " + operation + ";",
                         "}",
                     "}"
                 ),

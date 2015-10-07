@@ -31,7 +31,7 @@ public class Company {
     private Set<String> descriptions;
 
     @JSupplier
-    @JFunction
+    @JFunction(nullable = false)
     @JPredicate(nullable = false)
     @JComparator(nullable = false)
     public boolean llp;
