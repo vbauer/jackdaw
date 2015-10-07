@@ -71,6 +71,7 @@ public class JPredicateCodeGenerator extends GeneratedCodeGenerator {
     ) {
         final JPredicateType predicateType = annotation.type();
         final boolean reverse = annotation.reverse();
+        final boolean nullable = annotation.nullable();
         final TypeName fieldType = getFieldType(predicateType, typeElement);
 
         builder.addField(
@@ -80,7 +81,8 @@ public class JPredicateCodeGenerator extends GeneratedCodeGenerator {
                 Modifier.PUBLIC, Modifier.FINAL, Modifier.STATIC
             )
             .initializer(createInitializer(
-                predicateType, reverse, fieldType, element, typeElement
+                predicateType, reverse, nullable,
+                fieldType, element, typeElement
             ))
             .build()
         );
@@ -105,11 +107,12 @@ public class JPredicateCodeGenerator extends GeneratedCodeGenerator {
     }
 
     private CodeBlock createInitializer(
-        final JPredicateType type, final boolean reverse,
+        final JPredicateType type, final boolean reverse, final boolean nullable,
         final TypeName predicateTypeName, final Element element, final TypeElement typeElement
     ) {
         final String operation = reverse ? "!" : StringUtils.EMPTY;
         final String caller = SourceCodeUtils.getCaller(element);
+        final String nullableGuard = nullable ? "input != null && " : StringUtils.EMPTY;
 
         switch (type) {
             case JAVA:
@@ -119,7 +122,7 @@ public class JPredicateCodeGenerator extends GeneratedCodeGenerator {
                         "new $T() {",
                             "@Override",
                             "public boolean apply(final $T input) {",
-                                "return " + operation + "input.$L;",
+                                "return " + nullableGuard + operation + "input.$L;",
                             "}",
                         "}"
                     ),
@@ -131,7 +134,7 @@ public class JPredicateCodeGenerator extends GeneratedCodeGenerator {
                         "new $T() {",
                             "@Override",
                             "public boolean evaluate(final $T input) {",
-                                "return " + operation + "(($T) input).$L;",
+                                "return " + nullableGuard + operation + "(($T) input).$L;",
                             "}",
                         "}"
                     ),

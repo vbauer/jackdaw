@@ -32,7 +32,7 @@ public class Company {
 
     @JSupplier
     @JFunction
-    @JPredicate
+    @JPredicate(nullable = false)
     @JComparator(nullable = false)
     public boolean llp;
 

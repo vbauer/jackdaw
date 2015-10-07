@@ -60,4 +60,10 @@ public @interface JPredicate {
      */
     boolean reverse() default false;
 
+    /**
+     * Switch off/on check for null-arguments.
+     * @return use true to check null-values and false otherwise
+     */
+    boolean nullable() default true;
+
 }
