@@ -18,7 +18,7 @@ public class AddSuffix implements Function<String, String> {
 
 
     @Override
-    public String apply(final String input) {
+    public final String apply(final String input) {
         return input + suffix;
     }
 

@@ -36,13 +36,13 @@ public class JBeanCodeGenerator extends GeneratedCodeGenerator {
 
 
     @Override
-    public Class<? extends Annotation> getAnnotation() {
+    public final Class<? extends Annotation> getAnnotation() {
         return JBean.class;
     }
 
 
     @Override
-    protected void generateBody(
+    protected final void generateBody(
         final CodeGeneratorContext context, final TypeSpec.Builder builder
     ) throws Exception {
         final TypeElement typeElement = context.getTypeElement();

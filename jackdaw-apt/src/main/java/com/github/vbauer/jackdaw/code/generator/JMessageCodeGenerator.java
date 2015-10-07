@@ -23,16 +23,16 @@ import java.util.List;
 public class JMessageCodeGenerator extends BaseCodeGenerator {
 
     private static final Collection<Format> DATE_FORMATS =
-        DateTimeUtils.createDateFormats(DateTimeUtils.DATE_FORMATS);
+        DateTimeUtils.createDefaultDateFormats();
 
 
     @Override
-    public Class<? extends Annotation> getAnnotation() {
+    public final Class<? extends Annotation> getAnnotation() {
         return JMessage.class;
     }
 
     @Override
-    public void generate(final CodeGeneratorContext context) throws Exception {
+    public final void generate(final CodeGeneratorContext context) throws Exception {
         final TypeElement typeElement = context.getTypeElement();
         printInfoIfNecessary(typeElement);
     }

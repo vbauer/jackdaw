@@ -64,25 +64,25 @@ public class MethodInfo {
     }
 
 
-    public String getName() {
+    public final String getName() {
         return name;
     }
 
-    public TypeMirror getReturnType() {
+    public final TypeMirror getReturnType() {
         return returnType;
     }
 
-    public List<TypeMirror> getParameterTypes() {
+    public final List<TypeMirror> getParameterTypes() {
         return parameterTypes;
     }
 
-    public ExecutableElement getElement() {
+    public final ExecutableElement getElement() {
         return element;
     }
 
 
     @Override
-    public int hashCode() {
+    public final int hashCode() {
         return Objects.hashCode(
             getName(),
             getParameterTypes(),
@@ -91,7 +91,7 @@ public class MethodInfo {
     }
 
     @Override
-    public boolean equals(final Object obj) {
+    public final boolean equals(final Object obj) {
         if (obj instanceof  MethodInfo) {
             final MethodInfo other = (MethodInfo) obj;
             return Objects.equal(other.getName(), getName())

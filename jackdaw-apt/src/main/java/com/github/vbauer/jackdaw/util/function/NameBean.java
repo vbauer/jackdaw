@@ -15,7 +15,7 @@ public class NameBean implements Function<String, String> {
 
 
     @Override
-    public String apply(final String input) {
+    public final String apply(final String input) {
         final String name = StringUtils.removeStart(StringUtils.removeEnd(input, MODEL), ABSTRACT);
         return StringUtils.equals(name, input) ? input + BEAN : name;
     }

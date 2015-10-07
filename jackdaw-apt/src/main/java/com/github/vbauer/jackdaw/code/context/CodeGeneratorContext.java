@@ -11,7 +11,7 @@ import javax.lang.model.element.TypeElement;
  * @author Vladislav Bauer
  */
 
-public class CodeGeneratorContext {
+public final class CodeGeneratorContext {
 
     private final TypeElement typeElement;
     private final String packageName;

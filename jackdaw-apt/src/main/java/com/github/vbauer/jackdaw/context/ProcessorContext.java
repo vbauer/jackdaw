@@ -22,42 +22,42 @@ public class ProcessorContext {
     }
 
 
-    public ProcessingEnvironment getProcessingEnvironment() {
+    public final ProcessingEnvironment getProcessingEnvironment() {
         return pe;
     }
 
-    public boolean isAddSuppressWarningsAnnotation() {
+    public final boolean isAddSuppressWarningsAnnotation() {
         return addSuppressWarningsAnnotation;
     }
 
-    public ProcessorContext setAddSuppressWarningsAnnotation(final boolean addSuppressWarningsAnnotation) {
+    public final ProcessorContext setAddSuppressWarningsAnnotation(final boolean addSuppressWarningsAnnotation) {
         this.addSuppressWarningsAnnotation = addSuppressWarningsAnnotation;
         return this;
     }
 
-    public boolean isAddGeneratedAnnotation() {
+    public final boolean isAddGeneratedAnnotation() {
         return addGeneratedAnnotation;
     }
 
-    public ProcessorContext setAddGeneratedAnnotation(final boolean addGeneratedAnnotation) {
+    public final ProcessorContext setAddGeneratedAnnotation(final boolean addGeneratedAnnotation) {
         this.addGeneratedAnnotation = addGeneratedAnnotation;
         return this;
     }
 
-    public boolean isAddGeneratedDate() {
+    public final boolean isAddGeneratedDate() {
         return addGeneratedDate;
     }
 
-    public ProcessorContext setAddGeneratedDate(final boolean addGeneratedDate) {
+    public final ProcessorContext setAddGeneratedDate(final boolean addGeneratedDate) {
         this.addGeneratedDate = addGeneratedDate;
         return this;
     }
 
-    public Collection<ProcessorSourceContext> getSourceContexts() {
+    public final Collection<ProcessorSourceContext> getSourceContexts() {
         return sourceContexts;
     }
 
-    public void setSourceContexts(final Collection<ProcessorSourceContext> sourceContexts) {
+    public final void setSourceContexts(final Collection<ProcessorSourceContext> sourceContexts) {
         this.sourceContexts = sourceContexts;
     }
 

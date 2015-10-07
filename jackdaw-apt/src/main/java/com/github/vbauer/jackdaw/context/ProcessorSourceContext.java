@@ -28,23 +28,23 @@ public class ProcessorSourceContext {
 
 
     public ProcessorSourceContext(
-            final String annotationClassName,
-            final List<Pair<TypeElement, String>> elementsInfo
+        final String annotationClassName,
+        final List<Pair<TypeElement, String>> elementsInfo
     ) {
         this.annotationClassName = annotationClassName;
         this.elementInfo = elementsInfo;
     }
 
 
-    public String getAnnotationClassName() {
+    public final String getAnnotationClassName() {
         return annotationClassName;
     }
 
-    public List<Pair<TypeElement, String>> getElementInfo() {
+    public final List<Pair<TypeElement, String>> getElementInfo() {
         return elementInfo;
     }
 
-    public List<TypeElement> getElements() {
+    public final List<TypeElement> getElements() {
         final List<TypeElement> elements = Lists.newArrayList();
         final List<Pair<TypeElement, String>> info = getElementInfo();
 

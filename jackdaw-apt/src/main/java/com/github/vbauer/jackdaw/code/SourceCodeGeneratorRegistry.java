@@ -15,7 +15,8 @@ import java.util.Set;
 
 public final class SourceCodeGeneratorRegistry {
 
-    private static Map<String, ? extends CodeGenerator> CODE_GENERATORS = createCodeWriterMap();
+    private static final Map<String, ? extends CodeGenerator> CODE_GENERATORS =
+        createCodeWriterMap();
 
 
     private SourceCodeGeneratorRegistry() {

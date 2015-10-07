@@ -36,12 +36,12 @@ public class JServiceCodeGenerator extends BaseCodeGenerator {
 
 
     @Override
-    public Class<? extends Annotation> getAnnotation() {
+    public final Class<? extends Annotation> getAnnotation() {
         return JService.class;
     }
 
     @Override
-    public void generate(final CodeGeneratorContext context) throws Exception {
+    public final void generate(final CodeGeneratorContext context) throws Exception {
         final TypeElement typeElement = context.getTypeElement();
         final JService annotation = typeElement.getAnnotation(JService.class);
         final String providerClass = getProviderClass(annotation);
@@ -52,12 +52,12 @@ public class JServiceCodeGenerator extends BaseCodeGenerator {
     }
 
     @Override
-    public void onStart() throws Exception {
+    public final void onStart() throws Exception {
         allServices.clear();
     }
 
     @Override
-    public void onFinish() throws Exception {
+    public final void onFinish() throws Exception {
         for (final Map.Entry<String, Set<String>> entry : allServices.entrySet()) {
             final String providerClass = entry.getKey();
             final Set<String> services = entry.getValue();

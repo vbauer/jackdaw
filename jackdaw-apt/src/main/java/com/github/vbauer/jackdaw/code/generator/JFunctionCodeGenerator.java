@@ -40,13 +40,13 @@ public class JFunctionCodeGenerator extends GeneratedCodeGenerator {
 
 
     @Override
-    public Class<? extends Annotation> getAnnotation() {
+    public final Class<? extends Annotation> getAnnotation() {
         return JFunction.class;
     }
 
 
     @Override
-    protected void generateBody(
+    protected final void generateBody(
         final CodeGeneratorContext context, final Builder builder
     ) throws Exception {
         final TypeElement typeElement = context.getTypeElement();

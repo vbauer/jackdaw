@@ -39,13 +39,13 @@ public class JSupplierCodeGenerator extends GeneratedCodeGenerator {
 
 
     @Override
-    public Class<JSupplier> getAnnotation() {
+    public final Class<JSupplier> getAnnotation() {
         return JSupplier.class;
     }
 
 
     @Override
-    protected void generateBody(
+    protected final void generateBody(
         final CodeGeneratorContext context, final Builder builder
     ) throws Exception {
         final TypeElement typeElement = context.getTypeElement();

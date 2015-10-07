@@ -14,12 +14,12 @@ import java.util.Date;
 
 public final class DateTimeUtils {
 
-    public static final String FORMAT_DD_MM_YYYY_1 = "dd-MM-yyyy";
-    public static final String FORMAT_DD_MM_YYYY_2 = "dd/MM/yyyy";
-    public static final String FORMAT_YYYY_MM_DD_1 = "yyyy-MM-dd";
-    public static final String FORMAT_YYYY_MM_DD_2 = "yyyy/MM/dd";
+    private static final String FORMAT_DD_MM_YYYY_1 = "dd-MM-yyyy";
+    private static final String FORMAT_DD_MM_YYYY_2 = "dd/MM/yyyy";
+    private static final String FORMAT_YYYY_MM_DD_1 = "yyyy-MM-dd";
+    private static final String FORMAT_YYYY_MM_DD_2 = "yyyy/MM/dd";
 
-    public static final String[] DATE_FORMATS = {
+    private static final String[] DATE_FORMATS = {
         FORMAT_DD_MM_YYYY_1,
         FORMAT_DD_MM_YYYY_2,
         FORMAT_YYYY_MM_DD_1,
@@ -31,6 +31,10 @@ public final class DateTimeUtils {
         throw new UnsupportedOperationException();
     }
 
+
+    public static Collection<Format> createDefaultDateFormats() {
+        return createDateFormats(DATE_FORMATS);
+    }
 
     public static Collection<Format> createDateFormats(final String... formats) {
         final ImmutableList.Builder<Format> builder = ImmutableList.builder();

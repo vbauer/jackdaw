@@ -27,14 +27,14 @@ public class JackdawProcessor extends AbstractProcessor {
 
 
     @Override
-    public synchronized void init(final ProcessingEnvironment processingEnv) {
+    public final synchronized void init(final ProcessingEnvironment processingEnv) {
         super.init(processingEnv);
 
         processorContext = ProcessorContextFactory.create(processingEnv);
     }
 
     @Override
-    public boolean process(
+    public final boolean process(
         final Set<? extends TypeElement> annotations, final RoundEnvironment roundEnv
     ) {
         final boolean needToProcess =
@@ -52,17 +52,17 @@ public class JackdawProcessor extends AbstractProcessor {
     }
 
     @Override
-    public SourceVersion getSupportedSourceVersion() {
+    public final SourceVersion getSupportedSourceVersion() {
         return SourceVersion.latestSupported();
     }
 
     @Override
-    public Set<String> getSupportedAnnotationTypes() {
+    public final Set<String> getSupportedAnnotationTypes() {
         return SourceCodeGeneratorRegistry.getSupportedAnnotations();
     }
 
     @Override
-    public Set<String> getSupportedOptions() {
+    public final Set<String> getSupportedOptions() {
         return ProcessorContextFactory.getSupportedOptions();
     }
 

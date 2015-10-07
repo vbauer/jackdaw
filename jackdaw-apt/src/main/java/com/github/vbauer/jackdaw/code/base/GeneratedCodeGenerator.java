@@ -28,8 +28,8 @@ import java.util.Date;
 
 public abstract class GeneratedCodeGenerator extends BaseCodeGenerator {
 
-    protected final Function<String, String> nameModifier;
-    protected final ClassType classType;
+    private final Function<String, String> nameModifier;
+    private final ClassType classType;
 
 
     public GeneratedCodeGenerator(
@@ -41,33 +41,32 @@ public abstract class GeneratedCodeGenerator extends BaseCodeGenerator {
 
 
     @Override
-    public void generate(final CodeGeneratorContext context) throws Exception {
+    public final void generate(final CodeGeneratorContext context) throws Exception {
         final TypeElement typeElement = context.getTypeElement();
         final String packageName = context.getPackageName();
         final String className = context.getClassName(getNameModifier());
 
         final JavaFileObject file = ProcessorUtils.createSourceFile(typeElement, packageName, className);
-        final Writer writer = file.openWriter();
-        final PrintWriter printWriter = new PrintWriter(writer);
+        try (
+            final Writer writer = file.openWriter();
+            final PrintWriter printWriter = new PrintWriter(writer)
+        ) {
+            final TypeSpec.Builder typeSpecBuilder = generateCommon(className);
+            generateBody(context, typeSpecBuilder);
 
-        final TypeSpec.Builder typeSpecBuilder = generateCommon(className);
-        generateBody(context, typeSpecBuilder);
-
-        final TypeSpec typeSpec = typeSpecBuilder.build();
-        final JavaFile javaFile =
-            JavaFile.builder(packageName, typeSpec)
+            final TypeSpec typeSpec = typeSpecBuilder.build();
+            final JavaFile javaFile = JavaFile.builder(packageName, typeSpec)
                 .indent(SourceCodeUtils.INDENT)
                 .skipJavaLangImports(true)
                 .build();
 
-        final String sourceCode = javaFile.toString();
-        printWriter.write(sourceCode);
-        printWriter.flush();
-
-        writer.close();
+            final String sourceCode = javaFile.toString();
+            printWriter.write(sourceCode);
+            printWriter.flush();
+        }
     }
 
-    public Function<String, String> getNameModifier() {
+    public final Function<String, String> getNameModifier() {
         return nameModifier;
     }
 
