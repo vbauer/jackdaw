@@ -50,13 +50,13 @@ public class JSupplierCodeGenerator extends GeneratedCodeGenerator {
     ) throws Exception {
         final TypeElement typeElement = context.getTypeElement();
         SourceCodeUtils.processSimpleMethodsAndVariables(
-                builder, typeElement, JSupplier.class,
-                new AnnotatedElementCallback<JSupplier>() {
-                    @Override
-                    public void process(final Element element, final JSupplier annotation) {
-                        addFunction(builder, typeElement, element, annotation);
-                    }
+            builder, typeElement, JSupplier.class,
+            new AnnotatedElementCallback<JSupplier>() {
+                @Override
+                public void process(final Element element, final JSupplier annotation) {
+                    addFunction(builder, typeElement, element, annotation);
                 }
+            }
         );
     }
 
@@ -72,15 +72,17 @@ public class JSupplierCodeGenerator extends GeneratedCodeGenerator {
 
         final ClassName supplierClass = ClassName.get(packageName, CLASS_NAME);
         final TypeName parameterClass = TypeUtils.getTypeName(typeElement);
+        final ParameterizedTypeName fieldTypeName =
+            ParameterizedTypeName.get(supplierClass, typeName);
 
         builder.addMethod(
             MethodSpec.methodBuilder(TypeUtils.getName(element))
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
                 .addParameter(parameterClass, "o", Modifier.FINAL)
-                .returns(ParameterizedTypeName.get(supplierClass, typeName))
+                .returns(fieldTypeName)
                 .addCode(
                     SourceCodeUtils.lines(
-                        "return new $T<$T>() {",
+                        "return new $T() {",
                             "@Override",
                             "public $T get() {",
                                 "return o.$L;",
@@ -88,7 +90,7 @@ public class JSupplierCodeGenerator extends GeneratedCodeGenerator {
                         "};",
                         ""
                     ),
-                    supplierClass, typeName, typeName, caller
+                    fieldTypeName, typeName, caller
                 )
                 .build()
         );
