@@ -1,14 +1,10 @@
 package com.github.vbauer.jackdaw;
 
-import com.github.vbauer.jackdaw.annotation.JBuilder;
-import com.github.vbauer.jackdaw.annotation.JClassDescriptor;
-import com.github.vbauer.jackdaw.annotation.JComparator;
-import com.github.vbauer.jackdaw.annotation.JFactoryMethod;
-import com.github.vbauer.jackdaw.annotation.JFunction;
-import com.github.vbauer.jackdaw.annotation.JPredicate;
-import com.github.vbauer.jackdaw.annotation.JSupplier;
+import com.github.vbauer.jackdaw.annotation.*;
 
 import java.util.Set;
+
+import static com.github.vbauer.jackdaw.annotation.type.JPredicateType.COMMONS;
 
 /**
  * @author Vladislav Bauer
@@ -29,7 +25,7 @@ public class Company {
     @JSupplier
     private Long revenue;
 
-    @JPredicate(reverse = true)
+    @JPredicate(type = COMMONS, reverse = true)
     private boolean listed;
 
     private Set<String> descriptions;

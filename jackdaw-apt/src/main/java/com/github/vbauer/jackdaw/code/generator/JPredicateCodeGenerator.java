@@ -9,10 +9,7 @@ import com.github.vbauer.jackdaw.util.TypeUtils;
 import com.github.vbauer.jackdaw.util.callback.AnnotatedElementCallback;
 import com.github.vbauer.jackdaw.util.function.AddSuffix;
 import com.github.vbauer.jackdaw.util.model.ClassType;
-import com.squareup.javapoet.ClassName;
-import com.squareup.javapoet.FieldSpec;
-import com.squareup.javapoet.ParameterizedTypeName;
-import com.squareup.javapoet.TypeSpec;
+import com.squareup.javapoet.*;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.lang.model.element.Element;
@@ -31,8 +28,10 @@ public class JPredicateCodeGenerator extends GeneratedCodeGenerator {
     private static final AddSuffix NAME_MODIFIER = new AddSuffix(SUFFIX);
 
     private static final String CLASS_NAME = "Predicate";
-    private static final String PACKAGE_GUAVA = "com.google.common.base";
+
     private static final String PACKAGE_JAVA = "java.util.function";
+    private static final String PACKAGE_GUAVA = "com.google.common.base";
+    private static final String PACKAGE_COMMONS = "org.apache.commons.collections";
 
 
     public JPredicateCodeGenerator() {
@@ -70,42 +69,87 @@ public class JPredicateCodeGenerator extends GeneratedCodeGenerator {
         final TypeSpec.Builder builder, final TypeElement typeElement,
         final Element element, final JPredicate annotation
     ) {
-        final JPredicateType functionType = annotation.type();
+        final JPredicateType predicateType = annotation.type();
         final boolean reverse = annotation.reverse();
-        final String operation = reverse ? "!" : StringUtils.EMPTY;
-        final String packageName = getPredicatePackageName(functionType);
-        final String caller = SourceCodeUtils.getCaller(element);
+        final TypeName fieldType = getFieldType(predicateType, typeElement);
 
         builder.addField(
             FieldSpec.builder(
-                ParameterizedTypeName.get(
-                    ClassName.get(packageName, CLASS_NAME),
-                    TypeUtils.getTypeName(typeElement)
-                ),
+                fieldType,
                 SourceCodeUtils.normalizeName(TypeUtils.getName(element)),
                 Modifier.PUBLIC, Modifier.FINAL, Modifier.STATIC
             )
-            .initializer(
-                SourceCodeUtils.lines(
-                    "new " + CLASS_NAME + "<$T>() {",
-                        "@Override",
-                        "public boolean apply(final $T input) {",
-                            "return " + operation + "input.$L;",
-                        "}",
-                    "}"
-                ),
-                typeElement, typeElement, caller
-            )
+            .initializer(createInitializer(
+                predicateType, reverse, fieldType, element, typeElement
+            ))
             .build()
         );
     }
 
-    private String getPredicatePackageName(final JPredicateType type) {
+    private TypeName getFieldType(
+        final JPredicateType type, final TypeElement typeElement
+    ) {
+        final String packageName = getPredicatePackageName(type);
         switch (type) {
             case GUAVA:
-                return PACKAGE_GUAVA;
+            case JAVA:
+                return ParameterizedTypeName.get(
+                    ClassName.get(packageName, CLASS_NAME),
+                    TypeUtils.getTypeName(typeElement)
+                );
+            case COMMONS:
+                return ClassName.get(packageName, CLASS_NAME);
+            default:
+                throw new UnsupportedOperationException();
+        }
+    }
+
+    private CodeBlock createInitializer(
+        final JPredicateType type, final boolean reverse,
+        final TypeName predicateTypeName, final Element element, final TypeElement typeElement
+    ) {
+        final String operation = reverse ? "!" : StringUtils.EMPTY;
+        final String caller = SourceCodeUtils.getCaller(element);
+
+        switch (type) {
+            case JAVA:
+            case GUAVA:
+                return CodeBlock.builder().add(
+                    SourceCodeUtils.lines(
+                        "new $T() {",
+                            "@Override",
+                            "public boolean apply(final $T input) {",
+                                "return " + operation + "input.$L;",
+                            "}",
+                        "}"
+                    ),
+                    predicateTypeName, typeElement, caller
+                ).build();
+            case COMMONS:
+                return CodeBlock.builder().add(
+                    SourceCodeUtils.lines(
+                        "new $T() {",
+                            "@Override",
+                            "public boolean evaluate(final $T input) {",
+                                "return " + operation + "(($T) input).$L;",
+                            "}",
+                        "}"
+                    ),
+                    predicateTypeName, Object.class, typeElement, caller
+                ).build();
+            default:
+                throw new UnsupportedOperationException();
+        }
+    }
+
+    private String getPredicatePackageName(final JPredicateType type) {
+        switch (type) {
             case JAVA:
                 return PACKAGE_JAVA;
+            case GUAVA:
+                return PACKAGE_GUAVA;
+            case COMMONS:
+                return PACKAGE_COMMONS;
             default:
                 throw new UnsupportedOperationException();
         }

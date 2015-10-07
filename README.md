@@ -413,8 +413,8 @@ public final class CompanyFactory {
 The **@JFunction** annotation generates `Function` implementation to use functional-way for programming.
 You can specify different function interfaces for implementation generation (`JFunctionType`):
 
-* **GUAVA** - Guava functions (`com.google.common.base.Function`)
 * **JAVA** - functions from Java 8 (`java.util.function.Function`)
+* **GUAVA** - Guava functions (`com.google.common.base.Function`)
 
 There are several ways to generate function or group of functions.
 It depends on the annotation location:
@@ -486,8 +486,9 @@ This feature could be also useful in pair with CI servers (detect `[WARNING]` an
 The **@JPredicate** annotation generates `Predicate` implementation to use functional-way for programming.
 You can specify different predicate interfaces for implementation generation (`JPredicateType`):
 
-* **GUAVA** - Guava predicates (`com.google.common.base.Predicate`)
 * **JAVA** - predicates from Java 8 (`java.util.function.Predicate`)
+* **GUAVA** - Guava predicates (`com.google.common.base.Predicate`)
+* **COMMONS** - predicates from Apache Commons Collections (`org.apache.commons.collections.Predicate`)
 
 There are several ways to generate predicate or group of predicates.
 It depends on the annotation location:

@@ -16,6 +16,11 @@ public enum  JPredicateType {
     /**
      * Guava predicate (com.google.common.base.Predicate)
      */
-    GUAVA
+    GUAVA,
+
+    /**
+     * Apache Commons predicate (org.apache.commons.collections.Predicate)
+     */
+    COMMONS
 
 }

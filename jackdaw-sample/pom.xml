@@ -13,6 +13,7 @@
     <artifactId>jackdaw-sample</artifactId>
 
     <properties>
+        <commons.collections.version>3.2.1</commons.collections.version>
         <guava.version>18.0</guava.version>
         <jackdaw.version>1.0.6</jackdaw.version>
     </properties>
@@ -28,6 +29,12 @@
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>${guava.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-collections</groupId>
+            <artifactId>commons-collections</artifactId>
+            <version>${commons.collections.version}</version>
         </dependency>
     </dependencies>
 
