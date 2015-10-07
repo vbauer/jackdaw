@@ -315,8 +315,7 @@ public final class CompanyClassDescriptor {
 To generated safe and well-coded comparator, you have to write a lot of boilerplate code.
 **@JComparator** annotation allows to simplify this situation.
 To generate reverse order comparator, use parameter `reverse`.
-By default, all generated comparators are thread-safe.
-Use `nullable` parameter to generate null-safe comparators.
+By default, all generated comparators are null-safe. Use `nullable` parameter to generate not null-safe comparators.
 
 There are several ways to generate comparator or group of comparators.
 It depends on the annotation location:
@@ -514,7 +513,7 @@ public final class CompanyPredicates {
 }
 ```
 To generate reverse predicate, use parameter `reverse`.
-You can also use `nullable` parameter to generate null-safe predicates.
+By default, all generated predicates are null-safe. Use `nullable` parameter to generate not null-safe predicates.
 
 
 ### @JRepeatable
