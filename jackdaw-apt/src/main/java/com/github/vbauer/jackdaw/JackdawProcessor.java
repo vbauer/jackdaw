@@ -78,7 +78,9 @@ public class JackdawProcessor extends AbstractProcessor {
                     final List<TypeElement> elements = sourceContext.getElements();
                     final String annotationName = sourceContext.getAnnotationClassName();
 
-                    SourceCodeGenerator.generate(annotationName, elements);
+                    if (!SourceCodeGenerator.generate(annotationName, elements)) {
+                        break;
+                    }
                 }
             }
         });
