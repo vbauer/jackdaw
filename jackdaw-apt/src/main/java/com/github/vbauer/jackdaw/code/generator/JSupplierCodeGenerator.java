@@ -4,6 +4,7 @@ import com.github.vbauer.jackdaw.annotation.JSupplier;
 import com.github.vbauer.jackdaw.annotation.type.JSupplierType;
 import com.github.vbauer.jackdaw.code.base.GeneratedCodeGenerator;
 import com.github.vbauer.jackdaw.code.context.CodeGeneratorContext;
+import com.github.vbauer.jackdaw.util.ModelUtils;
 import com.github.vbauer.jackdaw.util.SourceCodeUtils;
 import com.github.vbauer.jackdaw.util.TypeUtils;
 import com.github.vbauer.jackdaw.util.callback.AnnotatedElementCallback;
@@ -67,7 +68,7 @@ public class JSupplierCodeGenerator extends GeneratedCodeGenerator {
     ) {
         final JSupplierType functionType = annotation.type();
         final String packageName = getFunctionPackageName(functionType);
-        final String caller = SourceCodeUtils.getCaller(element);
+        final String caller = ModelUtils.getCaller(element);
         final TypeName typeName = TypeUtils.getTypeName(element, true);
 
         final ClassName supplierClass = ClassName.get(packageName, CLASS_NAME);

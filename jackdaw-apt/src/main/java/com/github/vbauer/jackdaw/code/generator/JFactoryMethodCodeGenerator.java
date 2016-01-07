@@ -3,7 +3,7 @@ package com.github.vbauer.jackdaw.code.generator;
 import com.github.vbauer.jackdaw.annotation.JFactoryMethod;
 import com.github.vbauer.jackdaw.code.base.GeneratedCodeGenerator;
 import com.github.vbauer.jackdaw.code.context.CodeGeneratorContext;
-import com.github.vbauer.jackdaw.util.SourceCodeUtils;
+import com.github.vbauer.jackdaw.util.ModelUtils;
 import com.github.vbauer.jackdaw.util.TypeUtils;
 import com.github.vbauer.jackdaw.util.function.AddSuffix;
 import com.github.vbauer.jackdaw.util.model.ClassType;
@@ -70,8 +70,8 @@ public class JFactoryMethodCodeGenerator extends GeneratedCodeGenerator {
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC);
 
         final List<String> arguments = Lists.newArrayList(args);
-        final Map<String, TypeName> variables = SourceCodeUtils.getVariables(
-            typeElement, SourceCodeUtils.createHasSetterPredicate(typeElement)
+        final Map<String, TypeName> variables = ModelUtils.getVariables(
+            typeElement, ModelUtils.createHasSetterPredicate(typeElement)
         );
 
         methodBuilder.addStatement("final $T object = new $T()", typeElement, typeElement);

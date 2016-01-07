@@ -4,12 +4,18 @@ import com.github.vbauer.jackdaw.annotation.JPredicate;
 import com.github.vbauer.jackdaw.annotation.type.JPredicateType;
 import com.github.vbauer.jackdaw.code.base.GeneratedCodeGenerator;
 import com.github.vbauer.jackdaw.code.context.CodeGeneratorContext;
+import com.github.vbauer.jackdaw.util.ModelUtils;
 import com.github.vbauer.jackdaw.util.SourceCodeUtils;
 import com.github.vbauer.jackdaw.util.TypeUtils;
 import com.github.vbauer.jackdaw.util.callback.AnnotatedElementCallback;
 import com.github.vbauer.jackdaw.util.function.AddSuffix;
 import com.github.vbauer.jackdaw.util.model.ClassType;
-import com.squareup.javapoet.*;
+import com.squareup.javapoet.ClassName;
+import com.squareup.javapoet.CodeBlock;
+import com.squareup.javapoet.FieldSpec;
+import com.squareup.javapoet.ParameterizedTypeName;
+import com.squareup.javapoet.TypeName;
+import com.squareup.javapoet.TypeSpec;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.lang.model.element.Element;
@@ -111,7 +117,7 @@ public class JPredicateCodeGenerator extends GeneratedCodeGenerator {
         final TypeName predicateTypeName, final Element element, final TypeElement typeElement
     ) {
         final String operation = reverse ? "!" : StringUtils.EMPTY;
-        final String caller = SourceCodeUtils.getCaller(element);
+        final String caller = ModelUtils.getCaller(element);
         final String nullableGuard = nullable ? "input != null && " : StringUtils.EMPTY;
 
         switch (type) {

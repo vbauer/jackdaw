@@ -21,8 +21,8 @@ import javax.tools.Diagnostic;
 @JClassDescriptor
 public abstract class AbstractMouseListener implements MouseListener {
 
-    private int x;
-    private int y;
+    private final int x;
+    private final int y;
 
 
     @JMessage(value = "DEADLINE!", after = "22/03/2015", type = Diagnostic.Kind.NOTE)

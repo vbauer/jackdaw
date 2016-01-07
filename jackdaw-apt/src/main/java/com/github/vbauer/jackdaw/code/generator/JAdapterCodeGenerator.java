@@ -3,6 +3,7 @@ package com.github.vbauer.jackdaw.code.generator;
 import com.github.vbauer.jackdaw.annotation.JAdapter;
 import com.github.vbauer.jackdaw.code.base.GeneratedCodeGenerator;
 import com.github.vbauer.jackdaw.code.context.CodeGeneratorContext;
+import com.github.vbauer.jackdaw.util.ModelUtils;
 import com.github.vbauer.jackdaw.util.SourceCodeUtils;
 import com.github.vbauer.jackdaw.util.TypeUtils;
 import com.github.vbauer.jackdaw.util.function.AddSuffix;
@@ -52,7 +53,7 @@ public class JAdapterCodeGenerator extends GeneratedCodeGenerator {
         SourceCodeUtils.addParent(builder, typeElement);
         SourceCodeUtils.copyConstructors(builder, typeElement);
 
-        final Collection<ExecutableElement> methods = SourceCodeUtils.findUnimplementedMethods(typeElement);
+        final Collection<ExecutableElement> methods = ModelUtils.findUnimplementedMethods(typeElement);
         for (final ExecutableElement method : methods) {
             addMethod(builder, method);
         }

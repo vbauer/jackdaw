@@ -3,6 +3,7 @@ package com.github.vbauer.jackdaw.code.generator;
 import com.github.vbauer.jackdaw.annotation.JRepeatable;
 import com.github.vbauer.jackdaw.code.base.GeneratedCodeGenerator;
 import com.github.vbauer.jackdaw.code.context.CodeGeneratorContext;
+import com.github.vbauer.jackdaw.util.ModelUtils;
 import com.github.vbauer.jackdaw.util.SourceCodeUtils;
 import com.github.vbauer.jackdaw.util.TypeUtils;
 import com.github.vbauer.jackdaw.util.function.AddSuffix;
@@ -55,7 +56,7 @@ public class JRepeatableCodeGenerator extends GeneratedCodeGenerator {
         final String repeatableClassName = JRepeatable.class.getCanonicalName();
 
         for (final AnnotationMirror annotation : annotations) {
-            final String annotationName = SourceCodeUtils.getName(annotation);
+            final String annotationName = ModelUtils.getName(annotation);
             if (!annotationName.equals(repeatableClassName)
                 && !SourceCodeUtils.hasAnnotation(builder, annotation))
             {

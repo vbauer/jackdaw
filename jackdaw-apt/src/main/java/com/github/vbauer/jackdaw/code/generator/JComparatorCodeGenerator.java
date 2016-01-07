@@ -3,6 +3,7 @@ package com.github.vbauer.jackdaw.code.generator;
 import com.github.vbauer.jackdaw.annotation.JComparator;
 import com.github.vbauer.jackdaw.code.base.GeneratedCodeGenerator;
 import com.github.vbauer.jackdaw.code.context.CodeGeneratorContext;
+import com.github.vbauer.jackdaw.util.ModelUtils;
 import com.github.vbauer.jackdaw.util.SourceCodeUtils;
 import com.github.vbauer.jackdaw.util.TypeUtils;
 import com.github.vbauer.jackdaw.util.callback.AnnotatedElementCallback;
@@ -71,7 +72,7 @@ public class JComparatorCodeGenerator extends GeneratedCodeGenerator {
         final Element element, final JComparator annotation
     ) {
         final TypeName typeName = TypeUtils.getTypeName(element, true);
-        final String caller = SourceCodeUtils.getCaller(element);
+        final String caller = ModelUtils.getCaller(element);
 
         final boolean reverse = annotation.reverse();
         final String param1 = reverse ? PARAM_2 : PARAM_1;

@@ -3,6 +3,7 @@ package com.github.vbauer.jackdaw.code.generator;
 import com.github.vbauer.jackdaw.annotation.JBuilder;
 import com.github.vbauer.jackdaw.code.base.GeneratedCodeGenerator;
 import com.github.vbauer.jackdaw.code.context.CodeGeneratorContext;
+import com.github.vbauer.jackdaw.util.ModelUtils;
 import com.github.vbauer.jackdaw.util.SourceCodeUtils;
 import com.github.vbauer.jackdaw.util.TypeUtils;
 import com.github.vbauer.jackdaw.util.function.AddSuffix;
@@ -45,8 +46,8 @@ public class JBuilderCodeGenerator extends GeneratedCodeGenerator {
         final TypeElement typeElement = context.getTypeElement();
         final ClassName originType = getOriginType(context);
 
-        final Map<String, TypeName> variables = SourceCodeUtils.getVariables(
-            typeElement, SourceCodeUtils.createHasSetterPredicate(typeElement)
+        final Map<String, TypeName> variables = ModelUtils.getVariables(
+            typeElement, ModelUtils.createHasSetterPredicate(typeElement)
         );
 
         addCreateMethod(builder, originType);

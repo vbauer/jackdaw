@@ -3,6 +3,7 @@ package com.github.vbauer.jackdaw.code.generator;
 import com.github.vbauer.jackdaw.annotation.JClassDescriptor;
 import com.github.vbauer.jackdaw.code.base.GeneratedCodeGenerator;
 import com.github.vbauer.jackdaw.code.context.CodeGeneratorContext;
+import com.github.vbauer.jackdaw.util.ModelUtils;
 import com.github.vbauer.jackdaw.util.SourceCodeUtils;
 import com.github.vbauer.jackdaw.util.TypeUtils;
 import com.github.vbauer.jackdaw.util.function.AddSuffix;
@@ -75,7 +76,7 @@ public class JClassDescriptorCodeGenerator extends GeneratedCodeGenerator {
         }
 
         // Process interfaces
-        final List<TypeElement> interfaces = SourceCodeUtils.getInterfaces(typeElement);
+        final List<TypeElement> interfaces = ModelUtils.getInterfaces(typeElement);
         for (final TypeElement element : interfaces) {
             process(builder, element);
         }

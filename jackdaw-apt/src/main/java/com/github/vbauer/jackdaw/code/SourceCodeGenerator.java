@@ -35,7 +35,6 @@ public final class SourceCodeGenerator {
             MessageUtils.error(ExceptionUtils.getMessage(ex));
             return false;
         }
-
     }
 
 

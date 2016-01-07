@@ -3,6 +3,7 @@ package com.github.vbauer.jackdaw.code.generator;
 import com.github.vbauer.jackdaw.annotation.JBean;
 import com.github.vbauer.jackdaw.code.base.GeneratedCodeGenerator;
 import com.github.vbauer.jackdaw.code.context.CodeGeneratorContext;
+import com.github.vbauer.jackdaw.util.ModelUtils;
 import com.github.vbauer.jackdaw.util.SourceCodeUtils;
 import com.github.vbauer.jackdaw.util.TypeUtils;
 import com.github.vbauer.jackdaw.util.function.NameBean;
@@ -50,7 +51,7 @@ public class JBeanCodeGenerator extends GeneratedCodeGenerator {
         SourceCodeUtils.copyConstructors(builder, typeElement);
 
         final List<VariableElement> fields = ElementFilter.fieldsIn(typeElement.getEnclosedElements());
-        final Collection<MethodInfo> implementedMethods = SourceCodeUtils.findImplementedMethods(typeElement);
+        final Collection<MethodInfo> implementedMethods = ModelUtils.findImplementedMethods(typeElement);
 
         for (final VariableElement field : fields) {
             if (!TypeUtils.hasAnyModifier(field, Modifier.STATIC)) {
