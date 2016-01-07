@@ -9,8 +9,6 @@ import java.lang.annotation.Target;
 /**
  * Ignore class from Jackdaw's processing.
  *
- * This annotation is created for development purposes.
- *
  * @author Vladislav Bauer
  */
 

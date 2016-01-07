@@ -23,6 +23,7 @@ Jackdaw was inspired by [Lombok](http://projectlombok.org) project, but in compa
     <li><a href="#jcomparator">@JComparator</a></li>
     <li><a href="#jfactorymethod">@JFactoryMethod</a></li>
     <li><a href="#jfunction">@JFunction</a></li>
+    <li><a href="#jignore">@JIgnore</a></li>
     <li><a href="#jmessage">@JMessage</a></li>
     <li><a href="#jpredicate">@JPredicate</a></li>
     <li><a href="#jrepeatable">@JRepeatable</a></li>
@@ -443,6 +444,11 @@ public final class CompanyFunctions {
 ```
 
 By default, all generated functions are null-safe. Use `nullable` parameter to generate not null-safe functions.
+
+
+### @JIgnore
+
+The **@JIgnore** annotation allows to ignore classes or interfaces from Jackdaw's processing.
 
 
 ### @JMessage
