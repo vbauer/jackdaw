@@ -7,3 +7,6 @@ branches:
   only:
   - master
 sudo: false
+cache:
+  directories:
+    - $HOME/.m2
