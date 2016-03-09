@@ -13,7 +13,7 @@
     <artifactId>jackdaw-sample</artifactId>
 
     <properties>
-        <commons.collections.version>3.2.1</commons.collections.version>
+        <commons.collections.version>3.2.2</commons.collections.version>
         <guava.version>18.0</guava.version>
         <jackdaw.version>1.0.7</jackdaw.version>
     </properties>
