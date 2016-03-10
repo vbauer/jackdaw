@@ -8,6 +8,7 @@ import org.junit.Test
 /**
  * @author Vladislav Bauer
  */
+
 class JFactoryTest : BaseTest() {
 
     @Test
