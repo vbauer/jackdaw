@@ -19,7 +19,6 @@ import javax.tools.JavaFileObject;
 
 public final class ProcessorUtils {
 
-
     private ProcessorUtils() {
         throw new UnsupportedOperationException();
     }
@@ -31,7 +30,7 @@ public final class ProcessorUtils {
         final ProcessingEnvironment env = ProcessorContextHolder.getProcessingEnvironment();
         final Filer filer = env.getFiler();
 
-        return filer.createSourceFile(packageName + SourceCodeUtils.PACKAGE_SEPARATOR + className, baseElement);
+        return filer.createSourceFile(packageName + SourceTextUtils.PACKAGE_SEPARATOR + className, baseElement);
     }
 
     public static String packageName(final TypeElement element) {

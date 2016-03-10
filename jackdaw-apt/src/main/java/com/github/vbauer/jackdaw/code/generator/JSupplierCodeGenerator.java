@@ -6,6 +6,7 @@ import com.github.vbauer.jackdaw.code.base.GeneratedCodeGenerator;
 import com.github.vbauer.jackdaw.code.context.CodeGeneratorContext;
 import com.github.vbauer.jackdaw.util.ModelUtils;
 import com.github.vbauer.jackdaw.util.SourceCodeUtils;
+import com.github.vbauer.jackdaw.util.SourceTextUtils;
 import com.github.vbauer.jackdaw.util.TypeUtils;
 import com.github.vbauer.jackdaw.util.callback.AnnotatedElementCallback;
 import com.github.vbauer.jackdaw.util.function.AddSuffix;
@@ -82,7 +83,7 @@ public class JSupplierCodeGenerator extends GeneratedCodeGenerator {
                 .addParameter(parameterClass, "o", Modifier.FINAL)
                 .returns(fieldTypeName)
                 .addCode(
-                    SourceCodeUtils.lines(
+                    SourceTextUtils.lines(
                         "return new $T() {",
                             "@Override",
                             "public $T get() {",

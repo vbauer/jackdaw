@@ -5,7 +5,7 @@ import com.github.vbauer.jackdaw.code.context.CodeGeneratorContext;
 import com.github.vbauer.jackdaw.context.ProcessorContext;
 import com.github.vbauer.jackdaw.context.ProcessorContextHolder;
 import com.github.vbauer.jackdaw.util.ProcessorUtils;
-import com.github.vbauer.jackdaw.util.SourceCodeUtils;
+import com.github.vbauer.jackdaw.util.SourceTextUtils;
 import com.github.vbauer.jackdaw.util.model.ClassType;
 import com.google.common.base.Function;
 import com.squareup.javapoet.AnnotationSpec;
@@ -56,7 +56,7 @@ public abstract class GeneratedCodeGenerator extends BaseCodeGenerator {
 
             final TypeSpec typeSpec = typeSpecBuilder.build();
             final JavaFile javaFile = JavaFile.builder(packageName, typeSpec)
-                .indent(SourceCodeUtils.INDENT)
+                .indent(SourceTextUtils.INDENT)
                 .skipJavaLangImports(true)
                 .build();
 

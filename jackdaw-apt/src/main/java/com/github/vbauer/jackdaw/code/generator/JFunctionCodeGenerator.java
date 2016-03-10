@@ -6,6 +6,7 @@ import com.github.vbauer.jackdaw.code.base.GeneratedCodeGenerator;
 import com.github.vbauer.jackdaw.code.context.CodeGeneratorContext;
 import com.github.vbauer.jackdaw.util.ModelUtils;
 import com.github.vbauer.jackdaw.util.SourceCodeUtils;
+import com.github.vbauer.jackdaw.util.SourceTextUtils;
 import com.github.vbauer.jackdaw.util.TypeUtils;
 import com.github.vbauer.jackdaw.util.callback.AnnotatedElementCallback;
 import com.github.vbauer.jackdaw.util.function.AddSuffix;
@@ -88,7 +89,7 @@ public class JFunctionCodeGenerator extends GeneratedCodeGenerator {
                 Modifier.PUBLIC, Modifier.FINAL, Modifier.STATIC
             )
             .initializer(
-                SourceCodeUtils.lines(
+                SourceTextUtils.lines(
                     "new $T() {",
                         "@Override",
                         "public $T apply(final $T input) {",

@@ -5,6 +5,7 @@ import com.github.vbauer.jackdaw.code.base.GeneratedCodeGenerator;
 import com.github.vbauer.jackdaw.code.context.CodeGeneratorContext;
 import com.github.vbauer.jackdaw.util.ModelUtils;
 import com.github.vbauer.jackdaw.util.SourceCodeUtils;
+import com.github.vbauer.jackdaw.util.SourceTextUtils;
 import com.github.vbauer.jackdaw.util.TypeUtils;
 import com.github.vbauer.jackdaw.util.callback.AnnotatedElementCallback;
 import com.github.vbauer.jackdaw.util.function.AddSuffix;
@@ -127,7 +128,7 @@ public class JComparatorCodeGenerator extends GeneratedCodeGenerator {
         code.add("}");
 
         fieldBuilder.initializer(
-            SourceCodeUtils.lines(code.toArray(new String[code.size()])),
+            SourceTextUtils.lines(code.toArray(new String[code.size()])),
             typeElement, typeElement, typeElement,
             typeName, caller,
             typeName, caller

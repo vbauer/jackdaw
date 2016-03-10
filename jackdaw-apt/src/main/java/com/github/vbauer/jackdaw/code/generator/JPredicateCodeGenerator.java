@@ -6,6 +6,7 @@ import com.github.vbauer.jackdaw.code.base.GeneratedCodeGenerator;
 import com.github.vbauer.jackdaw.code.context.CodeGeneratorContext;
 import com.github.vbauer.jackdaw.util.ModelUtils;
 import com.github.vbauer.jackdaw.util.SourceCodeUtils;
+import com.github.vbauer.jackdaw.util.SourceTextUtils;
 import com.github.vbauer.jackdaw.util.TypeUtils;
 import com.github.vbauer.jackdaw.util.callback.AnnotatedElementCallback;
 import com.github.vbauer.jackdaw.util.function.AddSuffix;
@@ -124,7 +125,7 @@ public class JPredicateCodeGenerator extends GeneratedCodeGenerator {
             case JAVA:
             case GUAVA:
                 return CodeBlock.builder().add(
-                    SourceCodeUtils.lines(
+                    SourceTextUtils.lines(
                         "new $T() {",
                             "@Override",
                             "public boolean apply(final $T input) {",
@@ -136,7 +137,7 @@ public class JPredicateCodeGenerator extends GeneratedCodeGenerator {
                 ).build();
             case COMMONS:
                 return CodeBlock.builder().add(
-                    SourceCodeUtils.lines(
+                    SourceTextUtils.lines(
                         "new $T() {",
                             "@Override",
                             "public boolean evaluate(final $T input) {",

@@ -5,6 +5,7 @@ import com.github.vbauer.jackdaw.code.base.GeneratedCodeGenerator;
 import com.github.vbauer.jackdaw.code.context.CodeGeneratorContext;
 import com.github.vbauer.jackdaw.util.ModelUtils;
 import com.github.vbauer.jackdaw.util.SourceCodeUtils;
+import com.github.vbauer.jackdaw.util.SourceTextUtils;
 import com.github.vbauer.jackdaw.util.TypeUtils;
 import com.github.vbauer.jackdaw.util.function.AddSuffix;
 import com.github.vbauer.jackdaw.util.model.ClassType;
@@ -104,7 +105,7 @@ public class JRepeatableCodeGenerator extends GeneratedCodeGenerator {
             final ElementKind kind = variableElement.getKind();
             if (kind == ElementKind.ENUM_CONSTANT) {
                 final Element classElement = ((VariableElement) value).getEnclosingElement();
-                value = classElement + SourceCodeUtils.PACKAGE_SEPARATOR + variableElement;
+                value = classElement + SourceTextUtils.PACKAGE_SEPARATOR + variableElement;
                 format = "L";
             }
         }
