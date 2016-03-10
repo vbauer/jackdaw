@@ -1,5 +1,6 @@
 package com.github.vbauer.jackdaw
 
+import com.github.vbauer.jackdaw.base.BaseTest
 import org.hamcrest.Matchers.equalTo
 import org.junit.Assert.assertThat
 import org.junit.Test
@@ -8,7 +9,12 @@ import org.junit.Test
  * @author Vladislav Bauer
  */
 
-class JClassDescriptorTest {
+class JClassDescriptorTest : BaseTest() {
+
+    @Test
+    fun testCompanyFactoryConstructor() {
+        checkConstructor(CompanyClassDescriptor::class)
+    }
 
     @Test
     fun testCompanyClassDescriptorFields() {
