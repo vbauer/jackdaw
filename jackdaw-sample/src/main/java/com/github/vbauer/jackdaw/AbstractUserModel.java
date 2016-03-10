@@ -7,6 +7,11 @@ import com.github.vbauer.jackdaw.annotation.JBean;
  */
 
 @JBean
+@RoleList({
+    @Role("user"),
+    @Role("moderator"),
+    @Role("administrator")
+})
 public abstract class AbstractUserModel {
 
     public static final String DEFAULT_PASSWORD = "qwerty";

@@ -1,6 +1,12 @@
 package com.github.vbauer.jackdaw;
 
-import com.github.vbauer.jackdaw.annotation.*;
+import com.github.vbauer.jackdaw.annotation.JBuilder;
+import com.github.vbauer.jackdaw.annotation.JClassDescriptor;
+import com.github.vbauer.jackdaw.annotation.JComparator;
+import com.github.vbauer.jackdaw.annotation.JFactoryMethod;
+import com.github.vbauer.jackdaw.annotation.JFunction;
+import com.github.vbauer.jackdaw.annotation.JPredicate;
+import com.github.vbauer.jackdaw.annotation.JSupplier;
 
 import java.util.Set;
 
@@ -66,7 +72,6 @@ public class Company {
         this.listed = listed;
     }
 
-    @JFunction
     @JComparator
     public boolean isListed2(final boolean test) {
         final boolean test2 = getId() > 0;

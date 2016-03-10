@@ -201,7 +201,7 @@ public final class TypeUtils {
     }
 
     public static TypeName getArrayTypeName(final Element parameter) {
-        return ArrayTypeName.get(parameter.asType());
+        return ArrayTypeName.of(TypeName.get(parameter.asType()));
     }
 
     public static boolean hasAnyModifier(final Element element, Modifier... modifiers) {
