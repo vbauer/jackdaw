@@ -4,15 +4,19 @@ import com.github.vbauer.jackdaw.annotation.JIgnore;
 import com.github.vbauer.jackdaw.code.SourceCodeGeneratorRegistry;
 import com.github.vbauer.jackdaw.code.base.CodeGenerator;
 import com.github.vbauer.jackdaw.code.base.GeneratedCodeGenerator;
+import com.github.vbauer.jackdaw.util.MessageUtils;
 import com.github.vbauer.jackdaw.util.TypeUtils;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
+import org.apache.commons.lang3.ClassUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.commons.lang3.tuple.Pair;
 
 import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
+import java.lang.annotation.Annotation;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -74,26 +78,39 @@ public class ProcessorSourceContext {
         final RoundEnvironment roundEnv, final Collection<? extends TypeElement> annotations
     ) {
         final List<ProcessorSourceContext> contexts = Lists.newArrayList();
-        for (final TypeElement annotation : annotations) {
-            contexts.add(calculate(roundEnv, annotation));
+
+        try {
+            for (final TypeElement annotation : annotations) {
+                contexts.add(calculate(roundEnv, annotation));
+            }
+        } catch (final Exception ex) {
+            MessageUtils.error(ExceptionUtils.getMessage(ex));
         }
+
         return contexts;
     }
 
 
+    @SuppressWarnings("unchecked")
     private static ProcessorSourceContext calculate(
         final RoundEnvironment roundEnv, final TypeElement annotation
-    ) {
+    ) throws Exception {
         final String annotationName = annotation.getQualifiedName().toString();
+        final Class<? extends Annotation> annotationClass =
+            (Class<? extends Annotation>) ClassUtils.getClass(annotationName);
+
         final Set<? extends Element> allElements = roundEnv.getElementsAnnotatedWith(annotation);
-        final Collection<TypeElement> elements = TypeUtils.foldToTypeElements(allElements);
-        final Collection<TypeElement> filteredElements =
-            TypeUtils.filterWithoutAnnotation(elements, JIgnore.class);
+        final Collection<? extends Element> filteredElement =
+            TypeUtils.filterWithAnnotation(allElements, annotationClass);
+
+        final Collection<TypeElement> typeElements = TypeUtils.foldToTypeElements(filteredElement);
+        final Collection<TypeElement> filteredTypeElements =
+            TypeUtils.filterWithoutAnnotation(typeElements, JIgnore.class);
 
         final CodeGenerator generator = SourceCodeGeneratorRegistry.find(annotationName);
         final List<Pair<TypeElement, String>> classes = Lists.newArrayList();
 
-        for (final TypeElement element : filteredElements) {
+        for (final TypeElement element : filteredTypeElements) {
             final String className = getClassName(generator, element);
             classes.add(Pair.of(element, className));
         }

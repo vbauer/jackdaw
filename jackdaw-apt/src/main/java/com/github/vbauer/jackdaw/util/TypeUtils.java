@@ -34,7 +34,7 @@ public final class TypeUtils {
     }
 
 
-    public static Collection<TypeElement> foldToTypeElements(final Set<? extends Element> allElements) {
+    public static Collection<TypeElement> foldToTypeElements(final Collection<? extends Element> allElements) {
         final Collection<TypeElement> elements = Sets.newHashSet();
 
         for (final Element element : allElements) {
@@ -98,7 +98,7 @@ public final class TypeUtils {
     ) {
         final Collection<T> result = Lists.newArrayList();
         for (final T element : elements) {
-            final Annotation annotation = getAnnotation(annotationClass, element);
+            final Annotation annotation = element.getAnnotation(annotationClass);
             if (annotation == null) {
                 result.add(element);
             }
@@ -117,7 +117,21 @@ public final class TypeUtils {
                 callback.process(element, annotation);
             }
         }
+    }
 
+    public static <T extends Annotation> List<? extends Element> filterWithAnnotation(
+        final Collection<? extends Element> elements, final Class<T> annotationClass
+    ) {
+        final List<Element> result = Lists.newArrayList();
+
+        for (final Element element : elements) {
+            final T annotation = element.getAnnotation(annotationClass);
+            if (annotation != null) {
+                result.add(element);
+            }
+        }
+
+        return result;
     }
 
     public static boolean isSimpleMethod(final Element element) {
