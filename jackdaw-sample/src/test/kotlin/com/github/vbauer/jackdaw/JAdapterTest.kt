@@ -1,6 +1,5 @@
 package com.github.vbauer.jackdaw
 
-import com.github.vbauer.jackdaw.base.BaseTest
 import org.hamcrest.Matchers.equalTo
 import org.hamcrest.Matchers.nullValue
 import org.junit.Assert.assertThat
@@ -10,7 +9,7 @@ import org.junit.Test
  * @author Vladislav Bauer
  */
 
-class JAdapterTest : BaseTest() {
+class JAdapterTest {
 
     @Test
     fun testMouseListenerAdapter() {
