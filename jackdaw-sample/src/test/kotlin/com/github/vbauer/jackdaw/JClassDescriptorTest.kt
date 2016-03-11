@@ -41,4 +41,21 @@ class JClassDescriptorTest : BaseTest() {
         assertThat(CompanyClassDescriptor.METHOD_SET_DESCRIPTIONS, equalTo("setDescriptions"))
     }
 
+    @Test
+    fun testAbstractMouseListenerClassDescriptorFields() {
+        assertThat(AbstractMouseListenerClassDescriptor.FIELD_X, equalTo("x"))
+        assertThat(AbstractMouseListenerClassDescriptor.FIELD_Y, equalTo("y"))
+    }
+
+    @Test
+    fun testAbstractMouseListenerClassDescriptorMethods() {
+        assertThat(AbstractMouseListenerClassDescriptor.METHOD_TEST_MOUSE, equalTo("testMouse"))
+        assertThat(AbstractMouseListenerClassDescriptor.METHOD_X, equalTo("getX"))
+        assertThat(AbstractMouseListenerClassDescriptor.METHOD_Y, equalTo("getY"))
+        assertThat(AbstractMouseListenerClassDescriptor.METHOD_ON_CLICK, equalTo("onClick"))
+        assertThat(AbstractMouseListenerClassDescriptor.METHOD_ON_MOVE, equalTo("onMove"))
+        assertThat(AbstractMouseListenerClassDescriptor.METHOD_PRESS, equalTo("press"))
+        assertThat(AbstractMouseListenerClassDescriptor.METHOD_PRESSED, equalTo("isPressed"))
+    }
+
 }
