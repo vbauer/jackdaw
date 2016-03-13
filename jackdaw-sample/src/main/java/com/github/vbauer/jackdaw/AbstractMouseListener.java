@@ -22,7 +22,7 @@ import javax.tools.Diagnostic;
 public abstract class AbstractMouseListener implements MouseListener {
 
     private final int x;
-    private final int y;
+    private final Integer y;
 
 
     @JMessage(value = "DEADLINE!", after = "22/03/2015", type = Diagnostic.Kind.NOTE)
@@ -30,7 +30,7 @@ public abstract class AbstractMouseListener implements MouseListener {
         this(0, 0);
     }
 
-    public AbstractMouseListener(final int x, final int y) {
+    public AbstractMouseListener(final int x, final Integer y) {
         this.x = x;
         this.y = y;
     }

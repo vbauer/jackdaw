@@ -14,7 +14,16 @@ class JAdapterTest {
     @Test
     fun testMouseListenerAdapter() {
         val adapter = MouseListenerAdapter()
+        checkAdapter(adapter)
+    }
 
+    @Test
+    fun testAbstractMouseListenerAdapter() {
+        val adapter = AbstractMouseListenerAdapter(0, null)
+        checkAdapter(adapter)
+    }
+
+    private fun checkAdapter(adapter: MouseListener) {
         assertThat(adapter.x, equalTo(0))
         assertThat(adapter.y, nullValue())
         assertThat(adapter.press(0), nullValue())
