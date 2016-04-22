@@ -37,16 +37,20 @@ public class JackdawProcessor extends AbstractProcessor {
     public final boolean process(
         final Set<? extends TypeElement> annotations, final RoundEnvironment roundEnv
     ) {
-        final boolean needToProcess =
-            !(roundEnv.processingOver() || annotations.isEmpty());
+        final boolean needToProcess = !(roundEnv.processingOver() || annotations.isEmpty());
 
         if (needToProcess) {
-            final Collection<ProcessorSourceContext> sourceContexts =
-                ProcessorSourceContext.calculate(roundEnv, annotations);
+            ProcessorContextHolder.withContext(processorContext, new Runnable() {
+                @Override
+                public void run() {
+                    final Collection<ProcessorSourceContext> sourceContexts =
+                        ProcessorSourceContext.calculate(roundEnv, annotations);
 
-            processorContext.setSourceContexts(sourceContexts);
+                    processorContext.setSourceContexts(sourceContexts);
 
-            process();
+                    process();
+                }
+            });
         }
         return false;
     }
@@ -68,22 +72,17 @@ public class JackdawProcessor extends AbstractProcessor {
 
 
     private void process() {
-        ProcessorContextHolder.withContext(processorContext, new Runnable() {
-            @Override
-            public void run() {
-                final Collection<ProcessorSourceContext> sourceContexts =
-                    processorContext.getSourceContexts();
+        final Collection<ProcessorSourceContext> sourceContexts =
+            processorContext.getSourceContexts();
 
-                for (final ProcessorSourceContext sourceContext : sourceContexts) {
-                    final List<TypeElement> elements = sourceContext.getElements();
-                    final String annotationName = sourceContext.getAnnotationClassName();
+        for (final ProcessorSourceContext sourceContext : sourceContexts) {
+            final List<TypeElement> elements = sourceContext.getElements();
+            final String annotationName = sourceContext.getAnnotationClassName();
 
-                    if (!SourceCodeGenerator.generate(annotationName, elements)) {
-                        break;
-                    }
-                }
+            if (!SourceCodeGenerator.generate(annotationName, elements)) {
+                break;
             }
-        });
+        }
     }
 
 }
