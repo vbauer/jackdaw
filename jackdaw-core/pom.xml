@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.github.vbauer.jackdaw</groupId>
         <artifactId>jackdaw</artifactId>
-        <version>1.0.8</version>
+        <version>1.0.9</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>

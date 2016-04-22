@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.github.vbauer.jackdaw</groupId>
         <artifactId>jackdaw</artifactId>
-        <version>1.0.8</version>
+        <version>1.0.9</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -17,7 +17,7 @@
         <commons.lang3.version>3.4</commons.lang3.version>
         <commons.io.version>2.4</commons.io.version>
         <guava.version>19.0</guava.version>
-        <jackdaw.version>1.0.8</jackdaw.version>
+        <jackdaw.version>1.0.9</jackdaw.version>
 
         <maven.serviceloader.plugin.version>1.0.7</maven.serviceloader.plugin.version>
     </properties>
