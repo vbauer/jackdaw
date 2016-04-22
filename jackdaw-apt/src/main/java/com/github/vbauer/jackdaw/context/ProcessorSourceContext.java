@@ -5,10 +5,10 @@ import com.github.vbauer.jackdaw.code.SourceCodeGeneratorRegistry;
 import com.github.vbauer.jackdaw.code.base.CodeGenerator;
 import com.github.vbauer.jackdaw.code.base.GeneratedCodeGenerator;
 import com.github.vbauer.jackdaw.util.MessageUtils;
+import com.github.vbauer.jackdaw.util.ReflectionUtils;
 import com.github.vbauer.jackdaw.util.TypeUtils;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
-import org.apache.commons.lang3.ClassUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.commons.lang3.tuple.Pair;
@@ -97,7 +97,7 @@ public class ProcessorSourceContext {
     ) throws Exception {
         final String annotationName = annotation.getQualifiedName().toString();
         final Class<? extends Annotation> annotationClass =
-            (Class<? extends Annotation>) ClassUtils.getClass(annotationName);
+            ReflectionUtils.getClass(annotationName);
 
         final Set<? extends Element> allElements = roundEnv.getElementsAnnotatedWith(annotation);
         final Collection<? extends Element> filteredElement =
