@@ -150,8 +150,8 @@ public final class TypeUtils {
         final TypeElement superclassElement = ProcessorUtils.getWrappedType(superclass);
 
         if (superclassElement != null) {
-            final String rootClassName = superclassElement.getQualifiedName().toString();
-            return rootClassName.equals(objectClassName) ? null : root;
+            final String rootClassName = String.valueOf(superclassElement.getQualifiedName());
+            return rootClassName.equals(objectClassName) ? null : superclassElement;
         }
         return null;
     }
