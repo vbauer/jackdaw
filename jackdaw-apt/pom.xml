@@ -19,7 +19,7 @@
         <guava.version>19.0</guava.version>
         <jackdaw.version>1.0.8</jackdaw.version>
 
-        <maven.serviceloader.plugin.version>1.0.4</maven.serviceloader.plugin.version>
+        <maven.serviceloader.plugin.version>1.0.7</maven.serviceloader.plugin.version>
     </properties>
 
     <dependencies>
