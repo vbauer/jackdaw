@@ -1,5 +1,6 @@
 package com.github.vbauer.jackdaw
 
+import com.github.vbauer.jackdaw.annotation.JFactoryMethod
 import com.github.vbauer.jackdaw.base.BaseTest
 import org.hamcrest.Matchers.equalTo
 import org.junit.Assert.assertThat
@@ -9,11 +10,16 @@ import org.junit.Test
  * @author Vladislav Bauer
  */
 
-class JFactoryTest : BaseTest() {
+class JFactoryMethodTest : BaseTest() {
 
     @Test
     fun testCompanyFactoryConstructor() {
         checkConstructor(CompanyFactory::class)
+    }
+
+    @Test
+    fun testDefaultMethodName() {
+        assertThat(JFactoryMethod.DEFAULT_METHOD_NAME, equalTo("create"))
     }
 
     @Test

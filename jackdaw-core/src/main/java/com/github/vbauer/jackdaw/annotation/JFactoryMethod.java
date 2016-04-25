@@ -48,11 +48,13 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 public @interface JFactoryMethod {
 
+    String DEFAULT_METHOD_NAME = "create";
+
     /**
-     * Factory method name (default value is "create").
+     * Factory method name (default value is {@link #DEFAULT_METHOD_NAME}).
      * @return method name
      */
-    String method() default "create";
+    String method() default DEFAULT_METHOD_NAME;
 
     /**
      * Use only specified fields in factory method (it is an empty array by default).
