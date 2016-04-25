@@ -14,7 +14,7 @@ import java.lang.annotation.Target;
 
 @JRepeatable
 @Documented
-@Retention(RetentionPolicy.CLASS)
+@Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface Role {
 
