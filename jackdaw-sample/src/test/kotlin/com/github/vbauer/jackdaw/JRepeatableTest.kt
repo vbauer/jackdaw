@@ -13,10 +13,10 @@ class JRepeatableTest {
 
     @Test
     fun testAbstractUserModel() {
-        val annotation = AbstractUserModel::class.java.getDeclaredAnnotation(RoleList::class.java)
+        val annotation = AbstractUserModel::class.java.getAnnotation(RoleList::class.java)
         val roles = annotation.value.asList();
 
-        assertThat(roles, hasSize(3))
+        assertThat(roles, hasSize<Role>(3))
         assertThat(findRole(roles, "user"), notNullValue())
         assertThat(findRole(roles, "moderator"), notNullValue())
         assertThat(findRole(roles, "administrator"), notNullValue())
