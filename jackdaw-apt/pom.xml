@@ -13,7 +13,7 @@
     <artifactId>jackdaw-apt</artifactId>
 
     <properties>
-        <javapoet.version>1.8.0</javapoet.version>
+        <javapoet.version>1.9.0</javapoet.version>
         <commons.lang3.version>3.5</commons.lang3.version>
         <commons.io.version>2.5</commons.io.version>
         <guava.version>20.0</guava.version>
