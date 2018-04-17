@@ -32,20 +32,20 @@ class JIgnoreTest {
     }
 
 
-    val pkg = "com.github.vbauer.jackdaw.bean"
+    private val pkg = "com.github.vbauer.jackdaw.bean"
 
     private fun notExist() = not(HasClassMatcher())
-    private fun generatedClass(name: String) = pkg + ".IgnoredBeanModel" + name
-    private fun beanClass() = pkg + ".IgnoredBean"
+    private fun generatedClass(name: String) = "$pkg.IgnoredBeanModel$name"
+    private fun beanClass() = "$pkg.IgnoredBean"
 
 
     class HasClassMatcher : BaseMatcher<String>() {
         override fun matches(item: Any?): Boolean {
-            try {
+            return try {
                 Class.forName(item.toString())
-                return true
+                true
             } catch (ex: Exception) {
-                return false
+                false
             }
         }
 
