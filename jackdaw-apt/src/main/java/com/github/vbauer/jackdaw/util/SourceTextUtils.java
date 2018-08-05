@@ -1,7 +1,6 @@
 package com.github.vbauer.jackdaw.util;
 
 import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.SystemUtils;
 
 /**
  * @author Vladislav Bauer
