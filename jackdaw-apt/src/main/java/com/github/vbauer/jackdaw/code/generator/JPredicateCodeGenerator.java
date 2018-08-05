@@ -47,7 +47,7 @@ public class JPredicateCodeGenerator extends GeneratedCodeGenerator {
 
 
     @Override
-    public final Class<? extends Annotation> getAnnotation() {
+    public final Class<JPredicate> getAnnotation() {
         return JPredicate.class;
     }
 

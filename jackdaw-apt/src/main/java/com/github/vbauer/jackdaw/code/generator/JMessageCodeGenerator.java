@@ -10,7 +10,6 @@ import javax.lang.model.element.Element;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.TypeElement;
 import javax.tools.Diagnostic;
-import java.lang.annotation.Annotation;
 import java.text.Format;
 import java.util.Collection;
 import java.util.Date;
@@ -27,12 +26,12 @@ public class JMessageCodeGenerator extends BaseCodeGenerator {
 
 
     @Override
-    public final Class<? extends Annotation> getAnnotation() {
+    public final Class<JMessage> getAnnotation() {
         return JMessage.class;
     }
 
     @Override
-    public final void generate(final CodeGeneratorContext context) throws Exception {
+    public final void generate(final CodeGeneratorContext context) {
         final TypeElement typeElement = context.getTypeElement();
         printInfoIfNecessary(typeElement);
     }

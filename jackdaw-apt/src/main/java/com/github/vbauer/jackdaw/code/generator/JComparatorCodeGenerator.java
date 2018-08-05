@@ -20,7 +20,6 @@ import com.squareup.javapoet.TypeSpec;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
-import java.lang.annotation.Annotation;
 import java.util.Arrays;
 import java.util.List;
 
@@ -46,7 +45,7 @@ public class JComparatorCodeGenerator extends GeneratedCodeGenerator {
 
 
     @Override
-    public final Class<? extends Annotation> getAnnotation() {
+    public final Class<JComparator> getAnnotation() {
         return JComparator.class;
     }
 
@@ -128,7 +127,7 @@ public class JComparatorCodeGenerator extends GeneratedCodeGenerator {
         code.add("}");
 
         fieldBuilder.initializer(
-            SourceTextUtils.lines(code.toArray(new String[code.size()])),
+            SourceTextUtils.lines(code.toArray(new String[0])),
             typeElement, typeElement, typeElement,
             typeName, caller,
             typeName, caller

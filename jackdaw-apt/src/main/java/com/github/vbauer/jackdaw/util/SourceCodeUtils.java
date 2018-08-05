@@ -94,7 +94,7 @@ public final class SourceCodeUtils {
 
                 newConstructor.addStatement(
                     "super(" + StringUtils.repeat("$L", ", ", names.size()) + ")",
-                    names.toArray(new String[names.size()])
+                    (Object[]) names.toArray(new Object[0])
                 );
 
                 builder.addMethod(newConstructor.build());

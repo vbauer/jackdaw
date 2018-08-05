@@ -15,7 +15,6 @@ import com.squareup.javapoet.TypeSpec;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
-import java.lang.annotation.Annotation;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -36,7 +35,7 @@ public class JFactoryMethodCodeGenerator extends GeneratedCodeGenerator {
 
 
     @Override
-    public final Class<? extends Annotation> getAnnotation() {
+    public final Class<JFactoryMethod> getAnnotation() {
         return JFactoryMethod.class;
     }
 
@@ -44,7 +43,7 @@ public class JFactoryMethodCodeGenerator extends GeneratedCodeGenerator {
     @Override
     protected final void generateBody(
         final CodeGeneratorContext context, final TypeSpec.Builder builder
-    ) throws Exception {
+    ) {
         final TypeElement typeElement = context.getTypeElement();
         final JFactoryMethod annotation = typeElement.getAnnotation(JFactoryMethod.class);
         final Set<Modifier> modifiers = typeElement.getModifiers();

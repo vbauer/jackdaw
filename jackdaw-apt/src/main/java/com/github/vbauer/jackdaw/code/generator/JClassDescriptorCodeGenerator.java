@@ -19,7 +19,6 @@ import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.VariableElement;
 import javax.lang.model.util.ElementFilter;
-import java.lang.annotation.Annotation;
 import java.util.List;
 
 /**
@@ -41,7 +40,7 @@ public class JClassDescriptorCodeGenerator extends GeneratedCodeGenerator {
 
 
     @Override
-    public final Class<? extends Annotation> getAnnotation() {
+    public final Class<JClassDescriptor> getAnnotation() {
         return JClassDescriptor.class;
     }
 

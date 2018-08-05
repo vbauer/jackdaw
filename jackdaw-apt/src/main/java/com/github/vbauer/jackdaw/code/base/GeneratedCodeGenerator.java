@@ -129,7 +129,7 @@ public abstract class GeneratedCodeGenerator extends BaseCodeGenerator {
 
         if (processorContext.isAddGeneratedDate()) {
             final String currentTime =
-                DateFormatUtils.ISO_DATETIME_TIME_ZONE_FORMAT.format(new Date());
+                DateFormatUtils.ISO_8601_EXTENDED_DATETIME_TIME_ZONE_FORMAT.format(new Date());
 
             annotationBuilder.addMember("date", "$S", currentTime);
         }

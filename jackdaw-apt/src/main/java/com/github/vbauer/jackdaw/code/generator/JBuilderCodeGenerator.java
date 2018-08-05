@@ -15,7 +15,6 @@ import com.squareup.javapoet.TypeSpec;
 
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
-import java.lang.annotation.Annotation;
 import java.util.Map;
 
 /**
@@ -34,7 +33,7 @@ public class JBuilderCodeGenerator extends GeneratedCodeGenerator {
 
 
     @Override
-    public final Class<? extends Annotation> getAnnotation() {
+    public final Class<JBuilder> getAnnotation() {
         return JBuilder.class;
     }
 
@@ -42,7 +41,7 @@ public class JBuilderCodeGenerator extends GeneratedCodeGenerator {
     @Override
     protected final void generateBody(
         final CodeGeneratorContext context, final TypeSpec.Builder builder
-    ) throws Exception {
+    ) {
         final TypeElement typeElement = context.getTypeElement();
         final ClassName originType = getOriginType(context);
 

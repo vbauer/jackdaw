@@ -42,7 +42,7 @@ public final class SourceTextUtils {
 
             result.append(indent(indent)).append(line);
             if (length - 1 != i) {
-                result.append(SystemUtils.LINE_SEPARATOR);
+                result.append(System.lineSeparator());
             }
 
             if (line.endsWith(BRACKET_OPEN)) {

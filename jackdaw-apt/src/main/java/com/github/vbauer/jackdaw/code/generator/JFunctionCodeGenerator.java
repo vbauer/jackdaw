@@ -20,7 +20,6 @@ import com.squareup.javapoet.TypeSpec.Builder;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
-import java.lang.annotation.Annotation;
 
 /**
  * @author Vladislav Bauer
@@ -42,7 +41,7 @@ public class JFunctionCodeGenerator extends GeneratedCodeGenerator {
 
 
     @Override
-    public final Class<? extends Annotation> getAnnotation() {
+    public final Class<JFunction> getAnnotation() {
         return JFunction.class;
     }
 

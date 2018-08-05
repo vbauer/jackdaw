@@ -17,7 +17,7 @@ import javax.lang.model.type.MirroredTypeException;
 import javax.lang.model.type.TypeMirror;
 import javax.tools.FileObject;
 import java.io.OutputStream;
-import java.lang.annotation.Annotation;
+import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
@@ -36,12 +36,12 @@ public class JServiceCodeGenerator extends BaseCodeGenerator {
 
 
     @Override
-    public final Class<? extends Annotation> getAnnotation() {
+    public final Class<JService> getAnnotation() {
         return JService.class;
     }
 
     @Override
-    public final void generate(final CodeGeneratorContext context) throws Exception {
+    public final void generate(final CodeGeneratorContext context) {
         final TypeElement typeElement = context.getTypeElement();
         final JService annotation = typeElement.getAnnotation(JService.class);
         final String providerClass = getProviderClass(annotation);
@@ -52,7 +52,7 @@ public class JServiceCodeGenerator extends BaseCodeGenerator {
     }
 
     @Override
-    public final void onStart() throws Exception {
+    public final void onStart() {
         allServices.clear();
     }
 
@@ -97,7 +97,7 @@ public class JServiceCodeGenerator extends BaseCodeGenerator {
         final FileObject file = createResource(filer, resourceFile);
         final OutputStream outputStream = file.openOutputStream();
         try {
-            IOUtils.writeLines(services, "\n", outputStream);
+            IOUtils.writeLines(services, "\n", outputStream, StandardCharsets.UTF_8);
         } finally {
             IOUtils.closeQuietly(outputStream);
         }

@@ -19,7 +19,6 @@ import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.VariableElement;
 import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
-import java.lang.annotation.Annotation;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -40,7 +39,7 @@ public class JAdapterCodeGenerator extends GeneratedCodeGenerator {
 
 
     @Override
-    public final Class<? extends Annotation> getAnnotation() {
+    public final Class<JAdapter> getAnnotation() {
         return JAdapter.class;
     }
 
@@ -48,7 +47,7 @@ public class JAdapterCodeGenerator extends GeneratedCodeGenerator {
     @Override
     protected final void generateBody(
         final CodeGeneratorContext context, final TypeSpec.Builder builder
-    ) throws Exception {
+    ) {
         final TypeElement typeElement = context.getTypeElement();
         SourceCodeUtils.addParent(builder, typeElement);
         SourceCodeUtils.copyConstructors(builder, typeElement);
@@ -68,7 +67,7 @@ public class JAdapterCodeGenerator extends GeneratedCodeGenerator {
 
         final Set<Modifier> modifiers = Sets.newHashSet(element.getModifiers());
         modifiers.remove(Modifier.ABSTRACT);
-        final Modifier[] methodModifiers = modifiers.toArray(new Modifier[modifiers.size()]);
+        final Modifier[] methodModifiers = modifiers.toArray(new Modifier[0]);
 
         final MethodSpec.Builder methodBuilder =
             MethodSpec.methodBuilder(methodName)
