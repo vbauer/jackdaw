@@ -9,12 +9,12 @@ import com.github.vbauer.jackdaw.util.SourceTextUtils;
 import com.github.vbauer.jackdaw.util.model.ClassType;
 import com.google.common.base.Function;
 import com.squareup.javapoet.AnnotationSpec;
+import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeSpec;
 import org.apache.commons.lang3.time.DateFormatUtils;
 
-import javax.annotation.Generated;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
 import javax.tools.JavaFileObject;
@@ -124,7 +124,7 @@ public abstract class GeneratedCodeGenerator extends BaseCodeGenerator {
         final TypeSpec.Builder typeSpecBuilder, final ProcessorContext processorContext
     ) {
         final AnnotationSpec.Builder annotationBuilder =
-            AnnotationSpec.builder(Generated.class)
+            AnnotationSpec.builder(ClassName.get("javax.annotation", "Generated"))
                 .addMember("value", "$S", JackdawProcessor.class.getName());
 
         if (processorContext.isAddGeneratedDate()) {
