@@ -6,14 +6,14 @@
     <parent>
         <groupId>com.github.vbauer.jackdaw</groupId>
         <artifactId>jackdaw</artifactId>
-        <version>1.1.1</version>
+        <version>1.1.2</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
     <artifactId>jackdaw-sample</artifactId>
 
     <properties>
-        <jackdaw.version>1.1.1</jackdaw.version>
+        <jackdaw.version>1.1.2</jackdaw.version>
         <commons.collections.version>3.2.2</commons.collections.version>
         <guava.version>20.0</guava.version>
     </properties>

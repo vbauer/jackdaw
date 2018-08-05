@@ -7,7 +7,7 @@
     <groupId>com.github.vbauer.jackdaw</groupId>
     <artifactId>jackdaw</artifactId>
     <packaging>pom</packaging>
-    <version>1.1.1</version>
+    <version>1.1.2</version>
 
     <description>Type conversion system for Spring</description>
     <url>https://github.com/vbauer/jackdaw</url>
