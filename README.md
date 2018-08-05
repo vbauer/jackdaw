@@ -43,12 +43,18 @@ Module `jackdaw-apt` contains annotation processor and all correlated logic.
 
 ### Maven
 
+Repositories section:
 ```xml
-<repository>
-    <id>jitpack.io</id>
-    <url>https://jitpack.io</url>
-</repository>
+<repositories>
+    <repository>
+        <id>jitpack.io</id>
+        <url>https://jitpack.io</url>
+    </repository>
+</repositories>
+```
 
+Dependencies section:
+```xml
 <dependencies>
     <dependency>
         <groupId>com.github.vbauer.jackdaw</groupId>
