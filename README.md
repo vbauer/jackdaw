@@ -68,14 +68,14 @@ After that, you need to configure `maven-compiler-plugin`:
             <version>${maven.compiler.plugin.version}</version>
             <configuration>
                 <forceJavacCompilerUse>true</forceJavacCompilerUse>
+                <annotationProcessorPaths>
+                    <annotationProcessorPath>
+                        <groupId>com.github.vbauer.jackdaw</groupId>
+                        <artifactId>jackdaw-apt</artifactId>
+                        <version>${jackdaw.version}</version>
+                    </annotationProcessorPath>
+                </annotationProcessorPaths>
             </configuration>
-            <dependencies>
-                <dependency>
-                    <groupId>com.github.vbauer.jackdaw</groupId>
-                    <artifactId>jackdaw-apt</artifactId>
-                    <version>${jackdaw.version}</version>
-                </dependency>
-            </dependencies>
         </plugin>
     </plugins>
 </build>
