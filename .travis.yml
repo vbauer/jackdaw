@@ -3,7 +3,7 @@ script: mvn clean install -P strict
 jdk:
   - oraclejdk8
   - oraclejdk9
-  - oraclejdk10
+  - opendjk10
 branches:
   only:
   - master
