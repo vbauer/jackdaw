@@ -1,8 +1,8 @@
 language: java
 script: mvn clean install -P strict
 jdk:
-  - oraclejdk8
-  - oraclejdk9
+  - opendjk8
+  - opendjk9
   - opendjk10
 branches:
   only:
