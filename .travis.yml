@@ -1,9 +1,10 @@
 language: java
 script: mvn clean install -P strict
 jdk:
-  - opendjk8
-  - opendjk9
-  - opendjk10
+  - openjdk8
+  - openjdk9
+  - openjdk10
+  - openjdk11
 branches:
   only:
   - master
