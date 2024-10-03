@@ -15,7 +15,7 @@
     <properties>
         <javapoet.version>1.11.1</javapoet.version>
         <commons.lang3.version>3.7</commons.lang3.version>
-        <commons.io.version>2.7</commons.io.version>
+        <commons.io.version>2.14.0</commons.io.version>
         <guava.version>20.0</guava.version>
         <jackdaw.version>1.1.2</jackdaw.version>
 
